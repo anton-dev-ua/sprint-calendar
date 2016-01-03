@@ -19,4 +19,8 @@
         <item name="android:textSize">26sp</item>
     </style>
 
+    <style name="sprintTotalDays">
+        <item name="android:textSize">46sp</item>
+    </style>
+
 </resources>
