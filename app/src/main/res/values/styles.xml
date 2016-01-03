@@ -15,4 +15,8 @@
         <item name="android:maxHeight">1dip</item>
     </style>
 
+    <style name="HeaderText" parent="android:TextAppearance.Large">
+        <item name="android:textSize">26sp</item>
+    </style>
+
 </resources>

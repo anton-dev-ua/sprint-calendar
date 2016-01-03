@@ -26,8 +26,9 @@
                 android:gravity="center_vertical"
                 android:layout_marginRight="1dp"
                 android:text="1st week"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:paddingLeft="5dp" />
+                style="@style/HeaderText"
+                android:paddingLeft="5dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/headerWeek1Day1"
@@ -38,7 +39,7 @@
                 android:gravity="center"
                 android:layout_marginRight="1dp"
                 android:text="04.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek1Day2"
@@ -49,7 +50,7 @@
                 android:gravity="center"
                 android:layout_marginRight="1dp"
                 android:text="05.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek1Day3"
@@ -60,7 +61,7 @@
                 android:gravity="center"
                 android:layout_marginRight="1dp"
                 android:text="06.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek1Day4"
@@ -71,7 +72,7 @@
                 android:gravity="center"
                 android:layout_marginRight="1dp"
                 android:text="07.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek1Day5"
@@ -81,7 +82,7 @@
                 android:background="@color/colorWhite"
                 android:gravity="center"
                 android:text="08.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                style="@style/HeaderText" />
 
         </TableRow>
 
@@ -98,10 +99,10 @@
                 android:background="@color/colorWhite"
                 android:gravity="center_vertical"
                 android:text="Alex"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week1Person1Day1Presence"
@@ -167,10 +168,10 @@
                 android:background="@color/colorWhite"
                 android:gravity="center_vertical"
                 android:text="Anton"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week1Person2Day1Presence"
@@ -235,11 +236,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Dima"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week1Person3Day1Presence"
@@ -304,11 +305,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Paulina"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week1Person4Day1Presence"
@@ -373,11 +374,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Pavel"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week1Person5Day1Presence"
@@ -441,10 +442,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week1Person6Day1Presence"
@@ -506,10 +507,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="2nd week"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/headerWeek2Day1"
@@ -518,9 +520,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="11.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
-                android:layout_marginRight="1dp" />
+                android:layout_marginRight="1dp"
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek2Day2"
@@ -529,9 +531,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="12.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
-                android:layout_marginRight="1dp" />
+                android:layout_marginRight="1dp"
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek2Day3"
@@ -540,9 +542,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="13.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
-                android:layout_marginRight="1dp" />
+                android:layout_marginRight="1dp"
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek2Day4"
@@ -551,9 +553,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="14.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
-                android:layout_marginRight="1dp" />
+                android:layout_marginRight="1dp"
+                style="@style/HeaderText" />
 
             <TextView
                 android:id="@+id/headerWeek2Day5"
@@ -562,8 +564,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="15.01.2016"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:background="@color/colorWhite" />
+                android:background="@color/colorWhite"
+                style="@style/HeaderText" />
 
 
         </TableRow>
@@ -581,10 +583,10 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:text="Alex"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
-                android:layout_marginBottom="1dp" />
+                android:layout_marginBottom="1dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week2Person1Day1Presence"
@@ -649,11 +651,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Anton"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week2Person2Day1Presence"
@@ -718,11 +720,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Dima"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week2Person3Day1Presence"
@@ -787,11 +789,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Paulina"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week2Person4Day1Presence"
@@ -856,11 +858,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Pavel"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week2Person5Day1Presence"
@@ -923,10 +925,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:background="@color/colorWhite"
                 android:layout_marginRight="1dp"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                style="@style/HeaderText" />
 
             <ProgressBar
                 android:id="@+id/week2Person6Day1Presence"
