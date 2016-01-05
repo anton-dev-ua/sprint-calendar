@@ -8,495 +8,492 @@
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="12"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginRight="1dp">
+
+                    <TextView
+                        android:id="@+id/headerWeek1Names"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="1st week"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="2dp" />
+
+                    <TextView
+                        android:id="@+id/week1Person1Name"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Alex" />
+
+                    <TextView
+                        android:id="@+id/week1Person2Name"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Anton" />
+
+                    <TextView
+                        android:id="@+id/week1Person3Name"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Dima" />
+
+                    <TextView
+                        android:id="@+id/week1Person4Name"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Paulina" />
+
+                    <TextView
+                        android:id="@+id/week1Person5Name"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Pavel" />
+
+                    <TextView
+                        android:id="@+id/week1Person6Name"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginRight="1dp">
+
+                    <TextView
+                        android:id="@+id/headerWeek1Day1"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:text="@{sprintCalendar.days[0]}"
+                        android:layout_marginBottom="2dp" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person1Day1Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person2Day1Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person3Day1Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person4Day1Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person5Day1Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person6Day1Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginRight="1dp">
+
+                    <TextView
+                        android:id="@+id/headerWeek1Day2"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:layout_marginBottom="2dp"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:text="@{sprintCalendar.days[1]}" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person1Day2Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person2Day2Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person3Day2Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person4Day2Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person5Day2Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person6Day2Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginRight="1dp">
+
+                    <TextView
+                        android:id="@+id/headerWeek1Day3"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:layout_marginBottom="2dp"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:text="@{sprintCalendar.days[2]}" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person1Day3Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person2Day3Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person3Day3Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person4Day3Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person5Day3Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person6Day3Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginRight="1dp">
+
+                    <TextView
+                        android:id="@+id/headerWeek1Day4"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:layout_marginBottom="2dp"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:text="@{sprintCalendar.days[3]}" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person1Day4Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person2Day4Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person3Day4Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person4Day4Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person5Day4Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person6Day4Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginRight="1dp">
+
+                    <TextView
+                        android:id="@+id/headerWeek1Day5"
+                        style="@style/HeaderText"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:layout_marginBottom="2dp"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:text="@{sprintCalendar.days[4]}" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person1Day5Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person2Day5Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person3Day5Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person4Day5Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person5Day5Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+
+                    <ProgressBar
+                        android:id="@+id/week1Person6Day5Presence"
+                        style="@style/AbsenceProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progress="100" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"></LinearLayout>
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0"
             android:background="@color/colorPrimaryDark">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="2dp"
-                android:layout_weight="2">
-
-                <TextView
-                    android:id="@+id/headerWeek1Names"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="1st week"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/headerWeek1Day1"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center"
-                    android:text="@{sprintCalendar.days[0]}" />
-
-                <TextView
-                    android:id="@+id/headerWeek1Day2"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center"
-                    android:text="@{sprintCalendar.days[1]}" />
-
-                <TextView
-                    android:id="@+id/headerWeek1Day3"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center"
-                    android:text="@{sprintCalendar.days[2]}" />
-
-                <TextView
-                    android:id="@+id/headerWeek1Day4"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center"
-                    android:text="@{sprintCalendar.days[3]}" />
-
-                <TextView
-                    android:id="@+id/headerWeek1Day5"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center"
-                    android:text="@{sprintCalendar.days[4]}" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/week1Person1Name"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Alex" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person1Day1Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person1Day2Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person1Day3Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person1Day4Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person1Day5Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/week1Person2Name"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Anton" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person2Day1Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person2Day2Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person2Day3Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person2Day4Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person2Day5Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/week1Person3Name"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Dima" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person3Day1Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person3Day2Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person3Day3Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person3Day4Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person3Day5Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/week1Person4Name"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Paulina" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person4Day1Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person4Day2Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person4Day3Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person4Day4Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person4Day5Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/week1Person5Name"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="Pavel" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person5Day1Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person5Day2Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person5Day3Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person5Day4Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person5Day5Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/week1Person6Name"
-                    style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person6Day1Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person6Day2Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person6Day3Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person6Day4Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-                <ProgressBar
-                    android:id="@+id/week1Person6Day5Presence"
-                    style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:progress="100" />
-
-            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -508,9 +505,8 @@
                 <TextView
                     android:id="@+id/headerWeek2Names"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -521,9 +517,8 @@
                 <TextView
                     android:id="@+id/headerWeek2Day1"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center"
@@ -532,9 +527,8 @@
                 <TextView
                     android:id="@+id/headerWeek2Day2"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center"
@@ -543,9 +537,8 @@
                 <TextView
                     android:id="@+id/headerWeek2Day3"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center"
@@ -554,9 +547,8 @@
                 <TextView
                     android:id="@+id/headerWeek2Day4"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center"
@@ -565,8 +557,8 @@
                 <TextView
                     android:id="@+id/headerWeek2Day5"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center"
@@ -583,10 +575,9 @@
                 <TextView
                     android:id="@+id/week2Person1Name"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -596,48 +587,44 @@
                 <ProgressBar
                     android:id="@+id/week2Person1Day1Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person1Day2Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person1Day3Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person1Day4Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person1Day5Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
@@ -652,10 +639,9 @@
                 <TextView
                     android:id="@+id/week2Person2Name"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -665,48 +651,44 @@
                 <ProgressBar
                     android:id="@+id/week2Person2Day1Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person2Day2Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person2Day3Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person2Day4Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person2Day5Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:progress="50" />
@@ -721,10 +703,9 @@
                 <TextView
                     android:id="@+id/week2Person3Name"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -734,48 +715,44 @@
                 <ProgressBar
                     android:id="@+id/week2Person3Day1Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person3Day2Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person3Day3Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person3Day4Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person3Day5Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
@@ -790,10 +767,9 @@
                 <TextView
                     android:id="@+id/week2Person4Name"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -803,48 +779,44 @@
                 <ProgressBar
                     android:id="@+id/week2Person4Day1Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person4Day2Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person4Day3Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="0" />
 
                 <ProgressBar
                     android:id="@+id/week2Person4Day4Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="0" />
 
                 <ProgressBar
                     android:id="@+id/week2Person4Day5Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:progress="0" />
@@ -859,10 +831,9 @@
                 <TextView
                     android:id="@+id/week2Person5Name"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -872,48 +843,44 @@
                 <ProgressBar
                     android:id="@+id/week2Person5Day1Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person5Day2Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person5Day3Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person5Day4Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person5Day5Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:progress="100" />
@@ -927,9 +894,8 @@
                 <TextView
                     android:id="@+id/week2Person6Name"
                     style="@style/HeaderText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="center_vertical"
@@ -938,44 +904,40 @@
                 <ProgressBar
                     android:id="@+id/week2Person6Day1Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person6Day2Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person6Day3Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person6Day4Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:progress="100" />
 
                 <ProgressBar
                     android:id="@+id/week2Person6Day5Presence"
                     style="@style/AbsenceProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:progress="100" />
             </TableRow>
