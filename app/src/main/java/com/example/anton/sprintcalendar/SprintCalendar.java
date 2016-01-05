@@ -10,7 +10,7 @@ public class SprintCalendar {
 
     private Date sprintStartDate;
     private Date lastSprintDate;
-    private String[] days;
+    private String[] day;
     private Calendar calendar = Calendar.getInstance();
 
     public void initByStartDate(Date sprintStartDate) {
@@ -22,16 +22,16 @@ public class SprintCalendar {
 
     private void calculateDates() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        days = new String[10];
-        days[0] = formatter.format(calendar.getTime());
+        day = new String[10];
+        day[0] = formatter.format(calendar.getTime());
         for (int day = 1; day < 5; day++) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
-            this.days[day] = formatter.format(calendar.getTime());
+            this.day[day] = formatter.format(calendar.getTime());
         }
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         for (int day = 5; day < 10; day++) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
-            this.days[day] = formatter.format(calendar.getTime());
+            this.day[day] = formatter.format(calendar.getTime());
         }
         lastSprintDate = calendar.getTime();
     }
@@ -44,8 +44,8 @@ public class SprintCalendar {
         return lastSprintDate;
     }
 
-    public String[] getDays() {
-        return days;
+    public String[] getDay() {
+        return day;
     }
 
 }
