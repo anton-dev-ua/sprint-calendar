@@ -2,7 +2,6 @@ package com.example.anton.sprintcalendar;
 
 import com.google.common.base.Preconditions;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,6 +11,16 @@ public class SprintCalendar {
     private Date lastSprintDate;
     private SprintDay[] day;
     private Calendar calendar = Calendar.getInstance();
+    private SprintDay today;
+    private DateProvider dateProvider;
+    private HolidayProvider holidayProvider;
+
+    public SprintCalendar(DateProvider dateProvider, HolidayProvider holidayProvider) {
+        Preconditions.checkArgument(dateProvider != null, "date provider cannot be null");
+        Preconditions.checkArgument(holidayProvider != null, "holiday provider cannot be null");
+        this.dateProvider = dateProvider;
+        this.holidayProvider = holidayProvider;
+    }
 
     public void initByStartDate(Date sprintStartDate) {
         calendar.setTime(sprintStartDate);
@@ -21,19 +30,23 @@ public class SprintCalendar {
     }
 
     private void calculateDates() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         day = new SprintDay[10];
-        day[0] = new SprintDay(formatter.format(calendar.getTime()), false);
-        for (int day = 1; day < 5; day++) {
+        day[0] = new SprintDay(calendar.getTime(), false);
+        for (int dayIndex = 0; dayIndex < 10; ) {
+            if (isWorkingDay()) {
+                day[dayIndex] = new SprintDay(calendar.getTime(), holidayProvider.isHoliday(calendar.getTime()));
+                if (dateProvider.isToday(calendar.getTime())) {
+                    today = day[dayIndex];
+                }
+                dayIndex++;
+            }
             calendar.add(Calendar.DAY_OF_MONTH, 1);
-            this.day[day] = new SprintDay(formatter.format(calendar.getTime()), false);
-        }
-        calendar.add(Calendar.DAY_OF_MONTH, 2);
-        for (int day = 5; day < 10; day++) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            this.day[day] = new SprintDay(formatter.format(calendar.getTime()), false);
         }
         lastSprintDate = calendar.getTime();
+    }
+
+    private boolean isWorkingDay() {
+        return calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY;
     }
 
     public Date getSprintStartDate() {
@@ -46,6 +59,10 @@ public class SprintCalendar {
 
     public SprintDay[] getDay() {
         return day;
+    }
+
+    public SprintDay getToday() {
+        return today;
     }
 
 }

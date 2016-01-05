@@ -7,7 +7,7 @@
             name="sprintCalendar"
             type="com.example.anton.sprintcalendar.SprintCalendar" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
@@ -206,6 +206,12 @@
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[0].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[0].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
+
                 </FrameLayout>
 
                 <FrameLayout
@@ -291,6 +297,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[1].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[1].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -378,6 +390,12 @@
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[2].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[2].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
+
                 </FrameLayout>
 
                 <FrameLayout
@@ -464,6 +482,12 @@
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[3].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[3].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
+
                 </FrameLayout>
 
                 <FrameLayout
@@ -549,6 +573,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[4].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[4].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -736,6 +766,12 @@
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[5].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[5].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
+
                 </FrameLayout>
 
                 <FrameLayout
@@ -821,6 +857,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[6].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[6].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -908,6 +950,12 @@
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[7].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[7].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
+
                 </FrameLayout>
 
                 <FrameLayout
@@ -993,6 +1041,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[8].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[8].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -1080,7 +1134,14 @@
                         android:background="@drawable/holiday"
                         android:visibility="@{sprintCalendar.day[9].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/today_overlay"
+                        android:visibility="@{sprintCalendar.day[9].equals(sprintCalendar.today) ? View.VISIBLE : View.GONE, default=gone}" />
+
                 </FrameLayout>
+
             </LinearLayout>
 
         </LinearLayout>

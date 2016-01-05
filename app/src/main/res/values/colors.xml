@@ -6,4 +6,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorAbsence">#EE9999</color>
+    <color name="colorTodayFrame">#9900DD00</color>
 </resources>
