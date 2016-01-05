@@ -6,6 +6,8 @@
         <variable
             name="sprintCalendar"
             type="com.example.anton.sprintcalendar.SprintCalendar" />
+
+        <import type="android.view.View"/>
     </data>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
@@ -141,7 +143,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[0]}" />
+                            android:text="@{sprintCalendar.day[0].date}" />
 
                         <ProgressBar
                             android:id="@+id/week1Person1Day1Presence"
@@ -202,7 +204,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[0].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -227,7 +229,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[1]}" />
+                            android:text="@{sprintCalendar.day[1].date}" />
 
                         <ProgressBar
                             android:id="@+id/week1Person1Day2Presence"
@@ -288,7 +290,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[1].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -314,7 +316,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[2]}" />
+                            android:text="@{sprintCalendar.day[2].date}" />
 
                         <ProgressBar
                             android:id="@+id/week1Person1Day3Presence"
@@ -374,7 +376,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="visible" />
+                        android:visibility="@{sprintCalendar.day[2].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -399,7 +401,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[3]}" />
+                            android:text="@{sprintCalendar.day[3].date}" />
 
                         <ProgressBar
                             android:id="@+id/week1Person1Day4Presence"
@@ -460,7 +462,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[3].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -485,7 +487,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[4]}" />
+                            android:text="@{sprintCalendar.day[4].date}" />
 
                         <ProgressBar
                             android:id="@+id/week1Person1Day5Presence"
@@ -546,7 +548,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[4].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -671,7 +673,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[5]}" />
+                            android:text="@{sprintCalendar.day[5].date}" />
 
                         <ProgressBar
                             android:id="@+id/week2Person1Day1Presence"
@@ -732,7 +734,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[5].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -757,7 +759,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[6]}" />
+                            android:text="@{sprintCalendar.day[6].date}" />
 
                         <ProgressBar
                             android:id="@+id/week2Person1Day2Presence"
@@ -818,7 +820,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[6].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -843,7 +845,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[7]}" />
+                            android:text="@{sprintCalendar.day[7].date}" />
 
                         <ProgressBar
                             android:id="@+id/week2Person1Day3Presence"
@@ -904,7 +906,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[7].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -929,7 +931,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[8]}" />
+                            android:text="@{sprintCalendar.day[8].date}" />
 
                         <ProgressBar
                             android:id="@+id/week2Person1Day4Presence"
@@ -990,7 +992,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[8].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
 
@@ -1015,7 +1017,7 @@
                             android:layout_weight="2"
                             android:background="@color/colorWhite"
                             android:gravity="center"
-                            android:text="@{sprintCalendar.day[9]}" />
+                            android:text="@{sprintCalendar.day[9].date}" />
 
                         <ProgressBar
                             android:id="@+id/week2Person1Day5Presence"
@@ -1076,7 +1078,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/holiday"
-                        android:visibility="gone" />
+                        android:visibility="@{sprintCalendar.day[9].isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
 
                 </FrameLayout>
             </LinearLayout>
