@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.anton.sprintcalendar.databinding.ActivityMainBinding;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new DefaultDateProvider(),
-                new DefaultHolidayProvider(new DateTime(2016, 1, 6, 0, 0).toDate())
+                new DefaultHolidayProvider(new LocalDate(2016, 1, 6))
         );
 
 

@@ -2,6 +2,7 @@ package com.example.anton.sprintcalendar;
 
 import com.google.common.base.Objects;
 
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -11,15 +12,15 @@ public class SprintDay {
 
     private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
 
-    private String date;
+    private LocalDate date;
     private boolean holiday;
 
-    public SprintDay(Date date, boolean holiday) {
-        this.date = formatter.print(date.getTime());
+    public SprintDay(LocalDate date, boolean holiday) {
+        this.date = date;
         this.holiday = holiday;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

@@ -2,7 +2,7 @@ package com.example.anton.sprintcalendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
-import org.joda.time.ReadablePartial;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -28,16 +28,16 @@ public class SprintCalendarTest {
 
         sprintCalendar.initByCurrentDate();
 
-        assertThat(sprintCalendar.getDay()[0].getDate(), is("04.01.2016"));
-        assertThat(sprintCalendar.getDay()[1].getDate(), is("05.01.2016"));
-        assertThat(sprintCalendar.getDay()[2].getDate(), is("06.01.2016"));
-        assertThat(sprintCalendar.getDay()[3].getDate(), is("07.01.2016"));
-        assertThat(sprintCalendar.getDay()[4].getDate(), is("08.01.2016"));
-        assertThat(sprintCalendar.getDay()[5].getDate(), is("11.01.2016"));
-        assertThat(sprintCalendar.getDay()[6].getDate(), is("12.01.2016"));
-        assertThat(sprintCalendar.getDay()[7].getDate(), is("13.01.2016"));
-        assertThat(sprintCalendar.getDay()[8].getDate(), is("14.01.2016"));
-        assertThat(sprintCalendar.getDay()[9].getDate(), is("15.01.2016"));
+        assertThat(sprintCalendar.getDay()[0].getDate(), is(date("04.01.2016")));
+        assertThat(sprintCalendar.getDay()[1].getDate(), is(date("05.01.2016")));
+        assertThat(sprintCalendar.getDay()[2].getDate(), is(date("06.01.2016")));
+        assertThat(sprintCalendar.getDay()[3].getDate(), is(date("07.01.2016")));
+        assertThat(sprintCalendar.getDay()[4].getDate(), is(date("08.01.2016")));
+        assertThat(sprintCalendar.getDay()[5].getDate(), is(date("11.01.2016")));
+        assertThat(sprintCalendar.getDay()[6].getDate(), is(date("12.01.2016")));
+        assertThat(sprintCalendar.getDay()[7].getDate(), is(date("13.01.2016")));
+        assertThat(sprintCalendar.getDay()[8].getDate(), is(date("14.01.2016")));
+        assertThat(sprintCalendar.getDay()[9].getDate(), is(date("15.01.2016")));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class SprintCalendarTest {
 
         sprintCalendar.initByStartDate(date("04.01.2016"));
 
-        assertThat(sprintCalendar.getToday().getDate(), is("12.01.2016"));
+        assertThat(sprintCalendar.getToday().getDate(), is(date("12.01.2016")));
     }
 
     @Test
@@ -64,8 +64,44 @@ public class SprintCalendarTest {
         assertThat(sprintCalendar.getDay()[2].isHoliday(), is(true));
     }
 
-    private Date date(String dateString) {
-        return formatter.parseDateTime(dateString).toDate();
+    @Test
+    public void calculatesLeftSprintDays() {
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new TestDateProvider("12.01.2016"),
+                new TestHolidayProvider()
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getDaysLeft(), is(4));
+    }
+
+    @Test
+    public void calculatesLeftSprintDaysIgnoringWeekEnds() {
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new TestDateProvider("06.01.2016"),
+                new TestHolidayProvider()
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getDaysLeft(), is(8));
+    }
+
+    @Test
+    public void calculatesLeftSprintDaysIgnoringHolidays() {
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new TestDateProvider("12.01.2016"),
+                new TestHolidayProvider("14.01.2016")
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getDaysLeft(), is(3));
+    }
+
+    private LocalDate date(String dateString) {
+        return formatter.parseDateTime(dateString).toLocalDate();
     }
 
     private class TestDateProvider implements DateProvider {
@@ -77,28 +113,32 @@ public class SprintCalendarTest {
         }
 
         @Override
-        public boolean isToday(Date date) {
-            return DateTimeComparator.getDateOnlyInstance().compare(date(todayDate), date) == 0;
+        public boolean isToday(LocalDate date) {
+            return date(todayDate).compareTo(date) == 0;
         }
 
         @Override
-        public ReadablePartial getToday() {
-            return new DateTime(date(todayDate)).toLocalDate();
+        public LocalDate getToday() {
+            return date(todayDate);
         }
     }
 
     private class TestHolidayProvider implements HolidayProvider {
 
-        private String dateString;
+        private String[] dateStrings;
 
-        private TestHolidayProvider(String dateString) {
-            this.dateString = dateString;
+        private TestHolidayProvider(String... dateString) {
+            this.dateStrings = dateString;
         }
 
         @Override
-        public boolean isHoliday(Date date) {
-            return DateTimeComparator.getDateOnlyInstance().compare(date(dateString), date) == 0;
-
+        public boolean isHoliday(LocalDate date) {
+            for (String dateString : dateStrings) {
+                if (date(dateString).compareTo(date) == 0) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

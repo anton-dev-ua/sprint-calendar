@@ -1,6 +1,7 @@
 package com.example.anton.sprintcalendar;
 
 import org.joda.time.DateTimeComparator;
+import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,21 +12,14 @@ import java.util.List;
 public class DefaultHolidayProvider implements HolidayProvider {
 
     private static final DateTimeComparator dateComparator = DateTimeComparator.getDateOnlyInstance();
-    private List<Date> holidays;
+    private List<LocalDate> holidays;
 
-    public DefaultHolidayProvider(Date... holidaysList) {
+    public DefaultHolidayProvider(LocalDate... holidaysList) {
         holidays = Arrays.asList(holidaysList);
     }
 
     @Override
-    public boolean isHoliday(Date date) {
-        return Collections.binarySearch(holidays, date, new DateComparator()) == 0;
-    }
-
-    private static class DateComparator implements Comparator<Date> {
-        @Override
-        public int compare(Date lhs, Date rhs) {
-            return dateComparator.compare(lhs, rhs);
-        }
+    public boolean isHoliday(LocalDate date) {
+        return Collections.binarySearch(holidays, date) >= 0;
     }
 }

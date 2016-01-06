@@ -1,11 +1,11 @@
 package com.example.anton.sprintcalendar;
 
-import org.joda.time.ReadablePartial;
+import org.joda.time.LocalDate;
 
 import java.util.Date;
 
 public interface DateProvider {
-    boolean isToday(Date date);
+    boolean isToday(LocalDate date);
 
-    ReadablePartial getToday();
+    LocalDate getToday();
 }

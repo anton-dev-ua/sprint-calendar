@@ -23,4 +23,8 @@
         <item name="android:textSize">46sp</item>
     </style>
 
+    <style name="sprintDaysLeft">
+        <item name="android:textSize">152sp</item>
+    </style>
+
 </resources>
