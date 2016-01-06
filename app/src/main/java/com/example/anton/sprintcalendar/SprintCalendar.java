@@ -7,7 +7,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.Weeks;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import static org.joda.time.DateTimeConstants.SATURDAY;
 import static org.joda.time.DateTimeConstants.SUNDAY;
@@ -81,14 +80,20 @@ public class SprintCalendar {
     }
 
     public int getDaysLeft() {
+        return daysBetween(dateProvider.getToday(), lastSprintDate);
+    }
 
+    public int getTotalDays() {
+        return daysBetween(firstSprintDate, lastSprintDate);
+    }
+
+    private int daysBetween(LocalDate startDate, LocalDate endDate) {
         int days=0;
-        for(LocalDate date = dateProvider.getToday(); date.compareTo(lastSprintDate)<=0; date = date.plusDays(1)) {
+        for(LocalDate date = startDate; date.compareTo(endDate)<=0; date = date.plusDays(1)) {
             if(date.getDayOfWeek() != SUNDAY && date.getDayOfWeek() != SATURDAY && !holidayProvider.isHoliday(date)) {
                 days++;
             }
         }
-
         return days;
     }
 }

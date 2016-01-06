@@ -100,6 +100,20 @@ public class SprintCalendarTest {
         assertThat(sprintCalendar.getDaysLeft(), is(3));
     }
 
+    @Test
+    public void calculatesTotalSprintDaysIgnoringHolidays() {
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new TestDateProvider("12.01.2016"),
+                new TestHolidayProvider("06.01.2016")
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getTotalDays(), is(9));
+    }
+
+
+
     private LocalDate date(String dateString) {
         return formatter.parseDateTime(dateString).toLocalDate();
     }
