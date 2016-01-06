@@ -39,7 +39,7 @@
         <View android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/today_overlay"
-            android:visibility="@{sprintDay.equals(today) ? View.VISIBLE : View.GONE, default=gone}" />
+            android:visibility="@{sprintDay.isToday ? View.VISIBLE : View.GONE, default=gone}" />
 
     </FrameLayout>
 

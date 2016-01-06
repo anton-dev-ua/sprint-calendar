@@ -1,17 +1,16 @@
 package com.example.anton.sprintcalendar;
 
-import org.joda.time.DateTimeComparator;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
+
+import static org.joda.time.DateTimeConstants.SATURDAY;
+import static org.joda.time.DateTimeConstants.SUNDAY;
 
 public class DefaultHolidayProvider implements HolidayProvider {
 
-    private static final DateTimeComparator dateComparator = DateTimeComparator.getDateOnlyInstance();
     private List<LocalDate> holidays;
 
     public DefaultHolidayProvider(LocalDate... holidaysList) {
@@ -20,6 +19,18 @@ public class DefaultHolidayProvider implements HolidayProvider {
 
     @Override
     public boolean isHoliday(LocalDate date) {
-        return Collections.binarySearch(holidays, date) >= 0;
+        return isWeekend(date) || Collections.binarySearch(holidays, date) >= 0;
     }
+
+    @Override
+    public boolean isWeekend(LocalDate date) {
+        return date.getDayOfWeek() == SATURDAY || date.getDayOfWeek() == SUNDAY;
+    }
+
+    @Override
+    public boolean isWorkingDay(LocalDate localDate) {
+        return !isHoliday(localDate);
+    }
+
+
 }

@@ -2,25 +2,20 @@ package com.example.anton.sprintcalendar;
 
 import com.google.common.base.Preconditions;
 
-import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import org.joda.time.Weeks;
 
-import java.util.Calendar;
-
-import static org.joda.time.DateTimeConstants.SATURDAY;
-import static org.joda.time.DateTimeConstants.SUNDAY;
+import static org.joda.time.DateTimeConstants.MONDAY;
 
 public class SprintCalendar {
 
-    LocalDate sprintBaseDate = new DateTime(2015, 12, 7, 0, 0).toLocalDate();
+    public static final SprintDay DAY_PLACEHOLDER = new SprintDay(new LocalDate(1970, 1, 1), false, false);
+    LocalDate sprintBaseDate = new LocalDate(2015, 12, 07);
 
 
-    private LocalDate firstSprintDate;
-    private LocalDate lastSprintDate;
+    private LocalDate firstDate;
+    private LocalDate lastDate;
     private SprintDay[] day;
-    private Calendar calendar = Calendar.getInstance();
-    private SprintDay today;
     private DateProvider dateProvider;
     private HolidayProvider holidayProvider;
 
@@ -31,66 +26,53 @@ public class SprintCalendar {
         this.holidayProvider = holidayProvider;
     }
 
-    public void initByStartDate(LocalDate sprintStartDate) {
-        calendar.setTime(sprintStartDate.toDate());
-        Preconditions.checkArgument(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY, "Start date of sprint should be monday");
-        calculateDates();
-    }
-
-    private void calculateDates() {
-        day = new SprintDay[10];
-        day[0] = new SprintDay(new LocalDate(calendar.getTime()), false);
-        firstSprintDate = day[0].getDate();
-        for (int dayIndex = 0; dayIndex < 10; ) {
-            if (isWorkingDay()) {
-                day[dayIndex] = new SprintDay(new LocalDate(calendar.getTime()), holidayProvider.isHoliday(new LocalDate(calendar.getTime())));
-                if (dateProvider.isToday(new LocalDate(calendar.getTime()))) {
-                    today = day[dayIndex];
-                }
-                dayIndex++;
-            }
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        lastSprintDate = day[9].getDate();
-    }
-
-    private boolean isWorkingDay() {
-        return calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY;
-    }
-
-    public LocalDate getFirstDate() {
-        return firstSprintDate;
-    }
-
-    public LocalDate getLastDate() {
-        return lastSprintDate;
-    }
-
-    public SprintDay[] getDay() {
-        return day;
-    }
-
-    public SprintDay getToday() {
-        return today;
-    }
-
     public void initByCurrentDate() {
-        LocalDate startDate = sprintBaseDate.plusWeeks((Weeks.weeksBetween(sprintBaseDate, dateProvider.getToday()).getWeeks() / 2) * 2);
+        LocalDate today = dateProvider.getToday();
+        LocalDate startDate = today.minusDays((Days.daysBetween(sprintBaseDate, today).getDays() % 14));
         initByStartDate(startDate);
     }
 
+    private void initByStartDate(LocalDate sprintStartDate) {
+        Preconditions.checkArgument(MONDAY == sprintStartDate.getDayOfWeek(), "Start date of sprint should be monday");
+        calculateDates(sprintStartDate);
+    }
+
+    private void calculateDates(LocalDate sprintStartDate) {
+        day = new SprintDay[10];
+        firstDate = sprintStartDate;
+        lastDate = firstDate.plusDays(12);
+        int dayIndex = 0;
+        for (LocalDate date = firstDate; date.compareTo(lastDate) <= 0; date = date.plusDays(1)) {
+            if (!holidayProvider.isWeekend(date)) {
+                day[dayIndex++] = new SprintDay(date, holidayProvider.isHoliday(date), dateProvider.isToday(date));
+            }
+        }
+    }
+
+    public LocalDate getFirstDate() {
+        return firstDate;
+    }
+
+    public LocalDate getLastDate() {
+        return lastDate;
+    }
+
+    public SprintDay day(int index) {
+        return index < day.length ? day[index] : DAY_PLACEHOLDER;
+    }
+
     public int getDaysLeft() {
-        return daysBetween(dateProvider.getToday(), lastSprintDate);
+        return daysBetween(dateProvider.getToday(), lastDate);
     }
 
     public int getTotalDays() {
-        return daysBetween(firstSprintDate, lastSprintDate);
+        return daysBetween(firstDate, lastDate);
     }
 
     private int daysBetween(LocalDate startDate, LocalDate endDate) {
-        int days=0;
-        for(LocalDate date = startDate; date.compareTo(endDate)<=0; date = date.plusDays(1)) {
-            if(date.getDayOfWeek() != SUNDAY && date.getDayOfWeek() != SATURDAY && !holidayProvider.isHoliday(date)) {
+        int days = 0;
+        for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
+            if (holidayProvider.isWorkingDay(date)) {
                 days++;
             }
         }

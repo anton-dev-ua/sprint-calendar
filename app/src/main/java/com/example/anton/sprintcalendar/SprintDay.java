@@ -3,21 +3,17 @@ package com.example.anton.sprintcalendar;
 import com.google.common.base.Objects;
 
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.util.Date;
 
 public class SprintDay {
 
-    private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
-
     private LocalDate date;
     private boolean holiday;
+    private boolean today;
 
-    public SprintDay(LocalDate date, boolean holiday) {
+    public SprintDay(LocalDate date, boolean holiday, boolean today) {
         this.date = date;
         this.holiday = holiday;
+        this.today = today;
     }
 
     public LocalDate getDate() {
@@ -26,6 +22,10 @@ public class SprintDay {
 
     public boolean isHoliday() {
         return holiday;
+    }
+
+    public boolean isToday() {
+        return today;
     }
 
     @Override

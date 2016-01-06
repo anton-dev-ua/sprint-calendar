@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/activity_main">
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:showIn="@layout/activity_main">
 
     <data>
-        <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar" />
-        <variable name="startDate" type="int" />
-        <variable name="team" type="com.example.anton.sprintcalendar.Team" />
+        <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar"/>
+        <variable name="startDate" type="int"/>
+        <variable name="team" type="com.example.anton.sprintcalendar.Team"/>
     </data>
 
     <LinearLayout android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="2dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                  android:layout_height="0dp"
+                  android:layout_margin="2dp"
+                  android:layout_weight="1"
+                  android:orientation="horizontal">
 
         <include layout="@layout/user_name_column"
-            bind:team="@{team}"
-            bind:weekName='@{startDate == 0 ? "1st week" : "2nd week"}' />
+                 bind:team="@{team}"
+                 bind:weekName='@{startDate == 0 ? "1st week" : "2nd week"}'/>
 
         <include layout="@layout/day_column"
-            bind:sprintDay="@{sprintCalendar.day[startDate + 0]}"
-            bind:today="@{sprintCalendar.today}" />
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 0)}"/>
 
         <include layout="@layout/day_column"
-            bind:sprintDay="@{sprintCalendar.day[startDate + 1]}"
-            bind:today="@{sprintCalendar.today}" />
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 1)}"/>
 
         <include layout="@layout/day_column"
-            bind:sprintDay="@{sprintCalendar.day[startDate + 2]}"
-            bind:today="@{sprintCalendar.today}" />
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 2)}"/>
 
         <include layout="@layout/day_column"
-            bind:sprintDay="@{sprintCalendar.day[startDate + 3]}"
-            bind:today="@{sprintCalendar.today}" />
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 3)}"/>
 
         <include layout="@layout/day_column"
-            bind:sprintDay="@{sprintCalendar.day[startDate + 4]}"
-            bind:today="@{sprintCalendar.today}" />
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 4)}"/>
 
     </LinearLayout>
 
