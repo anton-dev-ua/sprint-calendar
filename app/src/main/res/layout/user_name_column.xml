@@ -6,6 +6,7 @@
 
     <data>
         <variable name="weekName" type="String" />
+        <variable name="team" type="com.example.anton.sprintcalendar.Team" />
     </data>
 
     <LinearLayout android:layout_width="0dp"
@@ -16,12 +17,12 @@
         android:orientation="vertical">
 
         <include layout="@layout/corner_header" bind:weekName='@{weekName}' />
-        <include layout="@layout/user_name" bind:userName='@{"Alex"}' />
-        <include layout="@layout/user_name" bind:userName='@{"Anton"}' />
-        <include layout="@layout/user_name" bind:userName='@{"Dima"}' />
-        <include layout="@layout/user_name" bind:userName='@{"Paulina"}' />
-        <include layout="@layout/user_name" bind:userName='@{"Pavel"}' />
-        <include layout="@layout/user_name" bind:userName='@{""}' />
+        <include layout="@layout/user_name" bind:userName='@{team.member(0).name}' />
+        <include layout="@layout/user_name" bind:userName='@{team.member(1).name}' />
+        <include layout="@layout/user_name" bind:userName='@{team.member(2).name}' />
+        <include layout="@layout/user_name" bind:userName='@{team.member(3).name}' />
+        <include layout="@layout/user_name" bind:userName='@{team.member(4).name}' />
+        <include layout="@layout/user_name" bind:userName='@{team.member(5).name}' />
 
     </LinearLayout>
 

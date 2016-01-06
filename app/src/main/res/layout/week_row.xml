@@ -7,6 +7,7 @@
     <data>
         <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar" />
         <variable name="startDate" type="int" />
+        <variable name="team" type="com.example.anton.sprintcalendar.Team" />
     </data>
 
     <LinearLayout android:layout_width="match_parent"
@@ -15,7 +16,9 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <include layout="@layout/user_name_column" bind:weekName='@{startDate == 0 ? "1st week" : "2nd week"}' />
+        <include layout="@layout/user_name_column"
+            bind:team="@{team}"
+            bind:weekName='@{startDate == 0 ? "1st week" : "2nd week"}' />
 
         <include layout="@layout/day_column"
             bind:sprintDay="@{sprintCalendar.day[startDate + 0]}"

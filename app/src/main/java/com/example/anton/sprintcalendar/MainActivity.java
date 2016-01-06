@@ -24,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
         sprintCalendar.initByCurrentDate();
 
         activityMainBinding.setSprintCalendar(sprintCalendar);
+        activityMainBinding.setTeam(new Team(
+                new TeamMember("Alex"),
+                new TeamMember("Anton"),
+                new TeamMember("Dima"),
+                new TeamMember("Paulina"),
+                new TeamMember("Pavel")
+        ));
 
     }
 

@@ -2,10 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar" />
-
-        <import type="android.view.View" />
+        <variable name="team" type="com.example.anton.sprintcalendar.Team" />
     </data>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
@@ -20,9 +18,15 @@
             android:background="@color/colorPrimaryDark"
             android:orientation="vertical">
 
-            <include layout="@layout/week_row" bind:sprintCalendar="@{sprintCalendar}" bind:startDate="@{0}" />
+            <include layout="@layout/week_row"
+                bind:sprintCalendar="@{sprintCalendar}"
+                bind:startDate="@{0}"
+                bind:team="@{team}" />
 
-            <include layout="@layout/week_row" bind:sprintCalendar="@{sprintCalendar}" bind:startDate="@{5}" />
+            <include layout="@layout/week_row"
+                bind:sprintCalendar="@{sprintCalendar}"
+                bind:startDate="@{5}"
+                bind:team="@{team}" />
 
         </LinearLayout>
 
