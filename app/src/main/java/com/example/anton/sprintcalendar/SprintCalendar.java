@@ -2,10 +2,17 @@ package com.example.anton.sprintcalendar;
 
 import com.google.common.base.Preconditions;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.Weeks;
+
 import java.util.Calendar;
 import java.util.Date;
 
 public class SprintCalendar {
+
+    LocalDate sprintBaseDate = new DateTime(2015, 12, 7, 0, 0).toLocalDate();
+
 
     private Date sprintStartDate;
     private Date lastSprintDate;
@@ -65,4 +72,8 @@ public class SprintCalendar {
         return today;
     }
 
+    public void initByCurrentDate() {
+        LocalDate startDate = sprintBaseDate.plusWeeks((Weeks.weeksBetween(sprintBaseDate, dateProvider.getToday()).getWeeks() / 2) * 2);
+        initByStartDate(startDate.toDate());
+    }
 }

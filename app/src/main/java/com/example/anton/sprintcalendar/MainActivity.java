@@ -1,18 +1,14 @@
 package com.example.anton.sprintcalendar;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.anton.sprintcalendar.databinding.ActivityMainBinding;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 public class MainActivity extends AppCompatActivity {
-
-    private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +19,10 @@ public class MainActivity extends AppCompatActivity {
                 new DefaultDateProvider(),
                 new DefaultHolidayProvider(new DateTime(2016, 1, 6, 0, 0).toDate())
         );
-        sprintCalendar.initByStartDate(formatter.parseDateTime("04.01.2016").toDate());
+
+
+        sprintCalendar.initByCurrentDate();
+
         activityMainBinding.setSprintCalendar(sprintCalendar);
 
     }

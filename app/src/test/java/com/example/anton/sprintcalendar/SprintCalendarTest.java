@@ -1,6 +1,8 @@
 package com.example.anton.sprintcalendar;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
+import org.joda.time.ReadablePartial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -13,16 +15,18 @@ import static org.junit.Assert.assertThat;
 
 public class SprintCalendarTest {
 
+    public static final String TODAY_DATE = "12.01.2016";
     private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
 
     @Test
     public void populatesDatesOfTenDaysOfSprint() {
+
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("12.01.2016"),
+                new TestDateProvider(TODAY_DATE),
                 new TestHolidayProvider("06.01.2016")
         );
 
-        sprintCalendar.initByStartDate(date("04.01.2016"));
+        sprintCalendar.initByCurrentDate();
 
         assertThat(sprintCalendar.getDay()[0].getDate(), is("04.01.2016"));
         assertThat(sprintCalendar.getDay()[1].getDate(), is("05.01.2016"));
@@ -75,6 +79,11 @@ public class SprintCalendarTest {
         @Override
         public boolean isToday(Date date) {
             return DateTimeComparator.getDateOnlyInstance().compare(date(todayDate), date) == 0;
+        }
+
+        @Override
+        public ReadablePartial getToday() {
+            return new DateTime(date(todayDate)).toLocalDate();
         }
     }
 
