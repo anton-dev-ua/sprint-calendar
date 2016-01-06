@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_main">
+
+    <data>
+        <variable name="weekName" type="String" />
+    </data>
+
+    <TextView android:id="@+id/headerWeek1Names"
+        style="@style/HeaderText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="2"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:text="@{weekName, default=weekName}"
+        android:textStyle="bold" />
+
+</layout>

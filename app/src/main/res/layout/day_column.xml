@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_main">
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="sprintDay" type="com.example.anton.sprintcalendar.SprintDay" />
+        <variable name="today" type="com.example.anton.sprintcalendar.SprintDay" />
+    </data>
+
+    <FrameLayout android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/day_column_header" bind:sprintDay="@{sprintDay}" />
+
+            <include layout="@layout/day_user_cell" />
+            <include layout="@layout/day_user_cell" />
+            <include layout="@layout/day_user_cell" />
+            <include layout="@layout/day_user_cell" />
+            <include layout="@layout/day_user_cell" />
+            <include layout="@layout/day_user_cell" />
+
+        </LinearLayout>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/holiday_overlay"
+            android:visibility="@{sprintDay.isHoliday ? View.VISIBLE : View.GONE, default=gone}" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/today_overlay"
+            android:visibility="@{sprintDay.equals(today) ? View.VISIBLE : View.GONE, default=gone}" />
+
+    </FrameLayout>
+
+</layout>

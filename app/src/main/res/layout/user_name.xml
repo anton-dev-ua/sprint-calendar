@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_main">
+
+    <data>
+        <variable name="userName" type="java.lang.String" />
+    </data>
+
+    <TextView android:id="@+id/week1Person1Name"
+        style="@style/HeaderText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:text='@{userName, default=Test_User}' />
+</layout>
