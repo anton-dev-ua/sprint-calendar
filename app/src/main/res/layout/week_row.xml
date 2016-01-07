@@ -21,19 +21,24 @@
                  bind:weekName='@{startDate == 0 ? "1st week" : "2nd week"}'/>
 
         <include layout="@layout/day_column"
-                 bind:sprintDay="@{sprintCalendar.day(startDate + 0)}"/>
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 0)}"
+                 bind:team="@{team}"/>
 
         <include layout="@layout/day_column"
-                 bind:sprintDay="@{sprintCalendar.day(startDate + 1)}"/>
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 1)}"
+                 bind:team="@{team}"/>
 
         <include layout="@layout/day_column"
-                 bind:sprintDay="@{sprintCalendar.day(startDate + 2)}"/>
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 2)}"
+                 bind:team="@{team}"/>
 
         <include layout="@layout/day_column"
-                 bind:sprintDay="@{sprintCalendar.day(startDate + 3)}"/>
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 3)}"
+                 bind:team="@{team}"/>
 
         <include layout="@layout/day_column"
-                 bind:sprintDay="@{sprintCalendar.day(startDate + 4)}"/>
+                 bind:sprintDay="@{sprintCalendar.day(startDate + 4)}"
+                 bind:team="@{team}"/>
 
     </LinearLayout>
 

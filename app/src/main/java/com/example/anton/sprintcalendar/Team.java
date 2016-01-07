@@ -1,9 +1,11 @@
 package com.example.anton.sprintcalendar;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-public class Team {
+public class Team implements Iterable<TeamMember> {
     public static final TeamMember TEAM_MEMBER_PLACEHOLDER = new TeamMember("");
     private List<TeamMember> teamMembers;
 
@@ -12,8 +14,25 @@ public class Team {
     }
 
 
-    public List<TeamMember> getTeamMember() {
-        return teamMembers;
+    public Iterator<TeamMember> iterator() {
+        return new Iterator<TeamMember>() {
+            Iterator<TeamMember> delegate = teamMembers.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return delegate.hasNext();
+            }
+
+            @Override
+            public TeamMember next() {
+                return delegate.next();
+            }
+
+            @Override
+            public void remove() {
+
+            }
+        };
     }
 
     public TeamMember member(int index) {
@@ -22,5 +41,9 @@ public class Team {
         } else {
             return TEAM_MEMBER_PLACEHOLDER;
         }
+    }
+
+    public int getMembersCount() {
+        return teamMembers.size();
     }
 }

@@ -24,7 +24,14 @@
     </style>
 
     <style name="sprintDaysLeft">
-        <item name="android:textSize">152sp</item>
+        <item name="android:textSize">186sp</item>
+        <item name="android:background">@drawable/days_left_background</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="sprintHoursLeft">
+        <item name="android:textSize">112sp</item>
+        <item name="android:background">@drawable/days_left_background</item>
     </style>
 
 </resources>

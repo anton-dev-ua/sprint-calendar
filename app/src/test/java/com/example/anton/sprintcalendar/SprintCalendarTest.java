@@ -19,7 +19,7 @@ public class SprintCalendarTest {
     public void populatesDatesOfTenDaysOfSprint() {
 
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider(TODAY_DATE),
+                new Team(), new TestDateProvider(TODAY_DATE),
                 new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
@@ -40,7 +40,7 @@ public class SprintCalendarTest {
     @Test
     public void determinesTodaySprintDay() throws ParseException {
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("12.01.2016"),
+                new Team(), new TestDateProvider("12.01.2016"),
                 new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
@@ -53,7 +53,7 @@ public class SprintCalendarTest {
     @Test
     public void determinesHoliday() {
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("12.01.2016"),
+                new Team(), new TestDateProvider("12.01.2016"),
                 new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
@@ -65,7 +65,7 @@ public class SprintCalendarTest {
     @Test
     public void calculatesLeftSprintDays() {
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("12.01.2016"),
+                new Team(), new TestDateProvider("12.01.2016"),
                 new DefaultHolidayProvider()
         );
 
@@ -77,7 +77,7 @@ public class SprintCalendarTest {
     @Test
     public void calculatesLeftSprintDaysIgnoringWeekEnds() {
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("06.01.2016"),
+                new Team(), new TestDateProvider("06.01.2016"),
                 new DefaultHolidayProvider()
         );
 
@@ -89,7 +89,7 @@ public class SprintCalendarTest {
     @Test
     public void calculatesLeftSprintDaysIgnoringHolidays() {
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("12.01.2016"),
+                new Team(), new TestDateProvider("12.01.2016"),
                 new DefaultHolidayProvider(new LocalDate(2016, 01, 14))
         );
 
@@ -101,7 +101,7 @@ public class SprintCalendarTest {
     @Test
     public void calculatesTotalSprintDaysIgnoringHolidays() {
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new TestDateProvider("12.01.2016"),
+                new Team(), new TestDateProvider("12.01.2016"),
                 new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
@@ -110,6 +110,61 @@ public class SprintCalendarTest {
         assertThat(sprintCalendar.getTotalDays(), is(9));
     }
 
+    @Test
+    public void calculatesTotalSprintHours() {
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new Team(new TeamMember("John"), new TeamMember("Peter"), new TeamMember("Pedro")),
+                new TestDateProvider("12.01.2016"),
+                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getTotalHours(), is(9 * 3 * 5));
+    }
+
+    @Test
+    public void calculatesTotalSprintHoursExcludingAbsenceOfTeamMembers() {
+        TeamMember peter = new TeamMember("Peter");
+        peter.addAbsence(new LocalDate(2016, 01, 14), AbsenceType.FULL_DAY);
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
+                new TestDateProvider("12.01.2016"),
+                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getTotalHours(), is(9 * 3 * 5 - 5));
+    }
+
+    @Test
+    public void calculatesLeftSprintHours() {
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new Team(new TeamMember("John"), new TeamMember("Peter"), new TeamMember("Pedro")),
+                new TestDateProvider("12.01.2016"),
+                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getHoursLeft(), is(4 * 3 * 5));
+    }
+
+    @Test
+    public void calculatesLeftSprintHoursExcludingAbsenceOfTeamMembers() {
+        TeamMember peter = new TeamMember("Peter");
+        peter.addAbsence(new LocalDate(2016, 01, 14), AbsenceType.FULL_DAY);
+        SprintCalendar sprintCalendar = new SprintCalendar(
+                new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
+                new TestDateProvider("12.01.2016"),
+                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+        );
+
+        sprintCalendar.initByCurrentDate();
+
+        assertThat(sprintCalendar.getHoursLeft(), is(4 * 3 * 5 - 5));
+    }
 
     private LocalDate date(String dateString) {
         return formatter.parseDateTime(dateString).toLocalDate();

@@ -6,8 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.anton.sprintcalendar.databinding.ActivityMainBinding;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+
+import static com.example.anton.sprintcalendar.AbsenceType.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,8 +17,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        TeamMember pavel = new TeamMember("Pavel");
+        pavel.addAbsence(new LocalDate(2016, 01, 13), HALF_DAY);
+        pavel.addAbsence(new LocalDate(2016, 01, 14), FULL_DAY);
+        Team team = new Team(
+                new TeamMember("Alex"),
+                new TeamMember("Anton"),
+                new TeamMember("Dima"),
+                new TeamMember("Paulina"),
+                pavel
+        );
+
         SprintCalendar sprintCalendar = new SprintCalendar(
-                new DefaultDateProvider(),
+                team, new DefaultDateProvider(),
                 new DefaultHolidayProvider(new LocalDate(2016, 1, 6))
         );
 
@@ -25,13 +37,7 @@ public class MainActivity extends AppCompatActivity {
         sprintCalendar.initByCurrentDate();
 
         activityMainBinding.setSprintCalendar(sprintCalendar);
-        activityMainBinding.setTeam(new Team(
-                new TeamMember("Alex"),
-                new TeamMember("Anton"),
-                new TeamMember("Dima"),
-                new TeamMember("Paulina"),
-                new TeamMember("Pavel")
-        ));
+        activityMainBinding.setTeam(team);
 
     }
 
