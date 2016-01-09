@@ -1,5 +1,8 @@
 package com.example.anton.sprintcalendar;
 
+import android.test.MoreAsserts;
+
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import org.joda.time.LocalDate;
@@ -39,5 +42,14 @@ public class SprintDay {
     @Override
     public int hashCode() {
         return Objects.hashCode(date);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("date", date)
+                .add("today", today)
+                .add("holiday", holiday)
+                .toString();
     }
 }

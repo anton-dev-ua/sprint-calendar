@@ -1,5 +1,8 @@
 package com.example.anton.sprintcalendar;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import org.joda.time.LocalDate;
 
 import java.util.HashMap;
@@ -25,5 +28,12 @@ public class TeamMember {
     public int presence(LocalDate date) {
         AbsenceType absenceType = absenceMap.get(date);
         return AbsenceType.getPresencePercentage(absenceType);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .toString();
     }
 }
