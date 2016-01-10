@@ -1,11 +1,11 @@
 package com.example.anton.sprintcalendar;
 
 public enum PresenceType {
-    NONE(0), HALF_DAY(3), FULL_DAY(5);
+    NONE(0), HALF_DAY(2.5f), FULL_DAY(5);
 
-    private int presencePercentage;
+    private float presencePercentage;
 
-    PresenceType(int presencePercentage) {
+    PresenceType(float presencePercentage) {
         this.presencePercentage = presencePercentage;
     }
 

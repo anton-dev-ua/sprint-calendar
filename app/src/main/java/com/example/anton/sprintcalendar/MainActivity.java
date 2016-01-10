@@ -26,18 +26,32 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         attachListenerToAll("teamMemberDayView", (ViewGroup) findViewById(R.id.rootView), new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                return processTeamMemberDayViewClick(view);
-            }
-        });
+                    @Override
+                    public boolean onLongClick(View view) {
+                        return processTeamMemberDayViewClick(view, PresenceType.NONE);
+                    }
+                },
+                new View.OnClickListener() {
+                    static final long DOUBLE_CLICK_DELAY = 500;
+                    long lastClickTime = 0;
+
+                    @Override
+                    public void onClick(View view) {
+                        long clickTime = System.currentTimeMillis();
+                        if (clickTime - lastClickTime < DOUBLE_CLICK_DELAY) {
+                            processTeamMemberDayViewClick(view, PresenceType.HALF_DAY);
+                        }
+                        lastClickTime = clickTime;
+                    }
+                });
 
         attachListenerToAll("dayViewHeader", (ViewGroup) findViewById(R.id.rootView), new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                return processDayViewClick(view);
-            }
-        });
+                    @Override
+                    public boolean onLongClick(View view) {
+                        return processDayViewClick(view);
+                    }
+                },
+                null);
 
         TeamMember pavel = new TeamMember("Pavel");
         pavel.setPresence(new LocalDate(2016, 1, 13), HALF_DAY);
@@ -66,25 +80,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void attachListenerToAll(String tag, ViewGroup rootView, View.OnLongClickListener listener) {
+    private void attachListenerToAll(String tag, ViewGroup rootView, View.OnLongClickListener listener, View.OnClickListener listener2) {
         int childCount = rootView.getChildCount();
         for (int childIndex = 0; childIndex < childCount; childIndex++) {
             View view = rootView.getChildAt(childIndex);
             if (view instanceof ViewGroup) {
-                attachListenerToAll(tag, (ViewGroup) view, listener);
+                attachListenerToAll(tag, (ViewGroup) view, listener, listener2);
             } else if (tag.equals(view.getTag())) {
-                view.setOnLongClickListener(listener);
+                if (listener != null) view.setOnLongClickListener(listener);
+                if (listener2 != null) view.setOnClickListener(listener2);
             }
         }
     }
 
-    private boolean processTeamMemberDayViewClick(View view) {
+    private boolean processTeamMemberDayViewClick(View view, PresenceType oppositePresence) {
         if (view instanceof TeamMemberDayView) {
             TeamMemberDayView dayView = (TeamMemberDayView) view;
             TeamMember teamMember = dayView.getTeamMember();
             SprintDay day = dayView.getDay();
             PresenceType presence = teamMember.presence(day.getDate());
-            teamMember.setPresence(day.getDate(), presence == NONE ? HALF_DAY : presence == HALF_DAY ? FULL_DAY : NONE);
+            teamMember.setPresence(day.getDate(), presence == oppositePresence ? FULL_DAY : oppositePresence);
             activityMainBinding.setSprintCalendar(sprintCalendar);
             return true;
         } else {
