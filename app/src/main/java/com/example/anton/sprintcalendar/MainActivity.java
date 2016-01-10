@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             TeamMember teamMember = dayView.getTeamMember();
             SprintDay day = dayView.getDay();
             PresenceType presence = teamMember.presence(day.getDate());
-            teamMember.setPresence(day.getDate(), presence == oppositePresence ? FULL_DAY : oppositePresence);
+            teamMember.setPresence(day.getDate(), presence == FULL_DAY ? oppositePresence : FULL_DAY);
             activityMainBinding.setSprintCalendar(sprintCalendar);
             return true;
         } else {

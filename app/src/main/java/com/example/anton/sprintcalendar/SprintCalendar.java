@@ -76,7 +76,7 @@ public class SprintCalendar {
     private void calculateDates(LocalDate sprintStartDate) {
         day = new SprintDay[10];
         firstDate = sprintStartDate;
-        lastDate = firstDate.plusDays(12);
+        lastDate = firstDate.plusDays(11);
         int dayIndex = 0;
         for (LocalDate date = firstDate; date.compareTo(lastDate) <= 0; date = date.plusDays(1)) {
             if (!holidayProvider.isWeekend(date)) {
