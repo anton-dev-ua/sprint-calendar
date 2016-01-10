@@ -20,11 +20,13 @@
                       android:orientation="vertical">
 
             <include layout="@layout/week_row"
+                     android:id="@+id/firstWeek"
                      bind:sprintCalendar="@{sprintCalendar}"
                      bind:startDate="@{0}"
                      bind:team="@{team}"/>
 
             <include layout="@layout/week_row"
+                     android:id="@+id/secondWeek"
                      bind:sprintCalendar="@{sprintCalendar}"
                      bind:startDate="@{5}"
                      bind:team="@{team}"/>
@@ -32,6 +34,7 @@
         </LinearLayout>
 
         <include layout="@layout/summary"
+                 android:id="@+id/summary"
                  android:layout_width="0dp"
                  android:layout_height="match_parent"
                  android:layout_weight="4"

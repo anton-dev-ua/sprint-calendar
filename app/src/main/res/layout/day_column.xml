@@ -24,21 +24,27 @@
             <include layout="@layout/day_column_header" bind:sprintDay="@{sprintDay}"/>
 
             <include layout="@layout/day_user_cell"
+                     android:id="@+id/user1"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(0)}"/>
             <include layout="@layout/day_user_cell"
+                     android:id="@+id/user2"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(1)}"/>
             <include layout="@layout/day_user_cell"
+                     android:id="@+id/user3"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(2)}"/>
             <include layout="@layout/day_user_cell"
+                     android:id="@+id/user4"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(3)}"/>
             <include layout="@layout/day_user_cell"
+                     android:id="@+id/user5"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(4)}"/>
             <include layout="@layout/day_user_cell"
+                     android:id="@+id/user6"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(5)}"/>
 

@@ -1,7 +1,6 @@
 package com.example.anton.sprintcalendar;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 import org.joda.time.LocalDate;
 
@@ -10,7 +9,7 @@ import java.util.Map;
 
 public class TeamMember {
     private String name;
-    private Map<LocalDate, AbsenceType> absenceMap = new HashMap<>();
+    private Map<LocalDate, PresenceType> absenceMap = new HashMap<>();
 
     public TeamMember(String name) {
         this.name = name;
@@ -21,13 +20,13 @@ public class TeamMember {
         return name;
     }
 
-    public void addAbsence(LocalDate localDate, AbsenceType absenceType) {
-        absenceMap.put(localDate, absenceType);
+    public void setPresence(LocalDate localDate, PresenceType presenceType) {
+        absenceMap.put(localDate, presenceType);
     }
 
-    public int presence(LocalDate date) {
-        AbsenceType absenceType = absenceMap.get(date);
-        return AbsenceType.getPresencePercentage(absenceType);
+    public PresenceType presence(LocalDate date) {
+        PresenceType presenceType = absenceMap.get(date);
+        return PresenceType.safePresence(presenceType);
     }
 
     @Override

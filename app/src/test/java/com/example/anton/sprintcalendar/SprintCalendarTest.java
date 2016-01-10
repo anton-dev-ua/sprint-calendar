@@ -126,7 +126,7 @@ public class SprintCalendarTest {
     @Test
     public void calculatesTotalSprintHoursExcludingAbsenceOfTeamMembers() {
         TeamMember peter = new TeamMember("Peter");
-        peter.addAbsence(new LocalDate(2016, 01, 14), AbsenceType.FULL_DAY);
+        peter.setPresence(new LocalDate(2016, 01, 14), PresenceType.NONE);
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),
@@ -154,7 +154,7 @@ public class SprintCalendarTest {
     @Test
     public void calculatesLeftSprintHoursExcludingAbsenceOfTeamMembers() {
         TeamMember peter = new TeamMember("Peter");
-        peter.addAbsence(new LocalDate(2016, 01, 14), AbsenceType.FULL_DAY);
+        peter.setPresence(new LocalDate(2016, 01, 14), PresenceType.NONE);
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),

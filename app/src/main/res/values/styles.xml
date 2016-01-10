@@ -9,10 +9,8 @@
     </style>
 
     <style name="AbsenceProgress">
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/absence_progress</item>
-        <item name="android:minHeight">1dip</item>
-        <item name="android:maxHeight">1dip</item>
+        <item name="com.example.anton.sprintcalendar:absent">@color/colorAbsence</item>
+        <item name="com.example.anton.sprintcalendar:present">@color/colorWhite</item>
     </style>
 
     <style name="HeaderText" parent="android:TextAppearance.Large">

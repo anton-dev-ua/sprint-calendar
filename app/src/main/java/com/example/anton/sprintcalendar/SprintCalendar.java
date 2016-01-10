@@ -1,5 +1,8 @@
 package com.example.anton.sprintcalendar;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.google.common.base.Preconditions;
 
 import org.joda.time.Days;
@@ -7,7 +10,7 @@ import org.joda.time.LocalDate;
 
 import static org.joda.time.DateTimeConstants.MONDAY;
 
-public class SprintCalendar {
+public class SprintCalendar extends BaseObservable {
 
     public static final SprintDay DAY_PLACEHOLDER = new SprintDay(new LocalDate(1970, 1, 1), false, false);
 
@@ -60,10 +63,12 @@ public class SprintCalendar {
         return daysBetween(firstDate, lastDate);
     }
 
+    @Bindable
     public int getTotalHours() {
         return (int) hoursBetween(firstDate, lastDate);
     }
 
+    @Bindable
     public int getHoursLeft() {
         return (int) hoursBetween(dateProvider.getToday(), lastDate);
     }
@@ -95,7 +100,7 @@ public class SprintCalendar {
         for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
             if (holidayProvider.isWorkingDay(date)) {
                 for (TeamMember member : team) {
-                    totalHours += (float) effectiveHours * member.presence(date) / 100;
+                    totalHours += member.presence(date).hours();
                 }
             }
         }

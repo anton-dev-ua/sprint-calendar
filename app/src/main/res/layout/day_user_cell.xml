@@ -8,10 +8,10 @@
     <data>
         <variable name="teamMember" type="com.example.anton.sprintcalendar.TeamMember"/>
         <variable name="day" type="com.example.anton.sprintcalendar.SprintDay"/>
+        <variable name="handler" type="com.example.anton.sprintcalendar.Handler"/>
     </data>
 
     <com.example.anton.sprintcalendar.TeamMemberDayView
-        android:id="@+id/week1Person1Day1Presence"
         style="@style/AbsenceProgress"
         custom:teamMember="@{teamMember}"
         custom:day="@{day}"
@@ -19,10 +19,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:layout_weight="1"
-        android:onClick="clickTest"
-        android:secondaryProgress="0"
-
-
+        android:longClickable="true"
+        android:onClick="@{handler.handle}"
         />
 
 </layout>
