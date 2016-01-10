@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="sprintCalendar">
+        <attr name="absent" format="color"/>
+        <attr name="present" format="color"/>
+    </declare-styleable>
+</resources>

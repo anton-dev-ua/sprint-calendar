@@ -14,7 +14,7 @@ public class SprintCalendar extends BaseObservable {
 
     public static final SprintDay DAY_PLACEHOLDER = new SprintDay(new LocalDate(1970, 1, 1), false, false);
 
-    private LocalDate sprintBaseDate = new LocalDate(2015, 12, 07);
+    private LocalDate sprintBaseDate = new LocalDate(2015, 12, 7);
     private int effectiveHours = 5;
 
     private LocalDate firstDate;
