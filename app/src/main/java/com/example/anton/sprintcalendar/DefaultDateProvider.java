@@ -12,6 +12,6 @@ class DefaultDateProvider implements DateProvider {
 
     @Override
     public LocalDate getToday() {
-        return new DateTime().toLocalDate();
+        return new LocalDate();
     }
 }

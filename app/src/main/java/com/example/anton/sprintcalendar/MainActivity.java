@@ -25,32 +25,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        attachListenerToAll("teamMemberDayView", (ViewGroup) findViewById(R.id.rootView), new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        return processTeamMemberDayViewClick(view, PresenceType.NONE);
-                    }
-                },
-                new View.OnClickListener() {
-                    static final long DOUBLE_CLICK_DELAY = 500;
-                    long lastClickTime = 0;
+        ViewGroup rootView = (ViewGroup) findViewById(R.id.rootView);
 
-                    @Override
-                    public void onClick(View view) {
-                        long clickTime = System.currentTimeMillis();
-                        if (clickTime - lastClickTime < DOUBLE_CLICK_DELAY) {
-                            processTeamMemberDayViewClick(view, PresenceType.HALF_DAY);
-                        }
-                        lastClickTime = clickTime;
-                    }
-                });
+        attachListenerToAll("teamMemberDayView", rootView,
+                new MemberDayOnLongClickListener(),
+                new MemberDayOnDoubleClickListener());
 
-        attachListenerToAll("dayViewHeader", (ViewGroup) findViewById(R.id.rootView), new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        return processDayViewClick(view);
-                    }
-                },
+        attachListenerToAll("dayViewHeader", rootView,
+                new DayHeaderOnLongClickListener(),
                 null);
 
         TeamMember pavel = new TeamMember("Pavel");
@@ -114,4 +96,31 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private class MemberDayOnDoubleClickListener implements View.OnClickListener {
+        static final long DOUBLE_CLICK_DELAY = 500;
+        long lastClickTime = 0;
+
+        @Override
+        public void onClick(View view) {
+            long clickTime = System.currentTimeMillis();
+            if (clickTime - lastClickTime < DOUBLE_CLICK_DELAY) {
+                processTeamMemberDayViewClick(view, PresenceType.HALF_DAY);
+            }
+            lastClickTime = clickTime;
+        }
+    }
+
+    private class MemberDayOnLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View view) {
+            return processTeamMemberDayViewClick(view, PresenceType.NONE);
+        }
+    }
+
+    private class DayHeaderOnLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View view) {
+            return processDayViewClick(view);
+        }
+    }
 }

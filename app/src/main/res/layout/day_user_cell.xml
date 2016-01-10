@@ -16,7 +16,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:layout_weight="1"
-        android:background="@{teamMember.presence(day.date) == Presence.FULL_DAY || day.isHoliday ? @drawable/precense_full_day : teamMember.presence(day.date) == Presence.HALF_DAY ? @drawable/precense_half_day : @drawable/precense_none}"
+        android:background="@{teamMember.presence(day.date) == Presence.NONE || day.isHoliday ? @drawable/precense_none : teamMember.presence(day.date) == Presence.HALF_DAY ? @drawable/precense_half_day : @drawable/precense_full_day}"
         android:tag="teamMemberDayView"
         custom:day="@{day}"
         custom:teamMember="@{teamMember}"

@@ -53,11 +53,6 @@
 
         <View android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/holiday_overlay"
-              android:visibility="@{sprintDay.isHoliday ? View.VISIBLE : View.GONE, default=gone}"/>
-
-        <View android:layout_width="match_parent"
-              android:layout_height="match_parent"
               android:background="@drawable/today_overlay"
               android:visibility="@{sprintDay.isToday ? View.VISIBLE : View.GONE, default=gone}"/>
 
