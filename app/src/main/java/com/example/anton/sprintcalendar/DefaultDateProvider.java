@@ -7,7 +7,7 @@ class DefaultDateProvider implements DateProvider {
 
     @Override
     public boolean isToday(LocalDate date) {
-        return new LocalDate().compareTo(date) == 0;
+        return getToday().compareTo(date) == 0;
     }
 
     @Override
