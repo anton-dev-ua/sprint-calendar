@@ -1,7 +1,5 @@
 package com.example.anton.sprintcalendar;
 
-import android.test.MoreAsserts;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
@@ -51,5 +49,9 @@ public class SprintDay {
                 .add("today", today)
                 .add("holiday", holiday)
                 .toString();
+    }
+
+    public void setHoliday(boolean holiday) {
+        this.holiday = holiday;
     }
 }

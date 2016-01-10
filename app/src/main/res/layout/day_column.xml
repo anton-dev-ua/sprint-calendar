@@ -19,32 +19,33 @@
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
-                      android:orientation="vertical">
+                      android:orientation="vertical"
+                      android:tag="@{sprintDay}">
 
             <include layout="@layout/day_column_header" bind:sprintDay="@{sprintDay}"/>
 
-            <include layout="@layout/day_user_cell"
-                     android:id="@+id/user1"
+            <include android:id="@+id/user1"
+                     layout="@layout/day_user_cell"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(0)}"/>
-            <include layout="@layout/day_user_cell"
-                     android:id="@+id/user2"
+            <include android:id="@+id/user2"
+                     layout="@layout/day_user_cell"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(1)}"/>
-            <include layout="@layout/day_user_cell"
-                     android:id="@+id/user3"
+            <include android:id="@+id/user3"
+                     layout="@layout/day_user_cell"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(2)}"/>
-            <include layout="@layout/day_user_cell"
-                     android:id="@+id/user4"
+            <include android:id="@+id/user4"
+                     layout="@layout/day_user_cell"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(3)}"/>
-            <include layout="@layout/day_user_cell"
-                     android:id="@+id/user5"
+            <include android:id="@+id/user5"
+                     layout="@layout/day_user_cell"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(4)}"/>
-            <include layout="@layout/day_user_cell"
-                     android:id="@+id/user6"
+            <include android:id="@+id/user6"
+                     layout="@layout/day_user_cell"
                      bind:day="@{sprintDay}"
                      bind:teamMember="@{team.member(5)}"/>
 

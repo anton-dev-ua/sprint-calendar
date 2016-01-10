@@ -6,16 +6,18 @@
         tools:showIn="@layout/activity_main">
 
     <data>
+        <import alias="Presence" type="com.example.anton.sprintcalendar.PresenceType"/>
         <variable name="teamMember" type="com.example.anton.sprintcalendar.TeamMember"/>
         <variable name="day" type="com.example.anton.sprintcalendar.SprintDay"/>
     </data>
 
     <com.example.anton.sprintcalendar.TeamMemberDayView
-        style="@style/AbsenceProgress"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:layout_weight="1"
+        android:background="@{teamMember.presence(day.date) == Presence.FULL_DAY || day.isHoliday ? @drawable/precense_full_day : teamMember.presence(day.date) == Presence.HALF_DAY ? @drawable/precense_half_day : @drawable/precense_none}"
+        android:tag="teamMemberDayView"
         custom:day="@{day}"
         custom:teamMember="@{teamMember}"
         />

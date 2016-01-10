@@ -158,7 +158,7 @@ public class SprintCalendarTest {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new DefaultHolidayProvider(new LocalDate(2016, 1, 6))
         );
 
         sprintCalendar.initByCurrentDate();

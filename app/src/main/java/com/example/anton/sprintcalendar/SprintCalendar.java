@@ -1,8 +1,5 @@
 package com.example.anton.sprintcalendar;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-
 import com.google.common.base.Preconditions;
 
 import org.joda.time.Days;
@@ -10,12 +7,11 @@ import org.joda.time.LocalDate;
 
 import static org.joda.time.DateTimeConstants.MONDAY;
 
-public class SprintCalendar extends BaseObservable {
+public class SprintCalendar {
 
     public static final SprintDay DAY_PLACEHOLDER = new SprintDay(new LocalDate(1970, 1, 1), false, false);
 
     private LocalDate sprintBaseDate = new LocalDate(2015, 12, 7);
-    private int effectiveHours = 5;
 
     private LocalDate firstDate;
     private LocalDate lastDate;
@@ -34,7 +30,9 @@ public class SprintCalendar extends BaseObservable {
 
     public void initByCurrentDate() {
         LocalDate today = dateProvider.getToday();
-        LocalDate startDate = today.minusDays((Days.daysBetween(sprintBaseDate, today).getDays() % 14));
+        int modDiff = Days.daysBetween(sprintBaseDate, today).getDays() % 14;
+        if(modDiff < 0) modDiff+=14;
+        LocalDate startDate = today.minusDays(modDiff);
         initByStartDate(startDate);
     }
 
@@ -56,25 +54,23 @@ public class SprintCalendar extends BaseObservable {
     }
 
     public int getDaysLeft() {
-        return daysBetween(dateProvider.getToday(), lastDate);
+        return daysBetween(dateProvider.getToday());
     }
 
     public int getTotalDays() {
-        return daysBetween(firstDate, lastDate);
+        return daysBetween(firstDate);
     }
 
     public Team getTeam() {
         return team;
     }
 
-    @Bindable
     public int getTotalHours() {
-        return (int) hoursBetween(firstDate, lastDate);
+        return (int) hoursBetween(firstDate);
     }
 
-    @Bindable
     public int getHoursLeft() {
-        return (int) hoursBetween(dateProvider.getToday(), lastDate);
+        return (int) hoursBetween(dateProvider.getToday());
     }
 
     private void calculateDates(LocalDate sprintStartDate) {
@@ -89,22 +85,22 @@ public class SprintCalendar extends BaseObservable {
         }
     }
 
-    private int daysBetween(LocalDate startDate, LocalDate endDate) {
+    private int daysBetween(LocalDate startDate) {
         int days = 0;
-        for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
-            if (holidayProvider.isWorkingDay(date)) {
+        for (SprintDay sprintDay : day) {
+            if (!sprintDay.isHoliday() && sprintDay.getDate().compareTo(startDate) >= 0) {
                 days++;
             }
         }
         return days;
     }
 
-    private float hoursBetween(LocalDate startDate, LocalDate endDate) {
+    private float hoursBetween(LocalDate startDate) {
         float totalHours = 0;
-        for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
-            if (holidayProvider.isWorkingDay(date)) {
+        for (SprintDay sprintDay : day) {
+            if (!sprintDay.isHoliday() && sprintDay.getDate().compareTo(startDate) >= 0) {
                 for (TeamMember member : team) {
-                    totalHours += member.presence(date).hours();
+                    totalHours += member.presence(sprintDay.getDate()).hours();
                 }
             }
         }
