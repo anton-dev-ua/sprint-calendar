@@ -4,37 +4,38 @@
 
     <data>
         <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar"/>
-        <variable name="team" type="com.example.anton.sprintcalendar.Team"/>
     </data>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/rootView"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:baselineAligned="false"
                   android:orientation="horizontal">
 
-        <LinearLayout android:layout_width="0dp"
+        <LinearLayout android:id="@+id/teamCalendar"
+                      android:layout_width="0dp"
                       android:layout_height="match_parent"
                       android:layout_weight="12"
                       android:background="@color/colorPrimaryDark"
                       android:orientation="vertical">
 
-            <include layout="@layout/week_row"
-                     android:id="@+id/firstWeek"
+            <include android:id="@+id/firstWeek"
+                     layout="@layout/week_row"
                      bind:sprintCalendar="@{sprintCalendar}"
                      bind:startDate="@{0}"
-                     bind:team="@{team}"/>
+                     bind:team="@{sprintCalendar.team}"/>
 
-            <include layout="@layout/week_row"
-                     android:id="@+id/secondWeek"
+            <include android:id="@+id/secondWeek"
+                     layout="@layout/week_row"
                      bind:sprintCalendar="@{sprintCalendar}"
                      bind:startDate="@{5}"
-                     bind:team="@{team}"/>
+                     bind:team="@{sprintCalendar.team}"/>
 
         </LinearLayout>
 
-        <include layout="@layout/summary"
-                 android:id="@+id/summary"
+        <include android:id="@+id/summary"
+                 layout="@layout/summary"
                  android:layout_width="0dp"
                  android:layout_height="match_parent"
                  android:layout_weight="4"

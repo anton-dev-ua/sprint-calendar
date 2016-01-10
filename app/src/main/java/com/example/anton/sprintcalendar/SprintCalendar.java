@@ -63,6 +63,10 @@ public class SprintCalendar extends BaseObservable {
         return daysBetween(firstDate, lastDate);
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     @Bindable
     public int getTotalHours() {
         return (int) hoursBetween(firstDate, lastDate);

@@ -3,20 +3,22 @@ package com.example.anton.sprintcalendar;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.anton.sprintcalendar.databinding.ActivityMainBinding;
 
 import org.joda.time.LocalDate;
 
-import static com.example.anton.sprintcalendar.BR.*;
 import static com.example.anton.sprintcalendar.PresenceType.FULL_DAY;
 import static com.example.anton.sprintcalendar.PresenceType.HALF_DAY;
 import static com.example.anton.sprintcalendar.PresenceType.NONE;
 
-public class MainActivity extends AppCompatActivity implements View.OnLongClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnLongClickListener, View.OnClickListener {
 
-    View summaryView;
+    private View summaryView;
     private ActivityMainBinding activityMainBinding;
     private SprintCalendar sprintCalendar;
 
@@ -29,16 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         int dayIds[] = {R.id.day1, R.id.day2, R.id.day3, R.id.day4, R.id.day5};
         int memberIds[] = {R.id.user1, R.id.user2, R.id.user3, R.id.user4, R.id.user5, R.id.user6};
 
-        for (int weekId : weekIds) {
-            View weekView = findViewById(weekId);
-            for (int dayId : dayIds) {
-                View dayView = weekView.findViewById(dayId);
-                for (int memberId : memberIds) {
-                    dayView.findViewById(memberId).setOnLongClickListener(this);
-                }
-            }
-        }
-
+        attachListenerToAll((ViewGroup) findViewById(R.id.rootView), this);
         summaryView = findViewById(R.id.sprintTotalHours);
 
         TeamMember pavel = new TeamMember("Pavel");
@@ -63,14 +56,34 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         sprintCalendar.initByCurrentDate();
 
         activityMainBinding.setSprintCalendar(sprintCalendar);
-        activityMainBinding.setTeam(team);
 
     }
 
+    private void attachListenerToAll(ViewGroup rootView, View.OnLongClickListener listener) {
+        int childCount = rootView.getChildCount();
+        for (int childIndex = 0; childIndex < childCount; childIndex++) {
+            View view = rootView.getChildAt(childIndex);
+            if (view instanceof ViewGroup) {
+                attachListenerToAll((ViewGroup) view, listener);
+            } else if (view instanceof TeamMemberDayView) {
+                view.setOnLongClickListener(listener);
+            }
+        }
+    }
+
     @Override
-    public boolean onLongClick(View v) {
-        if (v instanceof TeamMemberDayView) {
-            TeamMemberDayView dayView = (TeamMemberDayView) v;
+    public boolean onLongClick(View view) {
+        return processOnClick(view);
+    }
+
+    @Override
+    public void onClick(View view) {
+        processOnClick(view);
+    }
+
+    private boolean processOnClick(View view) {
+        if (view instanceof TeamMemberDayView) {
+            TeamMemberDayView dayView = (TeamMemberDayView) view;
             TeamMember teamMember = dayView.getTeamMember();
             SprintDay day = dayView.getDay();
             PresenceType presence = teamMember.presence(day.getDate());
@@ -84,4 +97,30 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             return false;
         }
     }
+
+    class mListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            System.out.println("long press " + e);
+        }
+
+        @Override
+        public boolean onContextClick(MotionEvent e) {
+            System.out.println("onContextClick " + e);
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            System.out.println("onSingleTapUp " + e);
+            return true;
+        }
+    }
+
+
 }
