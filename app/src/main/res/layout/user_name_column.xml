@@ -6,7 +6,7 @@
 
     <data>
         <variable name="weekName" type="String" />
-        <variable name="team" type="com.example.anton.sprintcalendar.Team" />
+        <variable name="team" type="net.sourcefusion.agiletools.sprintcalendar.Team" />
     </data>
 
     <LinearLayout android:layout_width="0dp"

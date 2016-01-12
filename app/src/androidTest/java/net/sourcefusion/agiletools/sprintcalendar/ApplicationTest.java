@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.xourcefusion.agiletools.sprintcalendar;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

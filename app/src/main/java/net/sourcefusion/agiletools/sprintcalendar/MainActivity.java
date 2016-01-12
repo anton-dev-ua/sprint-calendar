@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.anton.sprintcalendar.databinding.ActivityMainBinding;
+import net.sourcefusion.agiletools.sprintcalendar.databinding.ActivityMainBinding;
 
 import org.joda.time.LocalDate;
 
-import static com.example.anton.sprintcalendar.PresenceType.FULL_DAY;
-import static com.example.anton.sprintcalendar.PresenceType.HALF_DAY;
-import static com.example.anton.sprintcalendar.PresenceType.NONE;
+import static net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY;
+import static net.sourcefusion.agiletools.sprintcalendar.PresenceType.HALF_DAY;
+import static net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE;
 
 public class MainActivity extends AppCompatActivity {
 

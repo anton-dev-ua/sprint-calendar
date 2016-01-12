@@ -1,6 +1,5 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 class DefaultDateProvider implements DateProvider {

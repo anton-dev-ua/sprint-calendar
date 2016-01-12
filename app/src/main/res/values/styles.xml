@@ -9,8 +9,8 @@
     </style>
 
     <style name="AbsenceProgress">
-        <item name="com.example.anton.sprintcalendar:absent">@color/colorAbsence</item>
-        <item name="com.example.anton.sprintcalendar:present">@color/colorWhite</item>
+        <item name="net.sourcefusion.agiletools.sprintcalendar:absent">@color/colorAbsence</item>
+        <item name="net.sourcefusion.agiletools.sprintcalendar:present">@color/colorWhite</item>
     </style>
 
     <style name="HeaderText" parent="android:TextAppearance.Large">

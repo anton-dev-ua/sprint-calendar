@@ -4,8 +4,8 @@
         tools:showIn="@layout/activity_main">
 
     <data>
-        <import alias="format" type="com.example.anton.sprintcalendar.Format"/>
-        <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar"/>
+        <import alias="format" type="net.sourcefusion.agiletools.sprintcalendar.Format"/>
+        <variable name="sprintCalendar" type="net.sourcefusion.agiletools.sprintcalendar.SprintCalendar"/>
     </data>
 
     <LinearLayout

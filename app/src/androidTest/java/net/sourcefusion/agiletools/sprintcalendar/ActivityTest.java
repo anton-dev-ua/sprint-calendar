@@ -1,8 +1,7 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
 import org.junit.Before;

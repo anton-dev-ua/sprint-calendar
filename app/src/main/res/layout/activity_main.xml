@@ -3,7 +3,7 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="sprintCalendar" type="com.example.anton.sprintcalendar.SprintCalendar"/>
+        <variable name="sprintCalendar" type="net.sourcefusion.agiletools.sprintcalendar.SprintCalendar"/>
     </data>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"

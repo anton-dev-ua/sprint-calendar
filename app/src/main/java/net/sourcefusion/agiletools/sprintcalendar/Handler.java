@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import android.view.View;
 

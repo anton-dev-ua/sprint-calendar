@@ -1,8 +1,6 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import org.joda.time.LocalDate;
-
-import java.util.Date;
 
 public interface DateProvider {
     boolean isToday(LocalDate date);

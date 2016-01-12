@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 public enum PresenceType {
     NONE(0), HALF_DAY(2.5f), FULL_DAY(5);

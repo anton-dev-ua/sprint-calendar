@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;

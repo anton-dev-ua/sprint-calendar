@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import java.util.Arrays;
 import java.util.Iterator;

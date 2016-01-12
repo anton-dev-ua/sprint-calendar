@@ -1,4 +1,4 @@
-package com.example.anton.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
