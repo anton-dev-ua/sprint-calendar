@@ -1,29 +1,23 @@
-package net.sourcefusion.agiletools.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar
 
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewGroup;
+//import net.sourcefusion.agiletools.sprintcalendar.databinding.ActivityMainBinding
 
-import net.sourcefusion.agiletools.sprintcalendar.databinding.ActivityMainBinding;
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import org.jetbrains.anko.*
 
-import org.joda.time.LocalDate;
+public class MainActivity : AppCompatActivity() {
 
-import static net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY;
-import static net.sourcefusion.agiletools.sprintcalendar.PresenceType.HALF_DAY;
-import static net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE;
+//    private val activityMainBinding: ActivityMainBinding? = null
+//    private val sprintCalendar: SprintCalendar? = null
+//    private val holidayProvider: DefaultHolidayProvider? = null
 
-public class MainActivity extends AppCompatActivity {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    private ActivityMainBinding activityMainBinding;
-    private SprintCalendar sprintCalendar;
-    private DefaultHolidayProvider holidayProvider;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        val ui = SomeActivityUI()
+        ui.setContentView(this)
+        /*activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         ViewGroup rootView = (ViewGroup) findViewById(R.id.rootView);
 
@@ -58,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         sprintCalendar.initByCurrentDate();
 
-        activityMainBinding.setSprintCalendar(sprintCalendar);
+        activityMainBinding.setSprintCalendar(sprintCalendar);*/
 
     }
 
-    private void attachListenerToAll(String tag, ViewGroup rootView, View.OnLongClickListener listener, View.OnClickListener listener2) {
+    /*private void attachListenerToAll(String tag, ViewGroup rootView, View.OnLongClickListener listener, View.OnClickListener listener2) {
         int childCount = rootView.getChildCount();
         for (int childIndex = 0; childIndex < childCount; childIndex++) {
             View view = rootView.getChildAt(childIndex);
@@ -122,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onLongClick(View view) {
             return processDayViewClick(view);
         }
-    }
+    }*/
 }
+
+/*class SomeActivityUI : AnkoComponent<MainActivity> {
+    override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
+        linearLayout {
+            textView("Hello")
+        }
+    }
+}*/

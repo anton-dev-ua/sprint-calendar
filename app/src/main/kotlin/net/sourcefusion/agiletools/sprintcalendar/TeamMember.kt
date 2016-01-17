@@ -6,7 +6,7 @@ import org.joda.time.LocalDate
 
 import java.util.HashMap
 
-class TeamMember(val name: String) {
+public class TeamMember(val name: String) {
     private val absenceMap = HashMap<LocalDate, PresenceType>()
 
     fun setPresence(localDate: LocalDate, presenceType: PresenceType) {

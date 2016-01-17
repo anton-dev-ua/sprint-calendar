@@ -100,7 +100,7 @@ public class SprintCalendar {
         for (SprintDay sprintDay : day) {
             if (!sprintDay.isHoliday() && sprintDay.getDate().compareTo(startDate) >= 0) {
                 for (TeamMember member : team) {
-                    totalHours += member.presence(sprintDay.getDate()).hours();
+                    totalHours += member.presence(sprintDay.getDate()).getHours();
                 }
             }
         }
