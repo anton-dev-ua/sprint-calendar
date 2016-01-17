@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 23
@@ -23,6 +24,9 @@ android {
     }
     productFlavors {
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
@@ -38,4 +42,17 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.4.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestProvided 'com.android.support.test.espresso:espresso-core:2.2.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+buildscript {
+    ext.kotlin_version = '1.0.0-beta-4584'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
 }
