@@ -26,6 +26,7 @@ public class SprintCalendar {
         Preconditions.checkArgument(holidayProvider != null, "holiday provider cannot be null");
         this.dateProvider = dateProvider;
         this.holidayProvider = holidayProvider;
+        initByCurrentDate();
     }
 
     public void initByCurrentDate() {
