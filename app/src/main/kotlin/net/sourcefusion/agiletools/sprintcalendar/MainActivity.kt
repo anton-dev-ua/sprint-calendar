@@ -5,6 +5,7 @@ package net.sourcefusion.agiletools.sprintcalendar
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.jetbrains.anko.*
+import org.joda.time.LocalDate
 
 public class MainActivity : AppCompatActivity() {
 
@@ -12,10 +13,25 @@ public class MainActivity : AppCompatActivity() {
 //    private val sprintCalendar: SprintCalendar? = null
 //    private val holidayProvider: DefaultHolidayProvider? = null
 
+    val sprintCalendar = SprintCalendar(
+            Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
+            DefaultDateProvider(),
+            DefaultHolidayProvider(LocalDate(2016, 1, 22), LocalDate(2016, 1, 20)))
+
+    init {
+        println("construct activity")
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 26), PresenceType.HALF_DAY)
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), PresenceType.NONE)
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 28), PresenceType.NONE)
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 29), PresenceType.NONE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val ui = SomeActivityUI()
+        println("$sprintCalendar")
+
+        val ui = CalendarActivityUI(sprintCalendar)
         ui.setContentView(this)
         /*activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
