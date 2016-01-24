@@ -90,6 +90,7 @@ public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoCompon
                                 dayLayout {
 
                                     dayViews[day.index] = textView {
+                                        tag = "day-$dayIndex"
                                         text = "${Format.date(day.date)}"
                                         background = dayBackground(day)
                                         textSize = sizeHeaderText
@@ -101,8 +102,9 @@ public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoCompon
                                         height = 0
                                     }.onLongClick { sprintCalendar.onDay(day) }
 
-                                    for (member in sprintCalendar.team) {
+                                    for ((memberIndex, member) in sprintCalendar.team.withIndex()) {
                                         memberDayViews[Pair(member, day.index)] = textView {
+                                            tag = "member-$memberIndex-day-$dayIndex"
                                             background = memberDayBackground(member, day)
                                         }.lparams {
                                             width = matchParent

@@ -1,4 +1,4 @@
-package net.xourcefusion.agiletools.sprintcalendar;
+package net.sourcefusion.agiletools.sprintcalendar;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

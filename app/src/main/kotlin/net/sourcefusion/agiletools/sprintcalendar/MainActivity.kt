@@ -9,16 +9,15 @@ import org.joda.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
-//    private val activityMainBinding: ActivityMainBinding? = null
-//    private val sprintCalendar: SprintCalendar? = null
-//    private val holidayProvider: DefaultHolidayProvider? = null
+    //    private val activityMainBinding: ActivityMainBinding? = null
+    //    private val sprintCalendar: SprintCalendar? = null
+    //    private val holidayProvider: DefaultHolidayProvider? = null
 
     val sprintCalendar = SprintCalendar(
             Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
             DefaultDateProvider(),
             DefaultHolidayProvider(LocalDate(2016, 1, 22), LocalDate(2016, 1, 20)))
 
-    val ui = CalendarActivityUI(sprintCalendar)
 
     init {
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 26), PresenceType.HALF_DAY)
@@ -30,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val ui = CalendarActivityUI(sprintCalendar)
         println("$sprintCalendar")
         ui.setContentView(this)
         /*activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
