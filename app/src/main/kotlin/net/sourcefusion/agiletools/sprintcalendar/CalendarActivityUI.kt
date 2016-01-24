@@ -33,16 +33,17 @@ public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoCompon
     var drawablePresenceNone: Drawable by Delegates.notNull<Drawable>()
     var drawablePresenceHalfDay: Drawable by Delegates.notNull<Drawable>()
     var drawablePresenceFullDay: Drawable by Delegates.notNull<Drawable>()
+    val memberDayViews = hashMapOf<Pair<TeamMember, Int>, View>()
+    val dayViews = hashMapOf<Int, View>()
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
 
         drawablePresenceNone = readDrawable(ui, R.drawable.presense_none)
         drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day)
         drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day)
-        val memberDayViews = hashMapOf<Pair<TeamMember, Int>, View>()
-        val dayViews = hashMapOf<Int, View>()
 
         linearLayout {
+            id = 1001
             calendarLayout {
                 rightPadding = dip(6)
 

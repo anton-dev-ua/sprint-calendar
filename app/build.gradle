@@ -41,7 +41,6 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.4.1'
     androidTestCompile 'com.android.support.test:rules:0.4.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    androidTestProvided 'com.android.support.test.espresso:espresso-core:2.2.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jetbrains.anko:anko-sdk15:0.8.1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.8.1'

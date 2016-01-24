@@ -18,8 +18,9 @@ class MainActivity : AppCompatActivity() {
             DefaultDateProvider(),
             DefaultHolidayProvider(LocalDate(2016, 1, 22), LocalDate(2016, 1, 20)))
 
+    val ui = CalendarActivityUI(sprintCalendar)
+
     init {
-        println("construct activity")
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 26), PresenceType.HALF_DAY)
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), PresenceType.NONE)
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 28), PresenceType.NONE)
@@ -30,8 +31,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         println("$sprintCalendar")
-
-        val ui = CalendarActivityUI(sprintCalendar)
         ui.setContentView(this)
         /*activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
