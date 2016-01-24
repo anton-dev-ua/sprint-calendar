@@ -16,6 +16,8 @@ public class SprintCalendar(val team: Team, private val dateProvider: DateProvid
         private set
     private var day = arrayListOf<SprintDay>()
     private var notifyMemberDayChange: (TeamMember, SprintDay) -> Unit = { a, b -> }
+    private var notifyDayChange: (SprintDay) -> Unit = {a ->}
+
 
     init {
         initByCurrentDate()
@@ -87,18 +89,28 @@ public class SprintCalendar(val team: Team, private val dateProvider: DateProvid
 
     fun onMemberDay(member: TeamMember, day: SprintDay): Boolean {
         member.setPresence(day.date, if (member.presence(day.date) === PresenceType.FULL_DAY) PresenceType.NONE else PresenceType.FULL_DAY)
-        println("member: " + member + ", presence: " + member.presence(day.date))
         notifyMemberDayChange(member, day)
         return true
     }
 
-    fun onMemberDayChange(callback: (TeamMember, SprintDay) -> Unit) {
-        this.notifyMemberDayChange = callback
+    fun onDay(sDay: SprintDay): Boolean {
+        sDay.isHoliday = !sDay.isHoliday
+        notifyDayChange(sDay)
+        return false
     }
 
-    companion object {
+    fun onMemberDayChange(callback: (TeamMember, SprintDay) -> Unit):SprintCalendar {
+        this.notifyMemberDayChange = callback
+        return this
+    }
 
+    fun onDayChange(function: (SprintDay) -> Unit): SprintCalendar {
+        notifyDayChange = function
+        return this
+    }
+    companion object {
         val DAY_PLACEHOLDER = SprintDay(LocalDate(1970, 1, 1), 0, false, false)
+
     }
 }
 
