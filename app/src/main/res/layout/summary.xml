@@ -4,7 +4,7 @@
         tools:showIn="@layout/activity_main">
 
     <data>
-        <import alias="format" type="net.sourcefusion.agiletools.sprintcalendar.Format"/>
+        <import type="net.sourcefusion.agiletools.sprintcalendar.Format"/>
         <variable name="sprintCalendar" type="net.sourcefusion.agiletools.sprintcalendar.SprintCalendar"/>
     </data>
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@{format.date(sprintCalendar.firstDate), default=04_01_2016}"/>
+                android:text="@{Format.date(sprintCalendar.firstDate), default=04_01_2016}"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="@{format.date(sprintCalendar.lastDate), default=16_01_2016}"/>
+                android:text="@{Format.date(sprintCalendar.lastDate), default=16_01_2016}"/>
 
         </LinearLayout>
 

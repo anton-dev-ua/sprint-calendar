@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import org.jetbrains.anko.*
 import org.joda.time.LocalDate
 
-public class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
 //    private val activityMainBinding: ActivityMainBinding? = null
 //    private val sprintCalendar: SprintCalendar? = null

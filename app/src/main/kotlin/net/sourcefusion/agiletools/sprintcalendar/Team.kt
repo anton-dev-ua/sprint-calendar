@@ -2,7 +2,7 @@ package net.sourcefusion.agiletools.sprintcalendar
 
 import java.util.Arrays
 
-public class Team(vararg teamMembers: TeamMember) : Iterable<TeamMember> {
+class Team(vararg teamMembers: TeamMember) : Iterable<TeamMember> {
     private val teamMembers: List<TeamMember>
 
     init {
@@ -21,10 +21,6 @@ public class Team(vararg teamMembers: TeamMember) : Iterable<TeamMember> {
             override fun next(): TeamMember {
                 return delegate.next()
             }
-
-//            override fun remove() {
-//
-//            }
         }
     }
 

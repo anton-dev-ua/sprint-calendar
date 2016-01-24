@@ -2,7 +2,7 @@ package net.sourcefusion.agiletools.sprintcalendar
 
 import org.joda.time.LocalDate
 
-data public class TeamMember(val name: String) {
+data class TeamMember(val name: String) {
 
     private val absenceMap = hashMapOf<LocalDate, PresenceType>()
 
