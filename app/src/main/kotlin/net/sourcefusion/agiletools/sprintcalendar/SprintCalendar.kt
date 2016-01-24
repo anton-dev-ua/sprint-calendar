@@ -4,7 +4,7 @@ import org.joda.time.Days
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
-class SprintCalendar(val team: Team, private val dateProvider: DateProvider, private val holidayProvider: HolidayProvider) {
+class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var holidayProvider: HolidayProvider) {
 
     private val sprintBaseDate = LocalDate(2015, 12, 7)
 

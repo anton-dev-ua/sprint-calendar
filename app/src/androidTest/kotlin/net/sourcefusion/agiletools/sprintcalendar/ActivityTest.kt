@@ -24,7 +24,7 @@ class ActivityTest {
 
 
     @Rule @JvmField
-    var mActivityRule = ActivityTestRule(MainActivity::class.java)
+    var mActivityRule = ActivityTestRule(MainActivity::class.java, false, false)
 
     private var mainActivity by Delegates.notNull<MainActivity>()
     private var sprintCalendar by Delegates.notNull<SprintCalendar>()
@@ -32,6 +32,9 @@ class ActivityTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        println("test setup")
+        Injector.holidayProvider = DefaultHolidayProvider()
+        mActivityRule.launchActivity(null)
         mainActivity = mActivityRule.activity
         sprintCalendar = mainActivity.sprintCalendar
     }
