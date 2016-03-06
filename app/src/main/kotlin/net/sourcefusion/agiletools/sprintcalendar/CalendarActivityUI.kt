@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewManager
 import android.widget.LinearLayout
+import android.widget.TextView
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE
 import org.jetbrains.anko.*
@@ -13,28 +14,33 @@ import kotlin.properties.Delegates
 
 class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<MainActivity> {
 
-    val colorDarkBorder = 0x303F9F.opaque
-    val colorLightBorder = 0x7684cf.opaque
-    val colorMainBackground = 0xFFFFFF.opaque
-    val colorHeaderText = 0x000000.opaque
-    val sizeHeaderText = 26f
-    val colorRed = 0xFF0000.opaque
+    private val colorDarkBorder = 0x303F9F.opaque
+    private val colorLightBorder = 0x7684cf.opaque
+    private val colorMainBackground = 0xFFFFFF.opaque
+    private val colorHeaderText = 0x000000.opaque
+    private val sizeHeaderText = 26f
+    private val colorRed = 0xFF0000.opaque
 
     constructor() : this(SprintCalendar(
             Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
             DefaultDateProvider(),
-            DefaultHolidayProvider(LocalDate(2016, 1, 22)))) {
+            DefaultHolidayProvider(LocalDate(2016, 3, 8)))) {
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), PresenceType.HALF_DAY)
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 28), NONE)
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 29), NONE)
     }
 
-    var drawablePresenceNone: Drawable by Delegates.notNull<Drawable>()
-    var drawablePresenceHalfDay: Drawable by Delegates.notNull<Drawable>()
-    var drawablePresenceFullDay: Drawable by Delegates.notNull<Drawable>()
-    var drawableDaysLeftBackground: Drawable by Delegates.notNull<Drawable>()
-    val memberDayViews = hashMapOf<Pair<TeamMember, Int>, View>()
-    val dayViews = hashMapOf<Int, View>()
+    private var drawablePresenceNone: Drawable by Delegates.notNull<Drawable>()
+    private var drawablePresenceHalfDay: Drawable by Delegates.notNull<Drawable>()
+    private var drawablePresenceFullDay: Drawable by Delegates.notNull<Drawable>()
+    private var drawableDaysLeftBackground: Drawable by Delegates.notNull<Drawable>()
+    private var drawableHoursLeftBackground: Drawable by Delegates.notNull<Drawable>()
+    private val memberDayViews = hashMapOf<Pair<TeamMember, Int>, View>()
+    private val dayViews = hashMapOf<Int, View>()
+    private var totalDaysView: TextView by Delegates.notNull()
+    private var totalHoursView: TextView by Delegates.notNull()
+    private var daysLeftView: TextView by Delegates.notNull()
+    private var hoursLeftView: TextView by Delegates.notNull()
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
 
@@ -42,6 +48,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day)
         drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day)
         drawableDaysLeftBackground = readDrawable(ui, R.drawable.days_left_background)
+        drawableHoursLeftBackground = readDrawable(ui, R.drawable.days_left_background)
 
         linearLayout {
             id = 1001
@@ -147,7 +154,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                     linearLayout {
                         textView {
-                            text = "04.01.2016"
+                            text = "${Format.date(sprintCalendar.firstDate)}"
                             textSize = 26f
                             gravity = Gravity.RIGHT
                         }.lparams { width = 0; height = wrapContent; weight = 1f }
@@ -161,7 +168,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         }.lparams { width = wrapContent; height = wrapContent; weight = 0f }
 
                         textView {
-                            text = "14.01.2016"
+                            text = "${Format.date(sprintCalendar.lastDate)}"
                             textSize = 26f
                             gravity = Gravity.LEFT
                         }.lparams { width = 0; height = wrapContent; weight = 1f }
@@ -179,8 +186,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             leftPadding = dip(10)
                         }.lparams { width = wrapContent; height = wrapContent }
 
-                        textView {
-                            text = "9"
+                        totalDaysView = textView {
+                            text = "${sprintCalendar.totalDays}"
                             textSize = 46f
                         }.lparams { width = 0; height = wrapContent; weight = 1f }
 
@@ -190,8 +197,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             rightPadding = dip(10)
                         }.lparams { width = wrapContent; height = wrapContent }
 
-                        textView {
-                            text = "225"
+                        totalHoursView = textView {
+                            text = "${sprintCalendar.totalHours}"
                             textSize = 46f
                             rightPadding = dip(10)
                         }.lparams { width = 0; height = wrapContent; weight = 1f }
@@ -210,11 +217,10 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             textSize = 26f
                         }.lparams { width = wrapContent; height = wrapContent }
 
-                        textView {
-                            text = "7"
+                        daysLeftView = textView {
+                            text = "${sprintCalendar.daysLeft}"
                             textSize = 186f
                             gravity = Gravity.CENTER
-                            includeFontPadding = false
                             background = drawableDaysLeftBackground
                         }.lparams { width = matchParent; height = wrapContent; leftMargin = dip(20); rightMargin = dip(20) }
 
@@ -232,12 +238,11 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             textSize = 26f
                         }.lparams { width = wrapContent; height = wrapContent }
 
-                        textView {
-                            text = "189"
+                        hoursLeftView = textView {
+                            text = "${sprintCalendar.hoursLeft}"
                             textSize = 112f
                             gravity = Gravity.CENTER
-                            includeFontPadding = false
-                            background = drawableDaysLeftBackground
+                            background = drawableHoursLeftBackground
                         }.lparams { width = matchParent; height = wrapContent; leftMargin = dip(20); rightMargin = dip(20) }
 
                     }.lparams {
@@ -257,17 +262,25 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
             sprintCalendar
                     .onMemberDayChange { member: TeamMember, day: SprintDay ->
                         memberDayViews[Pair(member, day.index)]?.background = memberDayBackground(member, day)
+                        updateSummary()
                     }
                     .onDayChange { day: SprintDay ->
                         dayViews[day.index]?.background = dayBackground(day)
                         for (member in sprintCalendar.team) {
                             memberDayViews[Pair(member, day.index)]?.background = memberDayBackground(member, day)
                         }
+                        updateSummary()
                     }
 
         }
     }
 
+    private fun updateSummary() {
+        totalDaysView.text = "${sprintCalendar.totalDays}"
+        totalHoursView.text = "${sprintCalendar.totalHours}"
+        daysLeftView.text = "${sprintCalendar.daysLeft}"
+        hoursLeftView.text = "${sprintCalendar.hoursLeft}"
+    }
 
     private fun memberDayBackground(member: TeamMember, day: SprintDay) =
             if (day.isHoliday)
