@@ -5,21 +5,20 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewManager
 import android.widget.LinearLayout
-import android.widget.TextView
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE
 import org.jetbrains.anko.*
-import org.jetbrains.anko.custom.ankoView
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
-public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<MainActivity> {
+class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<MainActivity> {
 
     val colorDarkBorder = 0x303F9F.opaque
     val colorLightBorder = 0x7684cf.opaque
     val colorMainBackground = 0xFFFFFF.opaque
     val colorHeaderText = 0x000000.opaque
     val sizeHeaderText = 26f
+    val colorRed = 0xFF0000.opaque
 
     constructor() : this(SprintCalendar(
             Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
@@ -33,6 +32,7 @@ public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoCompon
     var drawablePresenceNone: Drawable by Delegates.notNull<Drawable>()
     var drawablePresenceHalfDay: Drawable by Delegates.notNull<Drawable>()
     var drawablePresenceFullDay: Drawable by Delegates.notNull<Drawable>()
+    var drawableDaysLeftBackground: Drawable by Delegates.notNull<Drawable>()
     val memberDayViews = hashMapOf<Pair<TeamMember, Int>, View>()
     val dayViews = hashMapOf<Int, View>()
 
@@ -41,6 +41,7 @@ public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoCompon
         drawablePresenceNone = readDrawable(ui, R.drawable.presense_none)
         drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day)
         drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day)
+        drawableDaysLeftBackground = readDrawable(ui, R.drawable.days_left_background)
 
         linearLayout {
             id = 1001
@@ -133,7 +134,123 @@ public class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoCompon
 
 
             summaryLayout {
-                textView("Anko")
+                verticalLayout {
+
+                    textView {
+                        text = "Current Sprint"
+                        textSize = 26f
+                    }.lparams {
+                        width = wrapContent
+                        height = wrapContent
+                        gravity = Gravity.CENTER_HORIZONTAL
+                    }
+
+                    linearLayout {
+                        textView {
+                            text = "04.01.2016"
+                            textSize = 26f
+                            gravity = Gravity.RIGHT
+                        }.lparams { width = 0; height = wrapContent; weight = 1f }
+
+                        textView {
+                            text = "-"
+                            textSize = 26f
+                            gravity = Gravity.CENTER_HORIZONTAL
+                            leftPadding = dip(10)
+                            rightPadding = dip(10)
+                        }.lparams { width = wrapContent; height = wrapContent; weight = 0f }
+
+                        textView {
+                            text = "14.01.2016"
+                            textSize = 26f
+                            gravity = Gravity.LEFT
+                        }.lparams { width = 0; height = wrapContent; weight = 1f }
+
+                    }.lparams {
+                        width = matchParent
+                        height = wrapContent
+                    }
+
+                    linearLayout {
+
+                        textView {
+                            text = "days:"
+                            textSize = 26f
+                            leftPadding = dip(10)
+                        }.lparams { width = wrapContent; height = wrapContent }
+
+                        textView {
+                            text = "9"
+                            textSize = 46f
+                        }.lparams { width = 0; height = wrapContent; weight = 1f }
+
+                        textView {
+                            text = "hours:"
+                            textSize = 26f
+                            rightPadding = dip(10)
+                        }.lparams { width = wrapContent; height = wrapContent }
+
+                        textView {
+                            text = "225"
+                            textSize = 46f
+                            rightPadding = dip(10)
+                        }.lparams { width = 0; height = wrapContent; weight = 1f }
+
+
+                    }.lparams {
+                        width = matchParent
+                        height = wrapContent
+                    }
+
+                    verticalLayout {
+                        gravity = Gravity.CENTER
+
+                        textView {
+                            text = "days left:"
+                            textSize = 26f
+                        }.lparams { width = wrapContent; height = wrapContent }
+
+                        textView {
+                            text = "7"
+                            textSize = 186f
+                            gravity = Gravity.CENTER
+                            includeFontPadding = false
+                            background = drawableDaysLeftBackground
+                        }.lparams { width = matchParent; height = wrapContent; leftMargin = dip(20); rightMargin = dip(20) }
+
+                    }.lparams {
+                        topMargin = dip(20)
+                        width = matchParent
+                        height = wrapContent
+                    }
+
+                    verticalLayout {
+                        gravity = Gravity.CENTER
+
+                        textView {
+                            text = "hours left:"
+                            textSize = 26f
+                        }.lparams { width = wrapContent; height = wrapContent }
+
+                        textView {
+                            text = "189"
+                            textSize = 112f
+                            gravity = Gravity.CENTER
+                            includeFontPadding = false
+                            background = drawableDaysLeftBackground
+                        }.lparams { width = matchParent; height = wrapContent; leftMargin = dip(20); rightMargin = dip(20) }
+
+                    }.lparams {
+                        topMargin = dip(20)
+                        width = matchParent
+                        height = wrapContent
+                    }
+
+                }.lparams {
+                    width = matchParent
+                    height = matchParent
+                    padding = dip(4)
+                }
             }.lparams { weight = 4f; width = 0; height = matchParent; backgroundColor = colorLightBorder }
 
 
