@@ -20,7 +20,7 @@ public class SprintCalendarTest {
 
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider(TODAY_DATE),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -41,7 +41,7 @@ public class SprintCalendarTest {
     public void determinesTodaySprintDay() throws ParseException {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -54,7 +54,7 @@ public class SprintCalendarTest {
     public void determinesHoliday() {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -66,7 +66,7 @@ public class SprintCalendarTest {
     public void calculatesLeftSprintDays() {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider()
+                new BasicHolidayProvider()
         );
 
         sprintCalendar.initByCurrentDate();
@@ -78,7 +78,7 @@ public class SprintCalendarTest {
     public void calculatesLeftSprintDaysIgnoringWeekEnds() {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider("06.01.2016"),
-                new DefaultHolidayProvider()
+                new BasicHolidayProvider()
         );
 
         sprintCalendar.initByCurrentDate();
@@ -90,7 +90,7 @@ public class SprintCalendarTest {
     public void calculatesLeftSprintDaysIgnoringHolidays() {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 14))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 14))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -102,7 +102,7 @@ public class SprintCalendarTest {
     public void calculatesTotalSprintDaysIgnoringHolidays() {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(), new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -115,7 +115,7 @@ public class SprintCalendarTest {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), new TeamMember("Peter"), new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -130,7 +130,7 @@ public class SprintCalendarTest {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -143,7 +143,7 @@ public class SprintCalendarTest {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), new TeamMember("Peter"), new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 01, 06))
+                new BasicHolidayProvider(new LocalDate(2016, 01, 06))
         );
 
         sprintCalendar.initByCurrentDate();
@@ -158,7 +158,7 @@ public class SprintCalendarTest {
         SprintCalendar sprintCalendar = new SprintCalendar(
                 new Team(new TeamMember("John"), peter, new TeamMember("Pedro")),
                 new TestDateProvider("12.01.2016"),
-                new DefaultHolidayProvider(new LocalDate(2016, 1, 6))
+                new BasicHolidayProvider(new LocalDate(2016, 1, 6))
         );
 
         sprintCalendar.initByCurrentDate();

@@ -5,7 +5,16 @@ import org.joda.time.LocalDate
 import org.joda.time.DateTimeConstants.SATURDAY
 import org.joda.time.DateTimeConstants.SUNDAY
 
-class DefaultHolidayProvider(vararg val holidaysList: LocalDate) : HolidayProvider {
+open class BasicHolidayProvider(var holidaysList: List<LocalDate>) : HolidayProvider {
+    constructor(vararg holidaysList: LocalDate): this(holidaysList.asList())
+
+    override fun addHoliday(localDate: LocalDate) {
+        holidaysList += localDate
+    }
+
+    override fun removeHoliday(localDate: LocalDate) {
+        holidaysList -= localDate
+    }
 
     override fun isHoliday(date: LocalDate): Boolean {
         return isWeekend(date) || date in holidaysList
@@ -18,6 +27,5 @@ class DefaultHolidayProvider(vararg val holidaysList: LocalDate) : HolidayProvid
     override fun isWorkingDay(localDate: LocalDate): Boolean {
         return !isHoliday(localDate)
     }
-
 
 }

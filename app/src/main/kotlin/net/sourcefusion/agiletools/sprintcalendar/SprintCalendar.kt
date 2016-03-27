@@ -4,7 +4,7 @@ import org.joda.time.Days
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
-class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var holidayProvider: HolidayProvider) {
+class SprintCalendar(val team: Team, private val dateProvider: DateProvider, val holidayProvider: HolidayProvider) {
 
     private val sprintBaseDate = LocalDate(2015, 12, 7)
 
@@ -12,7 +12,7 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var
         private set
     var lastDate by Delegates.notNull<LocalDate>()
         private set
-    private var day = arrayListOf<SprintDay>()
+    private var days = arrayListOf<SprintDay>()
     private var notifyMemberDayChange: (TeamMember, SprintDay) -> Unit = { a, b -> }
     private var notifyDayChange: (SprintDay) -> Unit = {a ->}
 
@@ -26,7 +26,11 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var
         var modDiff = Days.daysBetween(sprintBaseDate, today).days % 14
         if (modDiff < 0) modDiff += 14
         val startDate = today.minusDays(modDiff)
-        initByStartDate(startDate)
+        if(Days.daysBetween(startDate, today).days > 11) {
+            initByStartDate(startDate.plus(14));
+        } else {
+            initByStartDate(startDate)
+        }
     }
 
     private fun initByStartDate(sprintStartDate: LocalDate) {
@@ -34,7 +38,7 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var
     }
 
     fun day(index: Int): SprintDay {
-        return if (index < day.size) day[index] else DAY_PLACEHOLDER
+        return if (index < days.size) days[index] else DAY_PLACEHOLDER
     }
 
     val daysLeft: Int
@@ -50,32 +54,32 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var
         get() = hoursBetween(dateProvider.today).toInt()
 
     private fun calculateDates(sprintStartDate: LocalDate) {
-        day.clear()
+        days.clear()
         firstDate = sprintStartDate
         lastDate = firstDate + 11
         var date: LocalDate = firstDate
         var dayIndex = 0
         while (date.compareTo(lastDate) <= 0) {
             if (!holidayProvider.isWeekend(date)) {
-                day.add(SprintDay(date, dayIndex++, holidayProvider.isHoliday(date), dateProvider.isToday(date)))
+                days.add(SprintDay(date, dayIndex++, holidayProvider.isHoliday(date), dateProvider.isToday(date)))
             }
             date += 1;
         }
     }
 
-    private fun daysBetween(startDate: LocalDate?): Int {
-        var days = 0
-        for (sprintDay in day) {
+    private fun daysBetween(startDate: LocalDate): Int {
+        var daysDif = 0
+        for (sprintDay in days) {
             if (!sprintDay.isHoliday && sprintDay.date.compareTo(startDate) >= 0) {
-                days++
+                daysDif++
             }
         }
-        return days
+        return daysDif
     }
 
-    private fun hoursBetween(startDate: LocalDate?): Float {
+    private fun hoursBetween(startDate: LocalDate): Float {
         var totalHours = 0f
-        for (sprintDay in day) {
+        for (sprintDay in days) {
             if (!sprintDay.isHoliday && sprintDay.date.compareTo(startDate) >= 0) {
                 for (member in team) {
                     totalHours += member.presence(sprintDay.date).hours
@@ -93,6 +97,11 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, var
 
     fun onDay(sDay: SprintDay): Boolean {
         sDay.isHoliday = !sDay.isHoliday
+        if(sDay.isHoliday) {
+            holidayProvider.addHoliday(sDay.date)
+        } else {
+            holidayProvider.removeHoliday(sDay.date)
+        }
         notifyDayChange(sDay)
         return false
     }

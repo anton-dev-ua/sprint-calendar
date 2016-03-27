@@ -24,7 +24,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
     constructor() : this(SprintCalendar(
             Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
             DefaultDateProvider(),
-            DefaultHolidayProvider(LocalDate(2016, 3, 8)))) {
+            BasicHolidayProvider(LocalDate(2016, 3, 8)))) {
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), PresenceType.HALF_DAY)
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 28), NONE)
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 29), NONE)

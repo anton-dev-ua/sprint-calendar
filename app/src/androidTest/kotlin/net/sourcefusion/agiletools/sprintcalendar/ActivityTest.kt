@@ -33,7 +33,7 @@ class ActivityTest {
     @Throws(Exception::class)
     fun setUp() {
         println("test setup")
-        Injector.holidayProvider = DefaultHolidayProvider()
+        Injector.holidayProvider = BasicHolidayProvider()
         mActivityRule.launchActivity(null)
         mainActivity = mActivityRule.activity
         sprintCalendar = mainActivity.sprintCalendar

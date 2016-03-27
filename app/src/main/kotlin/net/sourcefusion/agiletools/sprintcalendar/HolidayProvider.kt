@@ -7,4 +7,6 @@ interface HolidayProvider {
     fun isWeekend(date: LocalDate): Boolean
     fun isHoliday(time: LocalDate): Boolean
     fun isWorkingDay(localDate: LocalDate): Boolean
+    fun addHoliday(localDate: LocalDate)
+    fun removeHoliday(localDate: LocalDate)
 }
