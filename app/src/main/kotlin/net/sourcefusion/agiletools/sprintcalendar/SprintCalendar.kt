@@ -128,6 +128,11 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         val DAY_PLACEHOLDER = SprintDay(LocalDate(1970, 1, 1), 0, false, false)
 
     }
+
+    fun deleteTeamMember(teamMember: TeamMember) {
+        team.remove(teamMember)
+        teamRepository.deleteTeamMember(teamMember)
+    }
 }
 
 operator fun LocalDate.plus(days: Int) = this.plusDays(days)

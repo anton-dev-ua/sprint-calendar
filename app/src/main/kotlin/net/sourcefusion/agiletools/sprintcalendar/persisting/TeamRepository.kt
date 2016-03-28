@@ -6,4 +6,5 @@ import net.sourcefusion.agiletools.sprintcalendar.TeamMember
 interface TeamRepository {
     fun readTeam() : Team
     fun saveTeamMember(teamMember: TeamMember)
+    fun deleteTeamMember(teamMember: TeamMember)
 }

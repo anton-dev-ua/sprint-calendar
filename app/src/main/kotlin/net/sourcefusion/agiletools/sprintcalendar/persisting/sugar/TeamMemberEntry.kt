@@ -7,5 +7,6 @@ class TeamMemberEntry(var name: String) : SugarRecord() {
 
     companion object {
         fun all() = listAll(TeamMemberEntry::class.java)
+        fun findById(id: Long?) = findById(TeamMemberEntry::class.java, id)
     }
 }

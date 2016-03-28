@@ -44,4 +44,8 @@ class Team(teamMembers: List<TeamMember>) : Iterable<TeamMember> {
     companion object {
         val TEAM_MEMBER_PLACEHOLDER = TeamMember("")
     }
+
+    fun remove(teamMember: TeamMember) {
+        teamMembers.remove(teamMember)
+    }
 }

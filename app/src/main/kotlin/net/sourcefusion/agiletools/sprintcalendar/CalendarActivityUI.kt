@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE
-import net.sourcefusion.agiletools.sprintcalendar.persisting.TeamRepository
+import net.sourcefusion.agiletools.sprintcalendar.persisting.stubs.StubTeamRepository
 import org.jetbrains.anko.*
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
@@ -315,12 +315,4 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         setOnLongClickListener(l)
         return this
     }
-}
-
-class StubTeamRepository(val team: Team) : TeamRepository {
-    override fun readTeam() = team
-
-    override fun saveTeamMember(teamMember: TeamMember) {
-    }
-
 }

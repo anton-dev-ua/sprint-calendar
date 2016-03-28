@@ -5,6 +5,7 @@ import net.sourcefusion.agiletools.sprintcalendar.TeamMember
 import net.sourcefusion.agiletools.sprintcalendar.persisting.TeamRepository
 
 class SugarTeamRepository: TeamRepository {
+
     override fun readTeam(): Team {
         val allTeamMembers = TeamMemberEntry.all()
         return Team(allTeamMembers.map { TeamMember(it.name, it.id) })
@@ -13,5 +14,9 @@ class SugarTeamRepository: TeamRepository {
     override fun saveTeamMember(teamMember: TeamMember) {
         val id = TeamMemberEntry(teamMember.name).save();
         teamMember.id = id;
+    }
+
+    override fun deleteTeamMember(teamMember: TeamMember) {
+        TeamMemberEntry.findById(teamMember.id).delete()
     }
 }

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import net.sourcefusion.agiletools.sprintcalendar.persisting.sugar.SugarTeamRepository
 import org.jetbrains.anko.setContentView
 import kotlin.properties.Delegates
@@ -52,21 +51,46 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    val confirmTeamMemberDeleteUI by lazy {
+        ConfirmTeamMemberDeleteUI(this)
+    }
+
+    val deleteTeamMemberDialog by lazy {
+        AlertDialog.Builder(this)
+                .setTitle("Are you sure you want to delete team member:")
+                .setView(confirmTeamMemberDeleteUI.view)
+                .setCancelable(false)
+                .setPositiveButton("Delete", { dialog, which ->
+                    val teamMember = confirmTeamMemberDeleteUI.teamMember
+                    if (teamMember != null) {
+                        sprintCalendar.deleteTeamMember(teamMember)
+                        mainView.destroyDrawingCache()
+                        mainView = ui.setContentView(this)
+                    }
+                })
+                .setNegativeButton("Cancel", { dialog, which ->
+                })
+                .create();
+    }
+
+
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val tag = v.tag;
         if (tag is TeamMember) {
+            confirmTeamMemberDeleteUI.teamMember = tag
             menu.setHeaderTitle("Team")
             menu.add(1, 1, 1, "${tag.name} absent all week")
             menu.add(1, 2, 2, "Delete member ${tag.name}")
-            menu.add(1, 3, 3, "Add new team member")
-            Toast.makeText(this, "$tag", Toast.LENGTH_LONG).show()
+            menu.add(2, 3, 3, "Add new team member")
         }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         //        return super.onContextItemSelected(item)
-        Toast.makeText(this, "menu selected: ${item.itemId}: ${item.title}", Toast.LENGTH_SHORT).show()
+        if (item.itemId == 2) {
+            deleteTeamMemberDialog.show()
+        }
         if (item.itemId == 3) {
             teamMemberNameDialogUI.setName("")
             addTeamMemberDialog.show();
