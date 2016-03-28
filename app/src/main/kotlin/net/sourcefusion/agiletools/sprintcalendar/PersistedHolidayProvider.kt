@@ -1,17 +1,17 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
-import net.sourcefusion.agiletools.sprintcalendar.persisting.SprintCalendarDao
+import net.sourcefusion.agiletools.sprintcalendar.persisting.HolidaysCalendarRepository
 import org.joda.time.LocalDate
 
-class PersistedHolidayProvider(val sprintCalendarDao: SprintCalendarDao) : BasicHolidayProvider(sprintCalendarDao.readHolidays()) {
+class PersistedHolidayProvider(val holidaysCalendarRepository: HolidaysCalendarRepository) : BasicHolidayProvider(holidaysCalendarRepository.readHolidays()) {
 
     override fun addHoliday(localDate: LocalDate) {
         super.addHoliday(localDate)
-        sprintCalendarDao.saveHoliday(localDate);
+        holidaysCalendarRepository.saveHoliday(localDate);
     }
 
     override fun removeHoliday(localDate: LocalDate) {
         super.removeHoliday(localDate)
-        sprintCalendarDao.removeHoliday(localDate)
+        holidaysCalendarRepository.removeHoliday(localDate)
     }
 }

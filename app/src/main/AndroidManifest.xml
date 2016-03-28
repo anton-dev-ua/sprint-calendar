@@ -15,13 +15,13 @@
             android:value="sprint_calendar_2.db"/>
         <meta-data
             android:name="VERSION"
-            android:value="1"/>
+            android:value="12"/>
         <meta-data
             android:name="QUERY_LOG"
             android:value="true"/>
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="net.sourcefusion.agiletools.sprintcalendar.db"/>
+            android:value="net.sourcefusion.agiletools.sprintcalendar.persisting.sugar"/>
 
 
         <activity android:name="net.sourcefusion.agiletools.sprintcalendar.MainActivity">

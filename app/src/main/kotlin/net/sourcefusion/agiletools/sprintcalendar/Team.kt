@@ -1,18 +1,24 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
-import java.util.Arrays
+import java.util.*
 
-class Team(vararg teamMembers: TeamMember) : Iterable<TeamMember> {
-    private val teamMembers: List<TeamMember>
+class Team(teamMembers: List<TeamMember>) : Iterable<TeamMember> {
+    constructor(vararg teamMembers: TeamMember): this(listOf(*teamMembers))
+    private val teamMembers: MutableList<TeamMember>
 
     init {
-        this.teamMembers = Arrays.asList(*teamMembers)
+        this.teamMembers = ArrayList(teamMembers)
     }
 
+    fun addTeamMember(name: String):TeamMember {
+        val teamMember = TeamMember(name)
+        teamMembers.add(teamMember)
+        return teamMember
+    }
 
     override fun iterator(): Iterator<TeamMember> {
         return object : Iterator<TeamMember> {
-            internal var delegate = teamMembers.iterator()
+            internal var delegate = if(teamMembers.size>0) teamMembers.iterator() else arrayOf(Team.TEAM_MEMBER_PLACEHOLDER).iterator()
 
             override fun hasNext(): Boolean {
                 return delegate.hasNext()

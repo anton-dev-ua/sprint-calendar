@@ -1,10 +1,10 @@
 package net.sourcefusion.agiletools.sprintcalendar.persisting.sugar
 
-import net.sourcefusion.agiletools.sprintcalendar.persisting.SprintCalendarDao
+import net.sourcefusion.agiletools.sprintcalendar.persisting.HolidaysCalendarRepository
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 
-class SugarSprintCalendarDao : SprintCalendarDao {
+class SugarHolidaysCalendarRepository : HolidaysCalendarRepository {
     override fun saveHoliday(localDate: LocalDate) {
         val date = localDate.toDateTimeAtStartOfDay(DateTimeZone.UTC).toDate()
         HolidayEntry(date).save()

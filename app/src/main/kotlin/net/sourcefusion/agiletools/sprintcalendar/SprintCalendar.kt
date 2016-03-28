@@ -1,12 +1,16 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
+import net.sourcefusion.agiletools.sprintcalendar.persisting.TeamRepository
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
-class SprintCalendar(val team: Team, private val dateProvider: DateProvider, val holidayProvider: HolidayProvider) {
+class SprintCalendar(val teamRepository: TeamRepository, private val dateProvider: DateProvider, val holidayProvider: HolidayProvider) {
 
     private val sprintBaseDate = LocalDate(2015, 12, 7)
+    val team by lazy {
+        teamRepository.readTeam()
+    }
 
     var firstDate by Delegates.notNull<LocalDate>()
         private set
@@ -15,7 +19,6 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, val
     private var days = arrayListOf<SprintDay>()
     private var notifyMemberDayChange: (TeamMember, SprintDay) -> Unit = { a, b -> }
     private var notifyDayChange: (SprintDay) -> Unit = {a ->}
-
 
     init {
         initByCurrentDate()
@@ -82,11 +85,17 @@ class SprintCalendar(val team: Team, private val dateProvider: DateProvider, val
         for (sprintDay in days) {
             if (!sprintDay.isHoliday && sprintDay.date.compareTo(startDate) >= 0) {
                 for (member in team) {
+                    if(member == Team.TEAM_MEMBER_PLACEHOLDER) continue
                     totalHours += member.presence(sprintDay.date).hours
                 }
             }
         }
         return totalHours
+    }
+
+    fun addTeamMember(name: String) {
+        val teamMember = team.addTeamMember(name)
+        teamRepository.saveTeamMember(teamMember)
     }
 
     fun onMemberDay(member: TeamMember, day: SprintDay): Boolean {

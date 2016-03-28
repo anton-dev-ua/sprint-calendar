@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE
+import net.sourcefusion.agiletools.sprintcalendar.persisting.TeamRepository
 import org.jetbrains.anko.*
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
@@ -22,7 +23,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
     private val colorRed = 0xFF0000.opaque
 
     constructor() : this(SprintCalendar(
-            Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
+            StubTeamRepository(Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha"))),
             DefaultDateProvider(),
             BasicHolidayProvider(LocalDate(2016, 3, 8)))) {
         sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), PresenceType.HALF_DAY)
@@ -73,8 +74,9 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             }
 
                             for (member in sprintCalendar.team) {
-                                textView {
+                                val view = textView {
                                     text = member.name
+                                    tag = member
                                     backgroundColor = colorMainBackground
                                     textSize = sizeHeaderText
                                     textColor = colorHeaderText
@@ -86,6 +88,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                                     height = 0
                                     topMargin = dip(2)
                                 }
+
+                                ui.owner.registerForContextMenu(view)
                             }
 
                         }.lparams { weight = 1f; width = 0; height = matchParent }
@@ -311,4 +315,12 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         setOnLongClickListener(l)
         return this
     }
+}
+
+class StubTeamRepository(val team: Team) : TeamRepository {
+    override fun readTeam() = team
+
+    override fun saveTeamMember(teamMember: TeamMember) {
+    }
+
 }
