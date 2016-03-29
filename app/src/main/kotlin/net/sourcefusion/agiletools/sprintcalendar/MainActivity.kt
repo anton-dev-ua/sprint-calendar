@@ -78,10 +78,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreateContextMenu(menu, v, menuInfo)
         val tag = v.tag;
         if (tag is TeamMember) {
-            confirmTeamMemberDeleteUI.teamMember = tag
             menu.setHeaderTitle("Team")
             menu.add(1, 1, 1, "${tag.name} absent all week")
-            menu.add(1, 2, 2, "Delete member ${tag.name}")
+            menu.add(1, 2, 2, "Delete member ${tag.name}").actionView = v
             menu.add(2, 3, 3, "Add new team member")
         }
     }
@@ -89,7 +88,11 @@ class MainActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         //        return super.onContextItemSelected(item)
         if (item.itemId == 2) {
-            deleteTeamMemberDialog.show()
+            val tag = item.actionView?.tag
+            if(tag is TeamMember) {
+                confirmTeamMemberDeleteUI.teamMember = tag
+                deleteTeamMemberDialog.show()
+            }
         }
         if (item.itemId == 3) {
             teamMemberNameDialogUI.setName("")
