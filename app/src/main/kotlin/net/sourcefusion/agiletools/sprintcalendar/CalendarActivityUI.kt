@@ -76,7 +76,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             for (member in sprintCalendar.team) {
                                 val view = textView {
                                     text = member.name
-                                    tag = member
+                                    tag = Pair(member, week)
                                     backgroundColor = colorMainBackground
                                     textSize = sizeHeaderText
                                     textColor = colorHeaderText
@@ -267,6 +267,11 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                     .onMemberDayChange { member: TeamMember, day: SprintDay ->
                         memberDayViews[Pair(member, day.index)]?.background = memberDayBackground(member, day)
                         updateSummary()
+                    }
+                    .onMemberChange { member ->
+                        for(dayIndex in 0..9) {
+                            memberDayViews[Pair(member, dayIndex)]?.background = memberDayBackground(member, sprintCalendar.day(dayIndex))
+                        }
                     }
                     .onDayChange { day: SprintDay ->
                         dayViews[day.index]?.background = dayBackground(day)

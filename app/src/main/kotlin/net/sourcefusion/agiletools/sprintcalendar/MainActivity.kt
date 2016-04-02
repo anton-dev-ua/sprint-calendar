@@ -12,8 +12,13 @@ import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
+    private val MENU_WEEK_HOLIDAY = 1;
+    private val MENU_DELETE_TEAM_MEMBER = 2;
+    private val MENU_ADD_NEW_TEAM_MEMBER = 3;
+
     var ui by Delegates.notNull<CalendarActivityUI>()
     var mainView by Delegates.notNull<View>()
+
 
     val holidayProvider by lazy {
         println("lazy holiday provider")
@@ -76,27 +81,34 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        val tag = v.tag;
-        if (tag is TeamMember) {
+        val pair = v.tag;
+        if (pair is Pair<*,*> && pair.first is TeamMember) {
+            val member = pair.first as TeamMember
             menu.setHeaderTitle("Team")
-            menu.add(1, 1, 1, "${tag.name} absent all week")
-            menu.add(1, 2, 2, "Delete member ${tag.name}").actionView = v
-            menu.add(2, 3, 3, "Add new team member")
+            menu.add(1, MENU_WEEK_HOLIDAY, 1, "'${member.name}' absent/present whole week").actionView = v
+            menu.add(1, MENU_DELETE_TEAM_MEMBER, 2, "Delete member '${member.name}'").actionView = v
+            menu.add(2, MENU_ADD_NEW_TEAM_MEMBER, 3, "Add new team member").actionView = v
         }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        //        return super.onContextItemSelected(item)
-        if (item.itemId == 2) {
-            val tag = item.actionView?.tag
-            if(tag is TeamMember) {
-                confirmTeamMemberDeleteUI.teamMember = tag
-                deleteTeamMemberDialog.show()
+        val pair = item.actionView?.tag
+        if (pair is Pair<*, *> && pair.first is TeamMember && pair.second is Int) {
+            val member = pair.first as TeamMember
+            val week = pair.second as Int
+            when (item.itemId) {
+                MENU_WEEK_HOLIDAY -> {
+                    sprintCalendar.setAllWeekHolidayFor(member, week)
+                }
+                MENU_DELETE_TEAM_MEMBER -> {
+                    confirmTeamMemberDeleteUI.teamMember = member
+                    deleteTeamMemberDialog.show()
+                }
+                MENU_ADD_NEW_TEAM_MEMBER -> {
+                    teamMemberNameDialogUI.setName("")
+                    addTeamMemberDialog.show();
+                }
             }
-        }
-        if (item.itemId == 3) {
-            teamMemberNameDialogUI.setName("")
-            addTeamMemberDialog.show();
         }
         return true
     }
