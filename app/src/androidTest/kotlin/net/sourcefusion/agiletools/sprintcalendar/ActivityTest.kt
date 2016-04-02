@@ -15,6 +15,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import android.graphics.drawable.Drawable
+import com.orm.SugarRecord
+import net.sourcefusion.agiletools.sprintcalendar.persisting.PersistingUtils
+import net.sourcefusion.agiletools.sprintcalendar.persisting.sugar.TeamMemberPresenceEntry
+import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
 
@@ -29,14 +33,28 @@ class ActivityTest {
     private var mainActivity by Delegates.notNull<MainActivity>()
     private var sprintCalendar by Delegates.notNull<SprintCalendar>()
 
+    private val TODAY = LocalDate(2016, 1, 4)
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
         println("test setup")
         Injector.holidayProvider = BasicHolidayProvider()
+        Injector.dateProvider = object : DateProvider {
+            override fun isToday(date: LocalDate): Boolean = date.equals(TODAY)
+
+            override val today: LocalDate
+                get() = TODAY
+
+        }
+        SugarRecord.find(TeamMemberPresenceEntry::class.java, "date < ?", "${PersistingUtils.toDate(TODAY.plusDays(14)).time}").forEach { it.delete() }
         mActivityRule.launchActivity(null)
         mainActivity = mActivityRule.activity
         sprintCalendar = mainActivity.sprintCalendar
+
+        val member = sprintCalendar.team.member(3)
+        val day = sprintCalendar.day(2)
+        member.setPresence(day.date, PresenceType.FULL_DAY)
     }
 
     @Test
@@ -55,7 +73,7 @@ class ActivityTest {
                     assertThat(view.background, not(equalTo(prevBackground)))
                 }
 
-        assertThat(member.presence(day.date), equalTo(PresenceType.NONE))
+        assertThat(member.presence(day.date), equalTo(PresenceType.ABSENT))
 
     }
 

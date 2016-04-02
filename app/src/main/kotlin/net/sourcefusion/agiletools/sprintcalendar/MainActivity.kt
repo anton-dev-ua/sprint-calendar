@@ -19,17 +19,11 @@ class MainActivity : AppCompatActivity() {
     var ui by Delegates.notNull<CalendarActivityUI>()
     var mainView by Delegates.notNull<View>()
 
-
-    val holidayProvider by lazy {
-        println("lazy holiday provider")
-        Injector.holidayProvider
-    }
-
     val sprintCalendar by lazy {
         SprintCalendar(
                 SugarTeamRepository(), //TeamMember("John"), TeamMember("Peter")), // TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
-                DefaultDateProvider(),
-                holidayProvider
+                Injector.dateProvider,
+                Injector.holidayProvider
         )
     }
 

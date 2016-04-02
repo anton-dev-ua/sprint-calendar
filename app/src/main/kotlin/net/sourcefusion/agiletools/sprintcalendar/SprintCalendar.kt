@@ -1,5 +1,6 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
+import net.sourcefusion.agiletools.sprintcalendar.PresenceType.*
 import net.sourcefusion.agiletools.sprintcalendar.persisting.TeamRepository
 import org.joda.time.Days
 import org.joda.time.LocalDate
@@ -100,7 +101,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     }
 
     fun onMemberDay(member: TeamMember, day: SprintDay): Boolean {
-        member.setPresence(day.date, if (member.presence(day.date) === PresenceType.FULL_DAY) PresenceType.NONE else PresenceType.FULL_DAY)
+        member.setPresence(day.date, if (member.presence(day.date) === FULL_DAY) ABSENT else if(member.presence(day.date) === ABSENT) HALF_DAY else FULL_DAY)
         teamRepository.saveTeamMember(member)
         notifyMemberDayChange(member, day)
         return true
@@ -144,7 +145,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
 
     fun setAllWeekHolidayFor(member: TeamMember, week: Int) {
         val dates = ((0 + week * 5)..(4 + week * 5)).map { day(it).date }
-        var presenceType = if (dates.map { member.presence(it) }.filter { it != PresenceType.NONE }.size > 0) PresenceType.NONE else PresenceType.FULL_DAY
+        var presenceType = if (dates.map { member.presence(it) }.filter { it != ABSENT }.size > 0) ABSENT else FULL_DAY
         for (date in dates) {
             member.setPresence(date, presenceType)
         }

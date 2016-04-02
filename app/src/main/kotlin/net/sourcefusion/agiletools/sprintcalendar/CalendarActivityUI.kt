@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewManager
 import android.widget.LinearLayout
 import android.widget.TextView
-import net.sourcefusion.agiletools.sprintcalendar.PresenceType.FULL_DAY
-import net.sourcefusion.agiletools.sprintcalendar.PresenceType.NONE
+import net.sourcefusion.agiletools.sprintcalendar.PresenceType.*
 import net.sourcefusion.agiletools.sprintcalendar.persisting.stubs.StubTeamRepository
 import org.jetbrains.anko.*
 import org.joda.time.LocalDate
@@ -26,9 +25,9 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
             StubTeamRepository(Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha"))),
             DefaultDateProvider(),
             BasicHolidayProvider(LocalDate(2016, 3, 8)))) {
-        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), PresenceType.HALF_DAY)
-        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 28), NONE)
-        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 29), NONE)
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 27), HALF_DAY)
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 28), ABSENT)
+        sprintCalendar.team.member(3).setPresence(LocalDate(2016, 1, 29), ABSENT)
     }
 
     private var drawablePresenceNone: Drawable by Delegates.notNull<Drawable>()
@@ -296,8 +295,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                 drawablePresenceNone
             else
                 when (member.presence(day.date)) {
-                    NONE -> drawablePresenceNone
-                    PresenceType.HALF_DAY -> drawablePresenceHalfDay
+                    ABSENT -> drawablePresenceNone
+                    HALF_DAY -> drawablePresenceHalfDay
                     FULL_DAY -> drawablePresenceFullDay
                 }
 

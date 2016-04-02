@@ -1,15 +1,12 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
 import net.sourcefusion.agiletools.sprintcalendar.persisting.stubs.StubTeamRepository
+import org.hamcrest.CoreMatchers.`is`
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
-import org.junit.Test
-
-import java.text.ParseException
-
-import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
+import org.junit.Test
+import java.text.ParseException
 
 class SprintCalendarTest {
     private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
@@ -118,7 +115,7 @@ class SprintCalendarTest {
     @Test
     fun calculatesTotalSprintHoursExcludingAbsenceOfTeamMembers() {
         val peter = TeamMember("Peter")
-        peter.setPresence(LocalDate(2016, 1, 14), PresenceType.NONE)
+        peter.setPresence(LocalDate(2016, 1, 14), PresenceType.ABSENT)
         val sprintCalendar = SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), peter, TeamMember("Pedro"))),
                 TestDateProvider("12.01.2016"),
@@ -144,7 +141,7 @@ class SprintCalendarTest {
     @Test
     fun calculatesLeftSprintHoursExcludingAbsenceOfTeamMembers() {
         val peter = TeamMember("Peter")
-        peter.setPresence(LocalDate(2016, 1, 14), PresenceType.NONE)
+        peter.setPresence(LocalDate(2016, 1, 14), PresenceType.ABSENT)
         val sprintCalendar = SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), peter, TeamMember("Pedro"))),
                 TestDateProvider("12.01.2016"),
