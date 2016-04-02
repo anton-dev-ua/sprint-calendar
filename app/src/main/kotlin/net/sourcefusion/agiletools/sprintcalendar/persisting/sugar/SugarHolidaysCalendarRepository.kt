@@ -1,19 +1,18 @@
 package net.sourcefusion.agiletools.sprintcalendar.persisting.sugar
 
 import net.sourcefusion.agiletools.sprintcalendar.persisting.HolidaysCalendarRepository
-import org.joda.time.DateTimeZone
+import net.sourcefusion.agiletools.sprintcalendar.persisting.PersistingUtils.toDate
+import net.sourcefusion.agiletools.sprintcalendar.persisting.PersistingUtils.toLocalDate
 import org.joda.time.LocalDate
 
 class SugarHolidaysCalendarRepository : HolidaysCalendarRepository {
     override fun saveHoliday(localDate: LocalDate) {
-        val date = localDate.toDateTimeAtStartOfDay(DateTimeZone.UTC).toDate()
-        HolidayEntry(date).save()
+        HolidayEntry(toDate(localDate)).save()
     }
 
     override fun removeHoliday(localDate: LocalDate) {
-        val date = localDate.toDateTimeAtStartOfDay(DateTimeZone.UTC).toDate()
-        HolidayEntry.findByDate(date)?.delete()
+        HolidayEntry.findByDate(toDate(localDate))?.delete()
     }
 
-    override fun readHolidays() = HolidayEntry.all().map { entry -> LocalDate(entry.holidayDate.time, DateTimeZone.UTC) }
+    override fun readHolidays() = HolidayEntry.all().map { entry -> toLocalDate(entry.holidayDate) }
 }

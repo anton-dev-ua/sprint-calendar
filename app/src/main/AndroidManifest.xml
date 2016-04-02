@@ -15,7 +15,7 @@
             android:value="sprint_calendar_2.db"/>
         <meta-data
             android:name="VERSION"
-            android:value="12"/>
+            android:value="14"/>
         <meta-data
             android:name="QUERY_LOG"
             android:value="true"/>

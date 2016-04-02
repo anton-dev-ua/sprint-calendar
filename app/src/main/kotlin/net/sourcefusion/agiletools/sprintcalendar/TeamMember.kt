@@ -14,4 +14,6 @@ data class TeamMember(val name: String, var id:Long? = null) {
         val presenceType = absenceMap[date]
         return PresenceType.safePresence(presenceType)
     }
+
+    fun presenceIterator() = absenceMap.iterator()
 }

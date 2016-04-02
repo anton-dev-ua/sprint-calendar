@@ -100,6 +100,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
 
     fun onMemberDay(member: TeamMember, day: SprintDay): Boolean {
         member.setPresence(day.date, if (member.presence(day.date) === PresenceType.FULL_DAY) PresenceType.NONE else PresenceType.FULL_DAY)
+        teamRepository.saveTeamMember(member)
         notifyMemberDayChange(member, day)
         return true
     }
