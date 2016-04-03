@@ -24,12 +24,24 @@ class SprintCalendarApplication : Application() {
         println("Dates: " + sprintCalendarDao.readHolidays());
 
         Injector.holidayProvider = holidayProvider;
-//        Injector.dateProvider = object: DateProvider {
-//            override fun isToday(date: LocalDate) = LocalDate(2016, 3, 30).equals(date)
-//
-//            override val today: LocalDate
-//                get() = LocalDate(2016, 3, 30)
-//        };
+        /*Injector.dateProvider = object : DateProvider {
+
+            private var lastChange = System.currentTimeMillis()
+            private var todayDate = LocalDate(2016, 3, 30)
+
+            fun internalToday(): LocalDate {
+                if (System.currentTimeMillis() - lastChange > 10000) {
+                    todayDate += 1
+                    lastChange = System.currentTimeMillis()
+                }
+                return todayDate
+            }
+
+            override fun isToday(date: LocalDate) = internalToday().equals(date)
+
+            override val today: LocalDate
+                get() = internalToday()
+        };*/
 
     }
 

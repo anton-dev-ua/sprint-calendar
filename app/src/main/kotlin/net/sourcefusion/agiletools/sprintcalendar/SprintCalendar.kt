@@ -23,6 +23,8 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     private var notifyDayChange: (Int) -> Unit = { a -> }
     private var notifyFullRefresh: () -> Unit = { }
 
+    private var cashedToday by Delegates.notNull<LocalDate>()
+
     var currentSprintFirstDate by Delegates.notNull<LocalDate>()
         private set
 
@@ -30,8 +32,10 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         initByCurrentDate()
     }
 
+
     fun initByCurrentDate() {
         val today = dateProvider.today
+        cashedToday = today
         var modDiff = Days.daysBetween(sprintBaseDate, today).days % 14
         if (modDiff < 0) modDiff += 14
         val startDate = today.minusDays(modDiff)
@@ -184,6 +188,13 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     fun previousSprint() {
         initByStartDate(firstDate - 14)
         notifyFullRefresh()
+    }
+
+    fun updateDate() {
+       if(!cashedToday.equals(dateProvider.today)) {
+           initByCurrentDate()
+           notifyFullRefresh()
+       }
     }
 }
 

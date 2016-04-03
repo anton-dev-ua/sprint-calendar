@@ -1,6 +1,7 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.ContextMenu
@@ -12,16 +13,18 @@ import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
-    private val MENU_WEEK_HOLIDAY = 1;
-    private val MENU_DELETE_TEAM_MEMBER = 2;
-    private val MENU_ADD_NEW_TEAM_MEMBER = 3;
+    private val MENU_WEEK_HOLIDAY = 1
+    private val MENU_DELETE_TEAM_MEMBER = 2
+    private val MENU_ADD_NEW_TEAM_MEMBER = 3
+
+    private val REFRESH_RATE = 10*60*1000L
 
     var ui by Delegates.notNull<CalendarActivityUI>()
     var mainView by Delegates.notNull<View>()
 
     val sprintCalendar by lazy {
         SprintCalendar(
-                SugarTeamRepository(), //TeamMember("John"), TeamMember("Peter")), // TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha")),
+                SugarTeamRepository(),
                 Injector.dateProvider,
                 Injector.holidayProvider
         )
@@ -76,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val pair = v.tag;
-        if (pair is Pair<*,*> && pair.first is TeamMember) {
+        if (pair is Pair<*, *> && pair.first is TeamMember) {
             val member = pair.first as TeamMember
             menu.setHeaderTitle("Team")
             menu.add(1, MENU_WEEK_HOLIDAY, 1, "'${member.name}' absent/present whole week").actionView = v
@@ -117,6 +120,16 @@ class MainActivity : AppCompatActivity() {
         ui = CalendarActivityUI(sprintCalendar)
         println("$sprintCalendar")
         mainView = ui.setContentView(this)
+
+        val handler = Handler()
+        handler.postDelayed(
+                object: Runnable {
+                    override fun run() {
+                        sprintCalendar.updateDate()
+                        handler.postDelayed(this, REFRESH_RATE)
+                    }
+                },
+                REFRESH_RATE)
 
     }
 }
