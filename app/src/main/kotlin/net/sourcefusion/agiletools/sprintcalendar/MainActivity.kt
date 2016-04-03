@@ -121,12 +121,12 @@ class MainActivity : AppCompatActivity() {
         println("$sprintCalendar")
         mainView = ui.setContentView(this)
 
-        val handler = Handler()
-        handler.postDelayed(
+        val refresher = Handler()
+        refresher.postDelayed(
                 object: Runnable {
                     override fun run() {
                         sprintCalendar.updateDate()
-                        handler.postDelayed(this, REFRESH_RATE)
+                        refresher.postDelayed(this, REFRESH_RATE)
                     }
                 },
                 REFRESH_RATE)
