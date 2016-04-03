@@ -18,9 +18,13 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     var lastDate by Delegates.notNull<LocalDate>()
         private set
     private var days = arrayListOf<SprintDay>()
-    private var notifyMemberDayChange: (TeamMember, SprintDay) -> Unit = { a, b -> }
+    private var notifyMemberDayChange: (TeamMember, Int) -> Unit = { a, b -> }
     private var notifyMemberChange: (TeamMember) -> Unit = { a -> }
-    private var notifyDayChange: (SprintDay) -> Unit = { a -> }
+    private var notifyDayChange: (Int) -> Unit = { a -> }
+    private var notifyFullRefresh: () -> Unit = { }
+
+    var currentSprintFirstDate by Delegates.notNull<LocalDate>()
+        private set
 
     init {
         initByCurrentDate()
@@ -31,11 +35,8 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         var modDiff = Days.daysBetween(sprintBaseDate, today).days % 14
         if (modDiff < 0) modDiff += 14
         val startDate = today.minusDays(modDiff)
-        if (Days.daysBetween(startDate, today).days > 11) {
-            initByStartDate(startDate.plus(14));
-        } else {
-            initByStartDate(startDate)
-        }
+        currentSprintFirstDate = if (Days.daysBetween(startDate, today).days > 11) startDate + 14 else startDate
+        initByStartDate(currentSprintFirstDate)
     }
 
     private fun initByStartDate(sprintStartDate: LocalDate) {
@@ -62,11 +63,10 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         days.clear()
         firstDate = sprintStartDate
         lastDate = firstDate + 11
-        var date: LocalDate = firstDate
-        var dayIndex = 0
+        var date = firstDate
         while (date.compareTo(lastDate) <= 0) {
             if (!holidayProvider.isWeekend(date)) {
-                days.add(SprintDay(date, dayIndex++, holidayProvider.isHoliday(date), dateProvider.isToday(date)))
+                days.add(SprintDay(date, holidayProvider.isHoliday(date), dateProvider.isToday(date)))
             }
             date += 1;
         }
@@ -100,25 +100,27 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         teamRepository.saveTeamMember(teamMember)
     }
 
-    fun onMemberDay(member: TeamMember, day: SprintDay): Boolean {
-        member.setPresence(day.date, if (member.presence(day.date) === FULL_DAY) ABSENT else if(member.presence(day.date) === ABSENT) HALF_DAY else FULL_DAY)
+    fun onMemberDay(member: TeamMember, dayIndex: Int): Boolean {
+        val day = day(dayIndex)
+        member.setPresence(day.date, if (member.presence(day.date) === FULL_DAY) ABSENT else if (member.presence(day.date) === ABSENT) HALF_DAY else FULL_DAY)
         teamRepository.saveTeamMember(member)
-        notifyMemberDayChange(member, day)
+        notifyMemberDayChange(member, dayIndex)
         return true
     }
 
-    fun onDay(sDay: SprintDay): Boolean {
-        sDay.isHoliday = !sDay.isHoliday
-        if (sDay.isHoliday) {
-            holidayProvider.addHoliday(sDay.date)
+    fun onDay(dayIndex: Int): Boolean {
+        val day = day(dayIndex)
+        day.isHoliday = !day.isHoliday
+        if (day.isHoliday) {
+            holidayProvider.addHoliday(day.date)
         } else {
-            holidayProvider.removeHoliday(sDay.date)
+            holidayProvider.removeHoliday(day.date)
         }
-        notifyDayChange(sDay)
+        notifyDayChange(dayIndex)
         return false
     }
 
-    fun onMemberDayChange(callback: (TeamMember, SprintDay) -> Unit): SprintCalendar {
+    fun onMemberDayChange(callback: (TeamMember, Int) -> Unit): SprintCalendar {
         this.notifyMemberDayChange = callback
         return this
     }
@@ -128,13 +130,18 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         return this
     }
 
-    fun onDayChange(function: (SprintDay) -> Unit): SprintCalendar {
+    fun onDayChange(function: (Int) -> Unit): SprintCalendar {
         notifyDayChange = function
         return this
     }
 
+    fun onFullRefresh(function: () -> Unit): SprintCalendar {
+        notifyFullRefresh = function
+        return this
+    }
+
     companion object {
-        val DAY_PLACEHOLDER = SprintDay(LocalDate(1970, 1, 1), 0, false, false)
+        val DAY_PLACEHOLDER = SprintDay(LocalDate(1970, 1, 1), false, false)
 
     }
 
@@ -152,6 +159,34 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         teamRepository.saveTeamMember(member);
         notifyMemberChange(member)
     }
+
+    fun name(): String {
+        val sprintDiffs = firstDate - currentSprintFirstDate
+        if (sprintDiffs == 0) {
+            return "Current Sprint"
+        } else if (sprintDiffs > 0 ) {
+            return "Sprint +${sprintDiffs / 14}"
+        } else {
+            return "Sprint ${sprintDiffs / 14}"
+        }
+    }
+
+    fun nextSprint() {
+        initByStartDate(firstDate + 14)
+        notifyFullRefresh()
+    }
+
+    fun currentSprint() {
+        initByStartDate(currentSprintFirstDate)
+        notifyFullRefresh()
+    }
+
+    fun previousSprint() {
+        initByStartDate(firstDate - 14)
+        notifyFullRefresh()
+    }
 }
 
 operator fun LocalDate.plus(days: Int) = this.plusDays(days)
+operator fun LocalDate.minus(days: Int) = this.minusDays(days)
+operator fun LocalDate.minus(anotherDate: LocalDate) = Days.daysBetween(anotherDate, this).days
