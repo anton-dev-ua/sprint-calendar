@@ -51,11 +51,11 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
 
-        drawablePresenceNone = readDrawable(ui, R.drawable.presense_none)
-        drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day)
-        drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day)
-        drawableDaysLeftBackground = readDrawable(ui, R.drawable.days_left_background)
-        drawableHoursLeftBackground = readDrawable(ui, R.drawable.days_left_background)
+        drawablePresenceNone = readDrawable(ui, R.drawable.presense_none, 10000)
+        drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day, 5000)
+        drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day, 10000)
+        drawableDaysLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
+        drawableHoursLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
         colorAbsence = ui.resources.getColor(R.color.colorAbsence)
         colorWhite = ui.resources.getColor(R.color.colorWhite)
 
@@ -112,7 +112,6 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                                     dayViews[dayIndex] = textView {
                                         tag = "day-$dayIndex"
                                         text = "${Format.date(day.date)}"
-                                        backgroundColor = colorWhite
                                         background = dayBackground(day)
                                         textSize = sizeHeaderText
                                         textColor = colorHeaderText
@@ -361,9 +360,9 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     private fun dayBackground(day: SprintDay) = if (day.isHoliday) drawablePresenceNone else drawablePresenceFullDay
 
-    private fun <T> readDrawable(ui: AnkoContext<T>, resID: Int): Drawable {
+    private fun <T> readDrawable(ui: AnkoContext<T>, resID: Int, level: Int): Drawable {
         val d = ui.resources.getDrawable(resID)
-        d.level = 5000
+        d.level = level
         return d
     }
 
