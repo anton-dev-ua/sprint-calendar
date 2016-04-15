@@ -6,4 +6,4 @@ Android application for tablet to track some of a sprint artifacts:
 
 Experiment of writing Android application and try of [Kotlin language](https://kotlinlang.org)
  
-![](img/screenshot.png) 
+![](img/screenshot.jpg) 
