@@ -1,5 +1,6 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
@@ -46,6 +47,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
     private var daysLeftView: TextView by Delegates.notNull()
     private var hoursLeftView: TextView by Delegates.notNull()
     private var sprintNameView: TextView by Delegates.notNull()
+    private var sprintPositionView: TextView by Delegates.notNull()
     private var firstSprintDateView: TextView by Delegates.notNull()
     private var lastSprintDateView: TextView by Delegates.notNull()
 
@@ -60,6 +62,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         colorWhite = ui.resources.getColor(R.color.colorWhite)
 
         linearLayout {
+            keepScreenOn = true
             id = 1001
             calendarLayout {
                 rightPadding = dip(6)
@@ -155,25 +158,37 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                 relativeLayout {
                     verticalLayout {
 
-                        sprintNameView = textView {
-                            text = sprintCalendar.name()
-                            textSize = 26f
-                        }.lparams {
-                            width = wrapContent
-                            height = wrapContent
-                            gravity = Gravity.CENTER_HORIZONTAL
+                        linearLayout {
+                            textView {
+                                text = "Sprint:"
+                                textSize = 20f
+                                gravity = Gravity.RIGHT
+                            }.lparams { width = 0; height = wrapContent; gravity = Gravity.CENTER_VERTICAL; weight = 0.35f }
+                            sprintNameView = textView {
+                                text = sprintCalendar.name()
+                                textSize = 26f
+                                typeface = Typeface.DEFAULT_BOLD
+                                leftPadding = dip(10)
+                                rightPadding = dip(10)
+                            }.lparams { width = 0; height = wrapContent; gravity = Gravity.CENTER_HORIZONTAL; weight = 0.3f }
+                            sprintPositionView = textView {
+                                text = when(Math.signum((sprintCalendar.firstDate - sprintCalendar.currentSprintFirstDate).toDouble())) {1.0 -> "(future)"; -1.0 -> "(past)"; else -> "(current)" }
+                                textSize = 20f
+                                gravity = Gravity.LEFT
+                            }.lparams {
+                                width = 0; height = wrapContent; gravity = Gravity.CENTER_VERTICAL; weight = 0.35f }
                         }
 
                         linearLayout {
                             firstSprintDateView = textView {
                                 text = Format.date(sprintCalendar.firstDate)
-                                textSize = 26f
+                                textSize = 24f
                                 gravity = Gravity.RIGHT
                             }.lparams { width = 0; height = wrapContent; weight = 1f }
 
                             textView {
                                 text = "-"
-                                textSize = 26f
+                                textSize = 24f
                                 gravity = Gravity.CENTER_HORIZONTAL
                                 leftPadding = dip(10)
                                 rightPadding = dip(10)
@@ -181,7 +196,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                             lastSprintDateView = textView {
                                 text = Format.date(sprintCalendar.lastDate)
-                                textSize = 26f
+                                textSize = 24f
                                 gravity = Gravity.LEFT
                             }.lparams { width = 0; height = wrapContent; weight = 1f }
 
@@ -194,24 +209,24 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                             textView {
                                 text = "days:"
-                                textSize = 26f
+                                textSize = 24f
                                 leftPadding = dip(10)
                             }.lparams { width = wrapContent; height = wrapContent }
 
                             totalDaysView = textView {
                                 text = "${sprintCalendar.totalDays}"
-                                textSize = 46f
+                                textSize = 42f
                             }.lparams { width = 0; height = wrapContent; weight = 1f }
 
                             textView {
                                 text = "hours:"
-                                textSize = 26f
+                                textSize = 24f
                                 rightPadding = dip(10)
                             }.lparams { width = wrapContent; height = wrapContent }
 
                             totalHoursView = textView {
                                 text = "${sprintCalendar.totalHours}"
-                                textSize = 46f
+                                textSize = 42f
                                 rightPadding = dip(10)
                             }.lparams { width = 0; height = wrapContent; weight = 1f }
 
@@ -231,7 +246,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                             daysLeftView = textView {
                                 text = "${sprintCalendar.daysLeft}"
-                                textSize = 186f
+                                textSize = 178f
                                 gravity = Gravity.CENTER
                                 background = drawableDaysLeftBackground
                             }.lparams { width = matchParent; height = wrapContent; leftMargin = dip(20); rightMargin = dip(20) }
@@ -252,7 +267,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                             hoursLeftView = textView {
                                 text = "${sprintCalendar.hoursLeft}"
-                                textSize = 112f
+                                textSize = 106f
                                 gravity = Gravity.CENTER
                                 background = drawableHoursLeftBackground
                             }.lparams { width = matchParent; height = wrapContent; leftMargin = dip(20); rightMargin = dip(20) }
@@ -337,6 +352,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     private fun updateWholeSummaryView() {
         sprintNameView.text = sprintCalendar.name()
+        sprintPositionView.text = when(Math.signum((sprintCalendar.firstDate - sprintCalendar.currentSprintFirstDate).toDouble())) {1.0 -> "(future)"; -1.0 -> "(past)"; else -> "(current)" }
+
         firstSprintDateView.text = Format.date(sprintCalendar.firstDate)
         lastSprintDateView.text = Format.date(sprintCalendar.lastDate)
         updateLeftSummaryView()

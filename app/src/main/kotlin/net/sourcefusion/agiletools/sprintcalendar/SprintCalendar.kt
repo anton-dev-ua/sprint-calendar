@@ -9,6 +9,9 @@ import kotlin.properties.Delegates
 class SprintCalendar(val teamRepository: TeamRepository, private val dateProvider: DateProvider, val holidayProvider: HolidayProvider) {
 
     private val sprintBaseDate = LocalDate(2015, 12, 7)
+
+    private val namingStrategy = SequenceInYearNaming()
+
     val team by lazy {
         teamRepository.readTeam()
     }
@@ -165,14 +168,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     }
 
     fun name(): String {
-        val sprintDiffs = firstDate - currentSprintFirstDate
-        if (sprintDiffs == 0) {
-            return "Current Sprint"
-        } else if (sprintDiffs > 0 ) {
-            return "Sprint +${sprintDiffs / 14}"
-        } else {
-            return "Sprint ${sprintDiffs / 14}"
-        }
+        return namingStrategy.nameFor(this)
     }
 
     fun nextSprint() {

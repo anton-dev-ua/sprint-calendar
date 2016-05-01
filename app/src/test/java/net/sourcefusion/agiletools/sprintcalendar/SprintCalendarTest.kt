@@ -15,28 +15,28 @@ class SprintCalendarTest {
     fun populatesDatesOfTenDaysOfSprint() {
 
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider(TODAY_DATE),
+                StubTeamRepository(Team()), TestDateProvider(date(TODAY_DATE)),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
 
-        assertThat(sprintCalendar.day(0).date, `is`(date("04.01.2016")))
-        assertThat(sprintCalendar.day(1).date, `is`(date("05.01.2016")))
-        assertThat(sprintCalendar.day(2).date, `is`(date("06.01.2016")))
-        assertThat(sprintCalendar.day(3).date, `is`(date("07.01.2016")))
-        assertThat(sprintCalendar.day(4).date, `is`(date("08.01.2016")))
-        assertThat(sprintCalendar.day(5).date, `is`(date("11.01.2016")))
-        assertThat(sprintCalendar.day(6).date, `is`(date("12.01.2016")))
-        assertThat(sprintCalendar.day(7).date, `is`(date("13.01.2016")))
-        assertThat(sprintCalendar.day(8).date, `is`(date("14.01.2016")))
-        assertThat(sprintCalendar.day(9).date, `is`(date("15.01.2016")))
+        assertThat(sprintCalendar.day(0).date, `is`("04.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(1).date, `is`("05.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(2).date, `is`("06.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(3).date, `is`("07.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(4).date, `is`("08.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(5).date, `is`("11.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(6).date, `is`("12.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(7).date, `is`("13.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(8).date, `is`("14.01.2016".toLocalDate()))
+        assertThat(sprintCalendar.day(9).date, `is`("15.01.2016".toLocalDate()))
     }
 
     @Test
     @Throws(ParseException::class)
     fun determinesTodaySprintDay() {
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider("12.01.2016"),
+                StubTeamRepository(Team()), TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -48,7 +48,7 @@ class SprintCalendarTest {
     @Test
     fun determinesHoliday() {
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider("12.01.2016"),
+                StubTeamRepository(Team()), TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -59,7 +59,7 @@ class SprintCalendarTest {
     @Test
     fun calculatesLeftSprintDays() {
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider("12.01.2016"),
+                StubTeamRepository(Team()), TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider())
 
         sprintCalendar.initByCurrentDate()
@@ -70,7 +70,7 @@ class SprintCalendarTest {
     @Test
     fun calculatesLeftSprintDaysIgnoringWeekEnds() {
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider("06.01.2016"),
+                StubTeamRepository(Team()), TestDateProvider("06.01.2016".toLocalDate()),
                 BasicHolidayProvider())
 
         sprintCalendar.initByCurrentDate()
@@ -81,7 +81,7 @@ class SprintCalendarTest {
     @Test
     fun calculatesLeftSprintDaysIgnoringHolidays() {
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider("12.01.2016"),
+                StubTeamRepository(Team()), TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 14)))
 
         sprintCalendar.initByCurrentDate()
@@ -92,7 +92,7 @@ class SprintCalendarTest {
     @Test
     fun calculatesTotalSprintDaysIgnoringHolidays() {
         val sprintCalendar = SprintCalendar(
-                StubTeamRepository(Team()), TestDateProvider("12.01.2016"),
+                StubTeamRepository(Team()), TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -104,7 +104,7 @@ class SprintCalendarTest {
     fun calculatesTotalSprintHours() {
         val sprintCalendar = SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Pedro"))),
-                TestDateProvider("12.01.2016"),
+                TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -118,7 +118,7 @@ class SprintCalendarTest {
         peter.setPresence(LocalDate(2016, 1, 14), PresenceType.ABSENT)
         val sprintCalendar = SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), peter, TeamMember("Pedro"))),
-                TestDateProvider("12.01.2016"),
+                TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -130,7 +130,7 @@ class SprintCalendarTest {
     fun calculatesLeftSprintHours() {
         val sprintCalendar = SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Pedro"))),
-                TestDateProvider("12.01.2016"),
+                TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -144,7 +144,7 @@ class SprintCalendarTest {
         peter.setPresence(LocalDate(2016, 1, 14), PresenceType.ABSENT)
         val sprintCalendar = SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), peter, TeamMember("Pedro"))),
-                TestDateProvider("12.01.2016"),
+                TestDateProvider("12.01.2016".toLocalDate()),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
 
         sprintCalendar.initByCurrentDate()
@@ -156,18 +156,7 @@ class SprintCalendarTest {
         return formatter.parseDateTime(dateString).toLocalDate()
     }
 
-    private inner class TestDateProvider(private val todayDate: String) : DateProvider {
-
-        override fun isToday(date: LocalDate): Boolean {
-            return date(todayDate).compareTo(date) == 0
-        }
-
-        override val today: LocalDate
-            get() = date(todayDate)
-    }
-
     companion object {
-
         val TODAY_DATE = "12.01.2016"
     }
 
