@@ -107,20 +107,20 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         teamRepository.saveTeamMember(teamMember)
     }
 
-    fun toggleFullDayMember(member: TeamMember, dayIndex: Int): Boolean {
-        val day = day(dayIndex)
-        member.setPresence(day.date, if (member.presence(day.date) === FULL_DAY) ABSENT else FULL_DAY)
-        teamRepository.saveTeamMember(member)
-        notifyMemberDayChange(member, dayIndex)
-        return true
-    }
+    fun toggleFullDayMember(member: TeamMember, dayIndex: Int) =
+            updateMemberPresence(member, dayIndex, if (member.presence(day(dayIndex).date) === FULL_DAY) ABSENT else FULL_DAY)
 
-    fun toggleHalfDayMember(member: TeamMember, dayIndex: Int): Boolean {
-        val day = day(dayIndex)
-        member.setPresence(day.date, if (member.presence(day.date) === HALF_DAY) HALF_DAY_MORNING else HALF_DAY)
+    fun toggleHalfDayMember(member: TeamMember, dayIndex: Int) =
+            updateMemberPresence(member, dayIndex, if (member.presence(day(dayIndex).date) === HALF_DAY) HALF_DAY_MORNING else HALF_DAY)
+
+    fun fullDayAbsent(member: TeamMember, dayIndex: Int) = updateMemberPresence(member, dayIndex, ABSENT)
+
+    fun fullDayPresent(member: TeamMember, dayIndex: Int) = updateMemberPresence(member, dayIndex, FULL_DAY)
+
+    private fun updateMemberPresence(member: TeamMember, dayIndex: Int, presence: PresenceType) {
+        member.setPresence(day(dayIndex).date, presence)
         teamRepository.saveTeamMember(member)
         notifyMemberDayChange(member, dayIndex)
-        return true
     }
 
     fun onDay(dayIndex: Int): Boolean {
