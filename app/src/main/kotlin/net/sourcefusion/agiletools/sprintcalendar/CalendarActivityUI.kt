@@ -1,10 +1,9 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
+import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.view.Gravity
-import android.view.View
-import android.view.ViewManager
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
 import net.sourcefusion.agiletools.sprintcalendar.PresenceType.*
@@ -19,8 +18,10 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
     private val colorLightBorder = 0x7684cf.opaque
     private val colorMainBackground = 0xFFFFFF.opaque
     private val colorHeaderText = 0x000000.opaque
+    private val colorDefaultText = 0x374055.opaque
     private val sizeHeaderText = 26f
     private val colorRed = 0xFF0000.opaque
+    private val colorGreen = 0x005500.opaque
 
     private var colorAbsence by Delegates.notNull<Int>()
     private var colorWhite by Delegates.notNull<Int>()
@@ -36,6 +37,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     private var drawablePresenceNone: Drawable by Delegates.notNull<Drawable>()
     private var drawablePresenceHalfDay: Drawable by Delegates.notNull<Drawable>()
+    private var drawablePresenceHalfDayMorning: Drawable by Delegates.notNull<Drawable>()
     private var drawablePresenceFullDay: Drawable by Delegates.notNull<Drawable>()
     private var drawableDaysLeftBackground: Drawable by Delegates.notNull<Drawable>()
     private var drawableHoursLeftBackground: Drawable by Delegates.notNull<Drawable>()
@@ -55,6 +57,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
         drawablePresenceNone = readDrawable(ui, R.drawable.presense_none, 10000)
         drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day, 5000)
+        drawablePresenceHalfDayMorning = readDrawable(ui, R.drawable.precense_half_day_morning, 5000)
         drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day, 10000)
         drawableDaysLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
         drawableHoursLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
@@ -135,7 +138,14 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                                             height = 0
                                             weight = 1f
                                             topMargin = dip(2)
-                                        }.onLongClick { sprintCalendar.onMemberDay(member, dayIndex) }
+                                        }.onTouchEvent(CalendarOnTouchListener(owner)
+                                                .onDoubleTap {
+                                                    sprintCalendar.toggleHalfDayMember(member, dayIndex)
+                                                }
+                                                .onLongPress {
+                                                    sprintCalendar.toggleFullDayMember(member, dayIndex)
+                                                }
+                                        )
                                     }
 
                                 }.lparams { width = matchParent; height = matchParent }
@@ -166,17 +176,21 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             }.lparams { width = 0; height = wrapContent; gravity = Gravity.CENTER_VERTICAL; weight = 0.35f }
                             sprintNameView = textView {
                                 text = sprintCalendar.name()
+                                textColor = if (sprintCalendar.sprintShift() == 0) colorGreen else colorDefaultText
                                 textSize = 26f
                                 typeface = Typeface.DEFAULT_BOLD
                                 leftPadding = dip(10)
                                 rightPadding = dip(10)
                             }.lparams { width = 0; height = wrapContent; gravity = Gravity.CENTER_HORIZONTAL; weight = 0.3f }
                             sprintPositionView = textView {
-                                text = when(Math.signum((sprintCalendar.firstDate - sprintCalendar.currentSprintFirstDate).toDouble())) {1.0 -> "(future)"; -1.0 -> "(past)"; else -> "(current)" }
+                                text = when (sprintCalendar.sprintShift()) {
+                                    in 1..Int.MAX_VALUE -> "(future)"; in Int.MIN_VALUE..-1 -> "(past)"; else -> "(current)"
+                                }
                                 textSize = 20f
                                 gravity = Gravity.LEFT
                             }.lparams {
-                                width = 0; height = wrapContent; gravity = Gravity.CENTER_VERTICAL; weight = 0.35f }
+                                width = 0; height = wrapContent; gravity = Gravity.CENTER_VERTICAL; weight = 0.35f
+                            }
                         }
 
                         linearLayout {
@@ -352,7 +366,10 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     private fun updateWholeSummaryView() {
         sprintNameView.text = sprintCalendar.name()
-        sprintPositionView.text = when(Math.signum((sprintCalendar.firstDate - sprintCalendar.currentSprintFirstDate).toDouble())) {1.0 -> "(future)"; -1.0 -> "(past)"; else -> "(current)" }
+        sprintNameView.textColor = if (sprintCalendar.sprintShift() == 0) colorGreen else colorDefaultText
+        sprintPositionView.text = when (sprintCalendar.sprintShift()) {
+            in 1..Int.MAX_VALUE -> "(future)"; in Int.MIN_VALUE..-1 -> "(past)"; else -> "(current)"
+        }
 
         firstSprintDateView.text = Format.date(sprintCalendar.firstDate)
         lastSprintDateView.text = Format.date(sprintCalendar.lastDate)
@@ -372,6 +389,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                 when (member.presence(day.date)) {
                     ABSENT -> drawablePresenceNone
                     HALF_DAY -> drawablePresenceHalfDay
+                    HALF_DAY_MORNING -> drawablePresenceHalfDayMorning
                     FULL_DAY -> drawablePresenceFullDay
                 }
 
@@ -394,4 +412,45 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         setOnLongClickListener(l)
         return this
     }
+
+    inner class CalendarOnTouchListener(context: Context) : View.OnTouchListener {
+        private val detector: GestureDetector
+        private var onDoubleTapAction: () -> Unit = { }
+        private var onLongPressAtion: () -> Unit = { }
+
+        init {
+            detector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDoubleTap(e: MotionEvent?): Boolean {
+                    onDoubleTapAction()
+                    return true
+                }
+
+                override fun onLongPress(e: MotionEvent?) {
+                    onLongPressAtion()
+                }
+            })
+        }
+
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            detector.onTouchEvent(event)
+            return true
+        }
+
+        fun onDoubleTap(action: () -> Unit): CalendarOnTouchListener {
+            onDoubleTapAction = action
+            return this
+        }
+
+        fun onLongPress(action: () -> Unit): CalendarOnTouchListener {
+            onLongPressAtion = action
+            return this
+        }
+
+    }
+
+}
+
+fun View.onTouchEvent(listener: View.OnTouchListener): View {
+    setOnTouchListener(listener)
+    return this
 }

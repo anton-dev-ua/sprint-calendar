@@ -107,9 +107,17 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         teamRepository.saveTeamMember(teamMember)
     }
 
-    fun onMemberDay(member: TeamMember, dayIndex: Int): Boolean {
+    fun toggleFullDayMember(member: TeamMember, dayIndex: Int): Boolean {
         val day = day(dayIndex)
-        member.setPresence(day.date, if (member.presence(day.date) === FULL_DAY) ABSENT else if (member.presence(day.date) === ABSENT) HALF_DAY else FULL_DAY)
+        member.setPresence(day.date, if (member.presence(day.date) === FULL_DAY) ABSENT else FULL_DAY)
+        teamRepository.saveTeamMember(member)
+        notifyMemberDayChange(member, dayIndex)
+        return true
+    }
+
+    fun toggleHalfDayMember(member: TeamMember, dayIndex: Int): Boolean {
+        val day = day(dayIndex)
+        member.setPresence(day.date, if (member.presence(day.date) === HALF_DAY) HALF_DAY_MORNING else HALF_DAY)
         teamRepository.saveTeamMember(member)
         notifyMemberDayChange(member, dayIndex)
         return true
@@ -187,11 +195,13 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     }
 
     fun updateDate() {
-       if(!cashedToday.equals(dateProvider.today)) {
-           initByCurrentDate()
-           notifyFullRefresh()
-       }
+        if (!cashedToday.equals(dateProvider.today)) {
+            initByCurrentDate()
+            notifyFullRefresh()
+        }
     }
+
+    fun sprintShift(): Int = (firstDate - currentSprintFirstDate) / 14
 }
 
 operator fun LocalDate.plus(days: Int) = this.plusDays(days)
