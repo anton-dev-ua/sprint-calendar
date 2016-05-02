@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private val MENU_DELETE_TEAM_MEMBER = 2
     private val MENU_ADD_NEW_TEAM_MEMBER = 3
 
-    private val REFRESH_RATE = 10*60*1000L
+    private val REFRESH_RATE = 10 * 60 * 1000L
 
     var ui by Delegates.notNull<CalendarActivityUI>()
     var mainView by Delegates.notNull<View>()
@@ -82,8 +82,10 @@ class MainActivity : AppCompatActivity() {
         if (pair is Pair<*, *> && pair.first is TeamMember) {
             val member = pair.first as TeamMember
             menu.setHeaderTitle("Team")
-            menu.add(1, MENU_WEEK_HOLIDAY, 1, "'${member.name}' absent/present whole week").actionView = v
-            menu.add(1, MENU_DELETE_TEAM_MEMBER, 2, "Delete member '${member.name}'").actionView = v
+            if(member != Team.TEAM_MEMBER_PLACEHOLDER) {
+                menu.add(1, MENU_WEEK_HOLIDAY, 1, "'${member.name}' absent/present whole week").actionView = v
+                menu.add(1, MENU_DELETE_TEAM_MEMBER, 2, "Delete member '${member.name}'").actionView = v
+            }
             menu.add(2, MENU_ADD_NEW_TEAM_MEMBER, 3, "Add new team member").actionView = v
         }
     }
@@ -113,8 +115,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        println("activity on create")
-
         sprintCalendar.initByCurrentDate();
 
         ui = CalendarActivityUI(sprintCalendar)
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
         val refresher = Handler()
         refresher.postDelayed(
-                object: Runnable {
+                object : Runnable {
                     override fun run() {
                         sprintCalendar.updateDate()
                         refresher.postDelayed(this, REFRESH_RATE)
@@ -132,5 +132,11 @@ class MainActivity : AppCompatActivity() {
                 REFRESH_RATE)
 
     }
+
+    override fun onResume() {
+        super.onResume();
+        sprintCalendar.updateDate()
+    }
+
 }
 
