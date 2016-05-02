@@ -1,24 +1,30 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.doubleClick
 import android.support.test.espresso.action.ViewActions.longClick
 import android.support.test.espresso.matcher.ViewMatchers.withTagValue
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.test.suitebuilder.annotation.LargeTest
 import android.view.View
-import org.hamcrest.CoreMatchers.*
+import com.orm.SugarRecord
+import net.sourcefusion.agiletools.sprintcalendar.persisting.PersistingUtils
+import net.sourcefusion.agiletools.sprintcalendar.persisting.sugar.TeamMemberPresenceEntry
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
+import org.joda.time.LocalDate
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import android.graphics.drawable.Drawable
-import com.orm.SugarRecord
-import net.sourcefusion.agiletools.sprintcalendar.persisting.PersistingUtils
-import net.sourcefusion.agiletools.sprintcalendar.persisting.sugar.TeamMemberPresenceEntry
-import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
 
@@ -60,17 +66,17 @@ class ActivityTest {
     @Test
     fun longClickOnMemberDayChangesMemberPresenceAndViewBackground() {
 
+        val drawablePresenceNone = readDrawable(mainActivity, R.drawable.presense_none, 10000)
+
         val member = sprintCalendar.team.member(3)
         val day = sprintCalendar.day(2)
-        var prevBackground: Drawable? = null
 
         assertThat(member.presence(day.date), equalTo(PresenceType.FULL_DAY))
 
         onView(withTag("member-3-day-2"))
-                .check({ view, e -> prevBackground = view.background })
                 .perform(longClick())
                 .check { view, exception ->
-                    assertThat(view.background, not(equalTo(prevBackground)))
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true))
                 }
 
         assertThat(member.presence(day.date), equalTo(PresenceType.ABSENT))
@@ -78,30 +84,87 @@ class ActivityTest {
     }
 
     @Test
+    fun doubleClickOnMemberDayChangesMemberPresenceAndViewBackground() {
+
+        val drawableHalfDay = readDrawable(mainActivity, R.drawable.precense_half_day, 10000)
+        val drawableHalfDayMoring = readDrawable(mainActivity, R.drawable.precense_half_day_morning, 10000)
+
+        val member = sprintCalendar.team.member(3)
+        val day = sprintCalendar.day(2)
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.FULL_DAY))
+
+        onView(withTag("member-3-day-2"))
+                .perform(doubleClick())
+                .check { view, exception ->
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawableHalfDay)), `is`(true))
+                }
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.HALF_DAY))
+
+        onView(withTag("member-3-day-2"))
+                .perform(doubleClick())
+                .check { view, exception ->
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawableHalfDayMoring)), `is`(true))
+                }
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.HALF_DAY_MORNING))
+
+    }
+
+    @Test
     fun longClickOnDayChangesPresenceOfAllMembersAndMakesDayHoliday() {
-        var prevBackground: Drawable? = null
-        var newBackground: Drawable? = null
+
+        val drawablePresenceNone = readDrawable(mainActivity, R.drawable.presense_none, 10000)
 
         onView(withTag("day-3"))
-                .check({ view, e -> prevBackground = view.background })
                 .perform(longClick())
                 .check { view, exception ->
-                    newBackground = view.background
-                    assertThat(newBackground, not(equalTo(prevBackground)))
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true))
                 }
 
         assertThat(sprintCalendar.day(3).isHoliday, equalTo(true))
 
-        onView(withTag("member-0-day-3")).check { view, exception -> assertThat(view.background, equalTo(newBackground)) }
-        onView(withTag("member-1-day-3")).check { view, exception -> assertThat(view.background, equalTo(newBackground)) }
-        onView(withTag("member-2-day-3")).check { view, exception -> assertThat(view.background, equalTo(newBackground)) }
-        onView(withTag("member-3-day-3")).check { view, exception -> assertThat(view.background, equalTo(newBackground)) }
-        onView(withTag("member-4-day-3")).check { view, exception -> assertThat(view.background, equalTo(newBackground)) }
-        onView(withTag("member-5-day-3")).check { view, exception -> assertThat(view.background, equalTo(newBackground)) }
+        onView(withTag("member-0-day-3")).check { view, exception -> assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true)) }
+        onView(withTag("member-1-day-3")).check { view, exception -> assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true)) }
+        onView(withTag("member-2-day-3")).check { view, exception -> assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true)) }
+        onView(withTag("member-3-day-3")).check { view, exception -> assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true)) }
+        onView(withTag("member-4-day-3")).check { view, exception -> assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true)) }
+        onView(withTag("member-5-day-3")).check { view, exception -> assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true)) }
+    }
+
+    private fun toBitmap(drawable: Drawable): Bitmap {
+        var result: Bitmap
+        if (drawable is BitmapDrawable) {
+            result = drawable.bitmap
+        } else {
+            var width = drawable.intrinsicWidth;
+            var height = drawable.intrinsicHeight;
+            // Some drawables have no intrinsic width - e.g. solid colours.
+            if (width <= 0) {
+                width = 1;
+            }
+            if (height <= 0) {
+                height = 1;
+            }
+
+            result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            val canvas = Canvas(result);
+            val newDrawable = drawable.constantState.newDrawable()
+            newDrawable.setBounds(0, 0, canvas.width, canvas.height);
+            newDrawable.draw(canvas);
+        }
+        return result
     }
 
     private fun withTag(tagValue: Any): Matcher<View> {
         return withTagValue(equalTo(tagValue))
+    }
+
+    private fun readDrawable(ui: Context, resID: Int, level: Int): Drawable {
+        val d = ui.resources.getDrawable(resID)
+        d.level = level
+        return d
     }
 
 }
