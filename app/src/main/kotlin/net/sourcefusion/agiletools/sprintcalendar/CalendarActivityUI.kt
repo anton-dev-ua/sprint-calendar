@@ -352,7 +352,12 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         width = matchParent;
                         alignParentBottom()
                     }
-                }
+                }.onTouchEvent(CalendarOnTouchListener(owner)
+                        .onDoubleTap {
+                            owner.startStandUpTimer()
+                            true
+                        }
+                )
             }.lparams { weight = 4f; width = 0; height = matchParent; backgroundColor = colorLightBorder }
 
 

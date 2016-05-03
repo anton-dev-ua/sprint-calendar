@@ -1,5 +1,7 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
+import android.app.Dialog
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AlertDialog
@@ -9,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import net.sourcefusion.agiletools.sprintcalendar.persisting.sugar.SugarTeamRepository
 import org.jetbrains.anko.setContentView
+import org.jetbrains.anko.withAlpha
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -75,6 +78,19 @@ class MainActivity : AppCompatActivity() {
                 .create();
     }
 
+    val timerViewUI by lazy {
+        TimerViewUI(this)
+    }
+
+    val timerDialog by lazy {
+
+        val dialog = Dialog(this)
+        dialog.setTitle("Stand-up Timer")
+        dialog.setContentView(timerViewUI.view)
+        timerViewUI.dialog = dialog
+        dialog
+    }
+
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
@@ -82,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         if (pair is Pair<*, *> && pair.first is TeamMember) {
             val member = pair.first as TeamMember
             menu.setHeaderTitle("Team")
-            if(member != Team.TEAM_MEMBER_PLACEHOLDER) {
+            if (member != Team.TEAM_MEMBER_PLACEHOLDER) {
                 menu.add(1, MENU_WEEK_HOLIDAY, 1, "'${member.name}' absent/present whole week").actionView = v
                 menu.add(1, MENU_DELETE_TEAM_MEMBER, 2, "Delete member '${member.name}'").actionView = v
             }
@@ -112,8 +128,15 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    fun startStandUpTimer() {
+        timerDialog.show()
+        timerViewUI.start()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        timerDialog.window.setBackgroundDrawable(ColorDrawable(0x000000.withAlpha(0x77)))
 
         sprintCalendar.initByCurrentDate();
 
@@ -129,7 +152,8 @@ class MainActivity : AppCompatActivity() {
                         refresher.postDelayed(this, REFRESH_RATE)
                     }
                 },
-                REFRESH_RATE)
+                REFRESH_RATE
+        )
 
     }
 
