@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             val week = pair.second as Int
             when (item.itemId) {
                 MENU_WEEK_HOLIDAY -> {
-                    sprintCalendar.setAllWeekHolidayFor(member, week)
+                    sprintCalendar.toggleAllWeekHolidayFor(member, week)
                 }
                 MENU_DELETE_TEAM_MEMBER -> {
                     confirmTeamMemberDeleteUI.teamMember = member

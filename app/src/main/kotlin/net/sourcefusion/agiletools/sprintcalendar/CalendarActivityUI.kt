@@ -88,7 +88,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             }
 
                             for (member in sprintCalendar.team) {
-                                val view = textView {
+                                val memberNameView = textView {
                                     text = member.name
                                     tag = Pair(member, week)
                                     backgroundColor = colorMainBackground
@@ -103,7 +103,23 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                                     topMargin = dip(2)
                                 }
 
-                                ui.owner.registerForContextMenu(view)
+                                memberNameView.onTouchEvent(CalendarOnTouchListener(owner)
+                                        .onDoubleTap {
+                                            sprintCalendar.toggleAllWeekHolidayFor(member, week)
+                                            true
+                                        }
+                                        .onLongPress {
+                                            memberNameView.showContextMenu()
+                                        }
+                                        .onRightMove {
+                                            sprintCalendar.wholeWeekAbsent(member, week)
+                                        }
+                                        .onLeftMove {
+                                            sprintCalendar.wholeWeekPresent(member, week)
+                                        }
+                                )
+
+                                ui.owner.registerForContextMenu(memberNameView)
                             }
 
                         }.lparams { weight = 1f; width = 0; height = matchParent }
@@ -138,7 +154,21 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                                             height = 0
                                             weight = 1f
                                             topMargin = dip(2)
-                                        }.onTouchEvent(CalendarOnTouchListener(owner, sprintCalendar, member, dayIndex))
+                                        }.onTouchEvent(CalendarOnTouchListener(owner)
+                                                .onDoubleTap {
+                                                    sprintCalendar.toggleHalfDayMember(member, dayIndex)
+                                                    true
+                                                }
+                                                .onLongPress {
+                                                    sprintCalendar.toggleFullDayMember(member, dayIndex)
+                                                }
+                                                .onRightMove {
+                                                    sprintCalendar.fullDayAbsent(member, dayIndex)
+                                                }
+                                                .onLeftMove {
+                                                    sprintCalendar.fullDayPresent(member, dayIndex)
+                                                }
+                                        )
                                     }
 
                                 }.lparams { width = matchParent; height = matchParent }
@@ -406,22 +436,26 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         return this
     }
 
-    inner class CalendarOnTouchListener(val context: Context, val sprintCalendar: SprintCalendar, val member: TeamMember, val dayIndex: Int) : View.OnTouchListener {
+    inner class CalendarOnTouchListener(val context: Context) : View.OnTouchListener {
         private val detector: GestureDetector
+        private var onDoubleTapAction: () -> Boolean = { false }
+        private var onLongPressAction: () -> Unit = { }
+        private var onRightMoveAction: () -> Unit = { }
+        private var onLeftMoveAction: () -> Unit = { }
+
         private var startX = 0f;
         private var startY = 0f;
-        private var saved = false;
+        private var triggered = false;
 
 
         init {
             detector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDoubleTap(e: MotionEvent?): Boolean {
-                    sprintCalendar.toggleHalfDayMember(member, dayIndex)
-                    return true
+                    return onDoubleTapAction()
                 }
 
                 override fun onLongPress(e: MotionEvent?) {
-                    sprintCalendar.toggleFullDayMember(member, dayIndex)
+                    onLongPressAction()
                 }
             })
         }
@@ -435,25 +469,46 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                     startY = event.y
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    if (!saved && event.x - startX > v.width / 3) {
-                        sprintCalendar.fullDayAbsent(member, dayIndex)
-                        saved = true
+                    if (!triggered && event.x - startX > v.width / 3) {
+                        onRightMoveAction()
+                        triggered = true
                     }
-                    if (!saved && event.x - startX < -v.width / 3) {
-                        sprintCalendar.fullDayPresent(member, dayIndex)
-                        saved = true
+                    if (!triggered && event.x - startX < -v.width / 3) {
+                        onLeftMoveAction()
+                        triggered = true
                     }
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     startX = 0f
                     startY = 0f
-                    saved = false
+                    triggered = false
                 }
             }
 
             detector.onTouchEvent(event)
             return true
         }
+
+        fun onDoubleTap(action: () -> Boolean): CalendarOnTouchListener {
+            onDoubleTapAction = action
+            return this
+        }
+
+        fun onLongPress(action: () -> Unit): CalendarOnTouchListener {
+            onLongPressAction = action
+            return this
+        }
+
+        fun onRightMove(action: () -> Unit): CalendarOnTouchListener {
+            onRightMoveAction = action
+            return this
+        }
+
+        fun onLeftMove(action: () -> Unit): CalendarOnTouchListener {
+            onLeftMoveAction = action
+            return this
+        }
+
     }
 
 }

@@ -165,9 +165,22 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         teamRepository.deleteTeamMember(teamMember)
     }
 
-    fun setAllWeekHolidayFor(member: TeamMember, week: Int) {
+    fun toggleAllWeekHolidayFor(member: TeamMember, week: Int) {
         val dates = ((0 + week * 5)..(4 + week * 5)).map { day(it).date }
         var presenceType = if (dates.map { member.presence(it) }.filter { it != ABSENT }.size > 0) ABSENT else FULL_DAY
+        updateMemberWeek(member, week, presenceType)
+    }
+
+    fun wholeWeekAbsent(member: TeamMember, week: Int) {
+        updateMemberWeek(member, week, ABSENT)
+    }
+
+    fun wholeWeekPresent(member: TeamMember, week: Int) {
+        updateMemberWeek(member, week, FULL_DAY)
+    }
+
+    private fun updateMemberWeek(member: TeamMember, week: Int, presenceType: PresenceType) {
+        val dates = ((0 + week * 5)..(4 + week * 5)).map { day(it).date }
         for (date in dates) {
             member.setPresence(date, presenceType)
         }
