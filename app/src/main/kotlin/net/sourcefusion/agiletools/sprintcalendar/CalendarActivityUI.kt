@@ -16,15 +16,15 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     private val colorDarkBorder = 0x303F9F.opaque
     private val colorLightBorder = 0x7684cf.opaque
-    private val colorMainBackground = 0xFFFFFF.opaque
     private val colorHeaderText = 0x000000.opaque
-    private val colorDefaultText = 0x374055.opaque
+    private var colorDefaultText = 0x374055.opaque
     private val sizeHeaderText = 26f
     private val colorRed = 0xFF0000.opaque
     private val colorGreen = 0x005500.opaque
 
     private var colorAbsence by Delegates.notNull<Int>()
     private var colorWhite by Delegates.notNull<Int>()
+    private var colorMainBackground = 0xFFFFFF.opaque
 
     constructor() : this(SprintCalendar(
             StubTeamRepository(Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Smith"), TeamMember("Susan"), TeamMember("Dario"), TeamMember("Gosha"))),
@@ -63,6 +63,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
         drawableHoursLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
         colorAbsence = ui.resources.getColor(R.color.colorAbsence)
         colorWhite = ui.resources.getColor(R.color.colorWhite)
+//        colorDefaultText = ui.resources.getColor(R.color.primary_text_default_material_light)
 
         linearLayout {
             keepScreenOn = true
@@ -320,19 +321,32 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         padding = dip(4)
                     }
 
+                    verticalLayout {
 
-                    linearLayout {
-                        button("Previous")
-                                .lparams { width = 0; weight = 1f }
-                                .onClick { sprintCalendar.previousSprint() }
+                        linearLayout {
+                            button("Previous")
+                                    .lparams { width = 0; weight = 1f }
+                                    .onClick { sprintCalendar.previousSprint() }
 
-                        button("Current")
-                                .lparams { width = 0; weight = 1f }
-                                .onClick { sprintCalendar.currentSprint() }
+                            button("Current")
+                                    .lparams { width = 0; weight = 1f }
+                                    .onClick { sprintCalendar.currentSprint() }
 
-                        button("Next")
-                                .lparams { width = 0; weight = 1f }
-                                .onClick { sprintCalendar.nextSprint() }
+                            button("Next")
+                                    .lparams { width = 0; weight = 1f }
+                                    .onClick { sprintCalendar.nextSprint() }
+
+                        }.lparams {
+                            width = matchParent;
+                        }
+
+                        linearLayout {
+                            textView { text = "version: ${versionName(owner)}" }.lparams { width = wrapContent; height = wrapContent; rightMargin = dip(20) }
+                            textView { text = "build: ${versionCode(owner)}" }.lparams { width = wrapContent; height = wrapContent }
+                        }.lparams {
+                            width = wrapContent;
+                            gravity = Gravity.CENTER
+                        }
 
                     }.lparams {
                         width = matchParent;
@@ -365,6 +379,9 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                     }
         }
     }
+
+    private fun versionCode(context: Context): Int = context.packageManager.getPackageInfo(context.packageName, 0).versionCode;
+    private fun versionName(context: Context): String = context.packageManager.getPackageInfo(context.packageName, 0).versionName;
 
     private fun updateDayHeaderView(dayIndex: Int) {
         val day = sprintCalendar.day(dayIndex)
