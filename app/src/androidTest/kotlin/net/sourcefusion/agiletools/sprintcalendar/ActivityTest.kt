@@ -6,8 +6,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.doubleClick
-import android.support.test.espresso.action.ViewActions.longClick
+import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.matcher.ViewMatchers.withTagValue
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
@@ -25,6 +24,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 
@@ -64,7 +65,7 @@ class ActivityTest {
     }
 
     @Test
-    fun longClickOnMemberDayChangesMemberPresenceAndViewBackground() {
+    fun longClickOnMemberDayToggleFullDayPresenceAndChangesViewBackground() {
 
         val drawablePresenceNone = readDrawable(mainActivity, R.drawable.presense_none, 10000)
 
@@ -84,10 +85,69 @@ class ActivityTest {
     }
 
     @Test
-    fun doubleClickOnMemberDayChangesMemberPresenceAndViewBackground() {
+    fun swipeToRightOnMemberSetsFullDayAbsentAndChangesViewBackground() {
+
+        val drawablePresenceNone = readDrawable(mainActivity, R.drawable.presense_none, 10000)
+        val drawablePresenceFullDay = readDrawable(mainActivity, R.drawable.precense_full_day, 10000)
+
+        val member = sprintCalendar.team.member(3)
+        val day = sprintCalendar.day(2)
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.FULL_DAY))
+
+        onView(withTag("member-3-day-2"))
+                .check { view, exception ->
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceFullDay)), `is`(true))
+                }
+                .perform(swipeRight())
+                .check { view, exception ->
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true))
+                }
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.ABSENT))
+
+    }
+
+
+
+    @Test
+    fun swipeToLeftOnMemberDayToggleFullDayPresenceAndChangesViewBackground() {
+
+        val drawablePresenceNone = readDrawable(mainActivity, R.drawable.presense_none, 10000)
+        val drawablePresenceFullDay = readDrawable(mainActivity, R.drawable.precense_full_day, 10000)
+
+        val member = sprintCalendar.team.member(3)
+        val day = sprintCalendar.day(2)
+
+        val latchDown = CountDownLatch(1)
+
+        mainActivity.runOnUiThread({
+            sprintCalendar.toggleFullDayMember(member, 2)
+            latchDown.countDown()
+        })
+
+        latchDown.await(1, TimeUnit.SECONDS)
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.ABSENT))
+
+        onView(withTag("member-3-day-2"))
+                .check { view, exception ->
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceNone)), `is`(true))
+                }
+                .perform(swipeLeft())
+                .check { view, exception ->
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawablePresenceFullDay)), `is`(true))
+                }
+
+        assertThat(member.presence(day.date), equalTo(PresenceType.FULL_DAY))
+
+    }
+
+    @Test
+    fun doubleClickOnMemberDayToggleHalfDayPresenceAndChangesViewBackground() {
 
         val drawableHalfDay = readDrawable(mainActivity, R.drawable.precense_half_day, 10000)
-        val drawableHalfDayMoring = readDrawable(mainActivity, R.drawable.precense_half_day_morning, 10000)
+        val drawableHalfDayMorning = readDrawable(mainActivity, R.drawable.precense_half_day_morning, 10000)
 
         val member = sprintCalendar.team.member(3)
         val day = sprintCalendar.day(2)
@@ -105,7 +165,7 @@ class ActivityTest {
         onView(withTag("member-3-day-2"))
                 .perform(doubleClick())
                 .check { view, exception ->
-                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawableHalfDayMoring)), `is`(true))
+                    assertThat(toBitmap(view.background).sameAs(toBitmap(drawableHalfDayMorning)), `is`(true))
                 }
 
         assertThat(member.presence(day.date), equalTo(PresenceType.HALF_DAY_MORNING))
