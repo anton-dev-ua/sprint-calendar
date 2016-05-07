@@ -1,7 +1,9 @@
 package net.sourcefusion.agiletools.sprintcalendar
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.*
 import android.widget.LinearLayout
@@ -14,13 +16,16 @@ import kotlin.properties.Delegates
 
 class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<MainActivity> {
 
-    private val colorDarkBorder = 0x303F9F.opaque
-    private val colorLightBorder = 0x7684cf.opaque
-    private val colorHeaderText = 0x000000.opaque
+    private var colorDarkBorder = 0x303F9F.opaque
+    private var colorLightBorder = 0x7684cf.opaque
+    private var colorHeaderText = 0x000000.opaque
+    private var colorHeaderBackground = 0xFFFFFF.opaque
     private var colorDefaultText = 0x374055.opaque
-    private val sizeHeaderText = 26f
-    private val colorRed = 0xFF0000.opaque
-    private val colorGreen = 0x005500.opaque
+    private var colorSummaryText = 0x374055.opaque
+    private var colorSummaryLabel = 0x374055.opaque
+    private var sizeHeaderText = 26f
+    private var colorRed = 0xFF0000.opaque
+    private var colorGreen = 0x006600.opaque
 
     private var colorAbsence by Delegates.notNull<Int>()
     private var colorWhite by Delegates.notNull<Int>()
@@ -39,8 +44,11 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
     private var drawablePresenceHalfDay: Drawable by Delegates.notNull<Drawable>()
     private var drawablePresenceHalfDayMorning: Drawable by Delegates.notNull<Drawable>()
     private var drawablePresenceFullDay: Drawable by Delegates.notNull<Drawable>()
+    private var drawablePresenceBusinessTrip: Drawable by Delegates.notNull<Drawable>()
     private var drawableDaysLeftBackground: Drawable by Delegates.notNull<Drawable>()
     private var drawableHoursLeftBackground: Drawable by Delegates.notNull<Drawable>()
+    private val transparentDrawable = ColorDrawable(Color.TRANSPARENT);
+
     private val memberDayViews = hashMapOf<Pair<TeamMember, Int>, View>()
     private val dayViews = hashMapOf<Int, TextView>()
     private var todayOverlayView = hashMapOf<Int, View>()
@@ -55,15 +63,27 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
 
-        drawablePresenceNone = readDrawable(ui, R.drawable.presense_none, 10000)
-        drawablePresenceHalfDay = readDrawable(ui, R.drawable.precense_half_day, 5000)
-        drawablePresenceHalfDayMorning = readDrawable(ui, R.drawable.precense_half_day_morning, 5000)
-        drawablePresenceFullDay = readDrawable(ui, R.drawable.precense_full_day, 10000)
+        drawablePresenceNone = readDrawable(ui, R.drawable.presence_none, 10000)
+        drawablePresenceHalfDay = readDrawable(ui, R.drawable.presence_half_day_afternoon, 5000)
+        drawablePresenceHalfDayMorning = readDrawable(ui, R.drawable.presence_half_day_morning, 5000)
+        drawablePresenceFullDay = readDrawable(ui, R.drawable.presence_full_day, 10000)
+        drawablePresenceBusinessTrip = readDrawable(ui, R.drawable.presence_business_trip, 10000)
         drawableDaysLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
         drawableHoursLeftBackground = readDrawable(ui, R.drawable.days_left_background, 10000)
         colorAbsence = ui.resources.getColor(R.color.colorAbsence)
         colorWhite = ui.resources.getColor(R.color.colorWhite)
-//        colorDefaultText = ui.resources.getColor(R.color.primary_text_default_material_light)
+
+        colorDarkBorder = ui.resources.getColor(R.color.colorPrimaryDark)
+        colorLightBorder = ui.resources.getColor(R.color.colorPrimary)
+        colorHeaderText = ui.resources.getColor(R.color.colorHeaderText)
+        colorHeaderBackground = ui.resources.getColor(R.color.colorHeaderBackground)
+        colorDefaultText = ui.resources.getColor(R.color.colorDefaultText)
+        colorSummaryText = ui.resources.getColor(R.color.colorSummaryText)
+        colorSummaryLabel = ui.resources.getColor(R.color.colorSummaryLabel)
+
+        colorMainBackground = 0xFFFFFF.opaque
+
+        //        colorDefaultText = ui.resources.getColor(R.color.primary_text_default_material_light)
 
         linearLayout {
             keepScreenOn = true
@@ -77,7 +97,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         weekHeaderLayout {
 
                             textView("Week ${week + 1}") {
-                                backgroundColor = colorMainBackground
+                                backgroundColor = colorHeaderBackground
                                 textSize = sizeHeaderText
                                 textColor = colorHeaderText
                                 leftPadding = dip(10)
@@ -135,9 +155,9 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                                     dayViews[dayIndex] = textView {
                                         tag = "day-$dayIndex"
                                         text = "${Format.date(day.date)}"
-                                        background = dayBackground(day)
                                         textSize = sizeHeaderText
                                         textColor = colorHeaderText
+                                        backgroundColor = if (day.isHoliday) colorAbsence else colorHeaderBackground
                                         gravity = Gravity.CENTER
                                     }.lparams {
                                         weight = 2f
@@ -194,19 +214,22 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                         linearLayout {
                             textView {
+                                tag = "label"
                                 text = "Sprint:"
                                 textSize = 20f
                                 gravity = Gravity.RIGHT
                             }.lparams { width = 0; height = wrapContent; gravity = Gravity.CENTER_VERTICAL; weight = 0.35f }
                             sprintNameView = textView {
+                                tag = "sprint-name"
                                 text = sprintCalendar.name()
-                                textColor = if (sprintCalendar.sprintShift() == 0) colorGreen else colorDefaultText
+                                textColor = if (sprintCalendar.sprintShift() == 0) colorGreen else colorSummaryText
                                 textSize = 26f
                                 typeface = Typeface.DEFAULT_BOLD
                                 leftPadding = dip(10)
                                 rightPadding = dip(10)
                             }.lparams { width = 0; height = wrapContent; gravity = Gravity.CENTER_HORIZONTAL; weight = 0.3f }
                             sprintPositionView = textView {
+                                tag = "label"
                                 text = when (sprintCalendar.sprintShift()) {
                                     in 1..Int.MAX_VALUE -> "(future)"; in Int.MIN_VALUE..-1 -> "(past)"; else -> "(current)"
                                 }
@@ -219,6 +242,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
 
                         linearLayout {
                             firstSprintDateView = textView {
+                                tag = "sprint-first-date"
                                 text = Format.date(sprintCalendar.firstDate)
                                 textSize = 24f
                                 gravity = Gravity.RIGHT
@@ -233,6 +257,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             }.lparams { width = wrapContent; height = wrapContent; weight = 0f }
 
                             lastSprintDateView = textView {
+                                tag = "sprint-last-date"
                                 text = Format.date(sprintCalendar.lastDate)
                                 textSize = 24f
                                 gravity = Gravity.LEFT
@@ -246,17 +271,20 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         linearLayout {
 
                             textView {
+                                tag = "label"
                                 text = "days:"
                                 textSize = 24f
                                 leftPadding = dip(10)
                             }.lparams { width = wrapContent; height = wrapContent }
 
                             totalDaysView = textView {
+                                tag = "total-days"
                                 text = "${sprintCalendar.totalDays}"
                                 textSize = 42f
                             }.lparams { width = 0; height = wrapContent; weight = 1f }
 
                             textView {
+                                tag = "label"
                                 text = "hours:"
                                 textSize = 24f
                                 rightPadding = dip(10)
@@ -278,6 +306,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             gravity = Gravity.CENTER
 
                             textView {
+                                tag = "label"
                                 text = "days left:"
                                 textSize = 26f
                             }.lparams { width = wrapContent; height = wrapContent }
@@ -299,6 +328,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                             gravity = Gravity.CENTER
 
                             textView {
+                                tag = "label"
                                 text = "hours left:"
                                 textSize = 26f
                             }.lparams { width = wrapContent; height = wrapContent }
@@ -341,8 +371,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         }
 
                         linearLayout {
-                            textView { text = "version: ${versionName(owner)}" }.lparams { width = wrapContent; height = wrapContent; rightMargin = dip(20) }
-                            textView { text = "build: ${versionCode(owner)}" }.lparams { width = wrapContent; height = wrapContent }
+                            textView { tag = "label"; text = "version: ${versionName(owner)}" }.lparams { width = wrapContent; height = wrapContent; rightMargin = dip(20) }
+                            textView { tag = "label"; text = "build: ${versionCode(owner)}" }.lparams { width = wrapContent; height = wrapContent }
                         }.lparams {
                             width = wrapContent;
                             gravity = Gravity.CENTER
@@ -359,6 +389,20 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                         }
                 )
             }.lparams { weight = 4f; width = 0; height = matchParent; backgroundColor = colorLightBorder }
+                    .style { view ->
+                        if (view is TextView) {
+                            println(view.tag)
+                            when (view.tag) {
+                                "sprint-name" -> {
+                                }
+                                "label" -> {
+                                    view.textColor = colorSummaryLabel
+                                }
+                                else ->
+                                    view.textColor = colorSummaryText
+                            }
+                        }
+                    }
 
 
             sprintCalendar
@@ -391,8 +435,7 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
     private fun updateDayHeaderView(dayIndex: Int) {
         val day = sprintCalendar.day(dayIndex)
         dayViews[dayIndex]?.text = Format.date(day.date)
-        dayViews[dayIndex]?.backgroundColor = colorWhite
-        dayViews[dayIndex]?.background = dayBackground(day)
+        dayViews[dayIndex]?.backgroundColor = if (day.isHoliday) colorAbsence else colorHeaderBackground
         todayOverlayView[dayIndex]?.visibility = if (day.isToday) View.VISIBLE else View.GONE
     }
 
@@ -436,9 +479,8 @@ class CalendarActivityUI(var sprintCalendar: SprintCalendar) : AnkoComponent<Mai
                     HALF_DAY -> drawablePresenceHalfDay
                     HALF_DAY_MORNING -> drawablePresenceHalfDayMorning
                     FULL_DAY -> drawablePresenceFullDay
+                    BUSINESS_TRIP -> drawablePresenceBusinessTrip
                 }
-
-    private fun dayBackground(day: SprintDay) = if (day.isHoliday) drawablePresenceNone else drawablePresenceFullDay
 
     private fun <T> readDrawable(ui: AnkoContext<T>, resID: Int, level: Int): Drawable {
         val d = ui.resources.getDrawable(resID)

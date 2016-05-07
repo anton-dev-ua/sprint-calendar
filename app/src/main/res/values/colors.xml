@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#7684cf</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#6298a9</color>
+    <color name="colorPrimaryDark">#2d5e61</color>
+    <color name="colorHeaderText">#000000</color>
+    <color name="colorHeaderBackground">#E6EBE0</color>
+    <color name="colorDefaultText">#212121</color>
+    <color name="colorSummaryText">#212121</color>
+    <color name="colorSummaryLabel">#3a5c5c</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorRed">#FF0000</color>
-    <color name="colorAbsence">#50FF0000</color>
+    <color name="colorAbsence">#e78c82</color>
+    <color name="colorBusinessTrip">#52bebe</color>
     <color name="colorTodayFrame">#9900DD00</color>
 </resources>

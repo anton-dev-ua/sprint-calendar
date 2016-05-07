@@ -113,7 +113,8 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     fun toggleHalfDayMember(member: TeamMember, dayIndex: Int) =
             updateMemberPresence(member, dayIndex, if (member.presence(day(dayIndex).date) === HALF_DAY) HALF_DAY_MORNING else HALF_DAY)
 
-    fun fullDayAbsent(member: TeamMember, dayIndex: Int) = updateMemberPresence(member, dayIndex, ABSENT)
+    fun fullDayAbsent(member: TeamMember, dayIndex: Int) =
+            updateMemberPresence(member, dayIndex, if (member.presence(day(dayIndex).date) == ABSENT) BUSINESS_TRIP else ABSENT)
 
     fun fullDayPresent(member: TeamMember, dayIndex: Int) = updateMemberPresence(member, dayIndex, FULL_DAY)
 
@@ -172,7 +173,9 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     }
 
     fun wholeWeekAbsent(member: TeamMember, week: Int) {
-        updateMemberWeek(member, week, ABSENT)
+        val dates = ((0 + week * 5)..(4 + week * 5)).map { day(it).date }
+        var presenceType = if (dates.map { member.presence(it) }.filter { it == ABSENT }.size == 5) BUSINESS_TRIP else ABSENT
+        updateMemberWeek(member, week, presenceType)
     }
 
     fun wholeWeekPresent(member: TeamMember, week: Int) {
