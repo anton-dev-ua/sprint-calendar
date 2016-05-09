@@ -4,6 +4,8 @@ import net.sourcefusion.agiletools.sprintcalendar.PresenceType.*
 import net.sourcefusion.agiletools.sprintcalendar.persisting.TeamRepository
 import org.joda.time.Days
 import org.joda.time.LocalDate
+import java.lang.Math.max
+import java.lang.Math.min
 import kotlin.properties.Delegates
 
 class SprintCalendar(val teamRepository: TeamRepository, private val dateProvider: DateProvider, val holidayProvider: HolidayProvider) {
@@ -27,6 +29,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     private var notifyFullRefresh: () -> Unit = { }
 
     private var cashedToday by Delegates.notNull<LocalDate>()
+    private var cashedHour by Delegates.notNull<Int>()
 
     var currentSprintFirstDate by Delegates.notNull<LocalDate>()
         private set
@@ -39,6 +42,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     fun initByCurrentDate() {
         val today = dateProvider.today
         cashedToday = today
+        cashedHour = dateProvider.time.hourOfDay
         var modDiff = Days.daysBetween(sprintBaseDate, today).days % 14
         if (modDiff < 0) modDiff += 14
         val startDate = today.minusDays(modDiff)
@@ -64,7 +68,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         get() = hoursBetween(firstDate).toInt()
 
     val hoursLeft: Int
-        get() = hoursBetween(dateProvider.today).toInt()
+        get() = hoursBetween(dateProvider.today, true).toInt()
 
     private fun calculateDates(sprintStartDate: LocalDate) {
         days.clear()
@@ -89,17 +93,39 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
         return daysDif
     }
 
-    private fun hoursBetween(startDate: LocalDate): Float {
+    private fun hoursBetween(startDate: LocalDate, calculationOfLeft: Boolean = false): Float {
         var totalHours = 0f
         for (sprintDay in days) {
             if (!sprintDay.isHoliday && sprintDay.date.compareTo(startDate) >= 0) {
                 for (member in team) {
                     if (member == Team.TEAM_MEMBER_PLACEHOLDER) continue
-                    totalHours += member.presence(sprintDay.date).hours
+                    val presenceType = member.presence(sprintDay.date)
+                    val effectiveHours = presenceType.hours
+                    totalHours += effectiveHours
+                    if (calculationOfLeft && sprintDay.date.equals(dateProvider.today)) {
+                        val curTime = dateProvider.time
+                        val presenceDayHours = presenceDayHours(presenceType)
+                        val pastDayHours = when (presenceType) {
+                            HALF_DAY -> max(min(curTime.hourOfDay - 13, presenceDayHours), 0)
+                            else -> max(min(curTime.hourOfDay - 9, presenceDayHours), 0)
+                        }
+
+                        println("curTime.hourOfDay: ${curTime.hourOfDay}")
+                        println("effectiveHours: $effectiveHours, pastDayHours: $pastDayHours, presenceDayHours: $presenceDayHours")
+
+                        totalHours -= effectiveHours * pastDayHours / presenceDayHours
+                    }
                 }
             }
         }
         return totalHours
+    }
+
+    private fun presenceDayHours(presence: PresenceType): Int {
+        return when (presence) {
+            HALF_DAY_MORNING, HALF_DAY -> 4
+            else -> 8
+        }
     }
 
     fun addTeamMember(name: String) {
@@ -211,7 +237,7 @@ class SprintCalendar(val teamRepository: TeamRepository, private val dateProvide
     }
 
     fun updateDate() {
-        if (!cashedToday.equals(dateProvider.today)) {
+        if (cashedToday != (dateProvider.today) || cashedHour != dateProvider.time.hourOfDay) {
             initByCurrentDate()
             notifyFullRefresh()
         }

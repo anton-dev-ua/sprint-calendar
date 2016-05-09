@@ -20,6 +20,7 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -55,6 +56,7 @@ class ActivityTest {
     }
 
     private val TODAY = LocalDate(2016, 1, 4)
+    private val TIME = LocalTime(9, 0)
 
     @Before
     @Throws(Exception::class)
@@ -67,6 +69,8 @@ class ActivityTest {
             override val today: LocalDate
                 get() = TODAY
 
+            override val time: LocalTime
+                get() = TIME
         }
         SugarRecord.find(TeamMemberPresenceEntry::class.java, "date < ?", "${PersistingUtils.toDate(TODAY.plusDays(14)).time}").forEach { it.delete() }
         mActivityRule.launchActivity(null)

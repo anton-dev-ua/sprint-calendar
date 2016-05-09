@@ -3,6 +3,7 @@ package net.sourcefusion.agiletools.sprintcalendar
 import net.sourcefusion.agiletools.sprintcalendar.persisting.stubs.StubTeamRepository
 import org.hamcrest.CoreMatchers.`is`
 import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.junit.Assert.assertThat
 import org.junit.Test
 
@@ -24,7 +25,7 @@ class SequenceInYearNamingTests {
     private fun sprintCalendarWithTodayOf(today: String): SprintCalendar {
         return SprintCalendar(
                 StubTeamRepository(Team(TeamMember("John"), TeamMember("Peter"), TeamMember("Pedro"))),
-                TestDateProvider(today.toLocalDate()),
+                TestDateProvider(today.toLocalDate(), LocalTime(9)),
                 BasicHolidayProvider(LocalDate(2016, 1, 6)))
     }
 }
